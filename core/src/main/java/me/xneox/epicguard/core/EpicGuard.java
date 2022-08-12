@@ -15,7 +15,7 @@
 
 package me.xneox.epicguard.core;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 import me.xneox.epicguard.core.config.MessagesConfiguration;
@@ -63,7 +63,7 @@ public class EpicGuard {
   }
 
   private void startup() {
-    logger().info("Running on: " + this.platform.platformVersion());
+    logger().info("Running on: {}", this.platform.platformVersion());
     EpicGuardAPI.INSTANCE.instance(this);
 
     logger().info("Loading configuration...");
@@ -93,11 +93,11 @@ public class EpicGuard {
   public void loadConfigurations() {
     var configLoader = HoconConfigurationLoader.builder()
         .defaultOptions(opt -> opt.serializers(builder -> builder.register(ProxyService.class, ProxyServiceSerializer.INSTANCE)))
-        .file(new File(FileUtils.EPICGUARD_DIR, "settings.conf"))
+        .path(Path.of(FileUtils.EPICGUARD_DIR, "settings.conf"))
         .build();
 
     var messagesLoader = HoconConfigurationLoader.builder()
-        .file(new File(FileUtils.EPICGUARD_DIR, "messages.conf"))
+        .path(Path.of(FileUtils.EPICGUARD_DIR, "messages.conf"))
         .build();
 
     try {

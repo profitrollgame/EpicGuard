@@ -133,6 +133,7 @@ hs_err_pid*
 ### Gradle ###
 .gradle
 build/
+bin/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -151,3 +152,6 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,gradle
 /.idea/
+
+# VisualStudioCode
+.vscode

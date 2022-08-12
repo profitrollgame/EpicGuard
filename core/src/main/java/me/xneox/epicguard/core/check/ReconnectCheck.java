@@ -18,7 +18,6 @@ package me.xneox.epicguard.core.check;
 import java.util.Collection;
 import java.util.HashSet;
 import me.xneox.epicguard.core.EpicGuard;
-import me.xneox.epicguard.core.check.AbstractCheck;
 import me.xneox.epicguard.core.user.ConnectingUser;
 import org.jetbrains.annotations.NotNull;
 

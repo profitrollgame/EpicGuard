@@ -15,7 +15,6 @@
 
 package me.xneox.epicguard.core.config;
 
-import java.util.Arrays;
 import java.util.List;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
@@ -74,7 +73,7 @@ public class MessagesConfiguration {
     private String invalidArgument = "&cCould not resolve address for this nickname, or provided address is invalid.";
 
     private List<String> mainCommand =
-        Arrays.asList(
+        List.of(
             "",
             " &6EpicGuard Protection System &8- &7Running version &f{VERSION}",
             "",
@@ -92,7 +91,7 @@ public class MessagesConfiguration {
             "");
 
     private List<String> analyzeCommand =
-        Arrays.asList(
+        List.of(
             "",
             " &6EpicGuard Analysis System &8- &7Results for &f{ADDRESS}",
             "",
@@ -175,43 +174,43 @@ public class MessagesConfiguration {
 
   @ConfigSerializable
   public static class Disconnect {
-    private List<String> geographical = Arrays.asList(
+    private List<String> geographical = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cYour country/city is not allowed on this server.");
 
-    private List<String> blacklisted = Arrays.asList(
+    private List<String> blacklisted = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cYou have been blacklisted on this server.");
 
-    private List<String> attackLockdown = Arrays.asList(
+    private List<String> attackLockdown = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cServer is under attack, please wait some seconds before joining.");
 
-    private List<String> proxy = Arrays.asList(
+    private List<String> proxy = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cYou are using VPN or Proxy.");
 
-    private List<String> reconnect = Arrays.asList(
+    private List<String> reconnect = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cJoin the server again.");
 
-    private List<String> nickname = Arrays.asList(
+    private List<String> nickname = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cYou nickname is not allowed on this server.");
 
-    private List<String> accountLimit = Arrays.asList(
+    private List<String> accountLimit = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cYou have too many accounts on your IP address.");
 
-    private List<String> serverListPing = Arrays.asList(
+    private List<String> serverListPing = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cYou must add our server to your servers list to verify yourself.");
 
-    private List<String> nameSimilarity = Arrays.asList(
+    private List<String> nameSimilarity = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cYour nickname is too similar to other users connecting to the server.");
 
-    private List<String> settingsPacket = Arrays.asList(
+    private List<String> settingsPacket = List.of(
         "&8» &7You have been kicked by &bAntiBot Protection&7:",
         "&8» &cBot-like behaviour detected, please join the server again.");
 

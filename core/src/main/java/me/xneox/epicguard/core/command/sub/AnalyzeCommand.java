@@ -19,8 +19,6 @@ import com.google.common.net.InetAddresses;
 import java.util.Collection;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.SubCommand;
-import me.xneox.epicguard.core.config.MessagesConfiguration;
-import me.xneox.epicguard.core.storage.AddressMeta;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
@@ -64,7 +62,7 @@ public class AnalyzeCommand implements SubCommand {
           .replace("{CITY}", epicGuard.geoManager().city(address))
           .replace("{WHITELISTED}", meta.whitelisted() ? "&a✔" : "&c✖")
           .replace("{BLACKLISTED}", meta.blacklisted() ? "&a✔" : "&c✖")
-          .replace("{ACCOUNT-AMOUNT}", String.valueOf(meta.nicknames().size()))
+          .replace("{ACCOUNT-AMOUNT}", Integer.toString(meta.nicknames().size()))
           .replace("{NICKNAMES}", String.join(", ", meta.nicknames()))));
     }
   }

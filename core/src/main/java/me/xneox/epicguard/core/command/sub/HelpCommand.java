@@ -29,9 +29,9 @@ public class HelpCommand implements SubCommand {
     for (String line : epicGuard.messages().command().mainCommand()) {
       audience.sendMessage(TextUtils.component(line
           .replace("{VERSION}", VersionUtils.CURRENT_VERSION)
-          .replace("{BLACKLISTED-IPS}", String.valueOf(epicGuard.storageManager().viewAddresses(AddressMeta::blacklisted).size()))
-          .replace("{WHITELISTED-IPS}", String.valueOf(epicGuard.storageManager().viewAddresses(AddressMeta::whitelisted).size()))
-          .replace("{CPS}", String.valueOf(epicGuard.attackManager().connectionCounter()))
+          .replace("{BLACKLISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::blacklisted).size()))
+          .replace("{WHITELISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::whitelisted).size()))
+          .replace("{CPS}", Integer.toString(epicGuard.attackManager().connectionCounter()))
           .replace("{ATTACK}", epicGuard.attackManager().isUnderAttack() ? "&a✔" : "&c✖")));
     }
   }

@@ -18,10 +18,9 @@ package me.xneox.epicguard.core.manager;
 import com.maxmind.db.CHMCache;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import me.xneox.epicguard.core.EpicGuard;
@@ -46,15 +45,21 @@ public class GeoManager {
     this.epicGuard = epicGuard;
     epicGuard.logger().info("This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com");
 
-    var parent = new File(FileUtils.EPICGUARD_DIR, "/data");
+    var parent = Path.of(FileUtils.EPICGUARD_DIR, "data");
     //noinspection ResultOfMethodCallIgnored
-    parent.mkdirs();
+    if (Files.notExists(parent)) {
+      try {
+        Files.createDirectory(parent);
+      } catch (IOException e) {
+        // ignored
+      }
+    }
 
-    var countryDatabase = new File(parent, "GeoLite2-Country.mmdb");
-    var cityDatabase = new File(parent, "GeoLite2-City.mmdb");
+    var countryDatabase = parent.resolve("GeoLite2-Country.mmdb");
+    var cityDatabase = parent.resolve("GeoLite2-City.mmdb");
 
-    var countryArchive = new File(parent, "GeoLite2-Country.tar.gz");
-    var cityArchive = new File(parent, "GeoLite2-City.tar.gz");
+    var countryArchive = parent.resolve("GeoLite2-Country.tar.gz");
+    var cityArchive = parent.resolve("GeoLite2-City.tar.gz");
 
     try {
       this.downloadDatabase(
@@ -66,37 +71,35 @@ public class GeoManager {
           cityArchive,
           "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=LARAgQo3Fw7W9ZMS&suffix=tar.gz");
 
-      this.countryReader = new DatabaseReader.Builder(countryDatabase).withCache(new CHMCache()).build();
-      this.cityReader = new DatabaseReader.Builder(cityDatabase).withCache(new CHMCache()).build();
+      this.countryReader = new DatabaseReader.Builder(countryDatabase.toFile()).withCache(new CHMCache()).build();
+      this.cityReader = new DatabaseReader.Builder(cityDatabase.toFile()).withCache(new CHMCache()).build();
     } catch (IOException ex) {
       LogUtils.catchException("Couldn't download the GeoIP databases, please check your internet connection.", ex);
     }
   }
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
-  private void downloadDatabase(@NotNull File database, @NotNull File archive, @NotNull String url) throws IOException {
-    if (!database.exists() || System.currentTimeMillis() - database.lastModified() > TimeUnit.DAYS.toMillis(7L)) {
+  private void downloadDatabase(@NotNull Path database, @NotNull Path archive, @NotNull String url) throws IOException {
+    if (Files.notExists(database) || System.currentTimeMillis() - Files.getLastModifiedTime(database).to(TimeUnit.MILLISECONDS) > TimeUnit.DAYS.toMillis(7L)) {
       // Database does not exist or is outdated, and need to be downloaded.
-      this.epicGuard.logger().info("Downloading the GeoIP database file: " + database.getName());
+      this.epicGuard.logger().info("Downloading the GeoIP database file: {}", database.getFileName());
       FileUtils.downloadFile(url, archive);
 
       this.epicGuard.logger().info("Extracting the database from the tar archive...");
-      var tarInput = new TarArchiveInputStream(new GZIPInputStream(new FileInputStream(archive)));
-
-      var entry = tarInput.getNextTarEntry();
-      while (entry != null) {
-        // Extracting the database (.mmdb) database we are looking for.
-        if (entry.getName().endsWith(database.getName())) {
-          IOUtils.copy(tarInput, new FileOutputStream(database));
+      try (var tarInput = new TarArchiveInputStream(new GZIPInputStream(Files.newInputStream(archive)))) {
+        var entry = tarInput.getNextTarEntry();
+        while (entry != null) {
+          // Extracting the database (.mmdb) database we are looking for.
+          if (entry.getName().endsWith(database.getFileName().toString())) {
+            IOUtils.copy(tarInput, Files.newOutputStream(database));
+          }
+  
+          entry = tarInput.getNextTarEntry();
         }
-
-        entry = tarInput.getNextTarEntry();
       }
 
-      // Closing InputStream and removing archive file.
-      tarInput.close();
-      archive.delete();
-      this.epicGuard.logger().info("Database (" + database.getName() + ") has been extracted succesfuly.");
+      Files.delete(archive);
+      this.epicGuard.logger().info("Database ({}) has been extracted succesfuly.", database.getFileName());
     }
   }
 
@@ -107,7 +110,7 @@ public class GeoManager {
       try {
         return this.countryReader.country(inetAddress).getCountry().getIsoCode();
       } catch (IOException | GeoIp2Exception ex) {
-        this.epicGuard.logger().warn("Couldn't find the country for the address " + address + ": " + ex.getMessage());
+        this.epicGuard.logger().warn("Couldn't find the country for the address {}: {}", address, ex.getMessage());
       }
     }
     return "unknown";
@@ -120,7 +123,7 @@ public class GeoManager {
       try {
         return this.cityReader.city(inetAddress).getCity().getName();
       } catch (IOException | GeoIp2Exception ex) {
-        this.epicGuard.logger().warn("Couldn't find the city for the address " + address + ": " + ex.getMessage());
+        this.epicGuard.logger().warn("Couldn't find the city for the address {}: {}", address, ex.getMessage());
       }
     }
     return "unknown";

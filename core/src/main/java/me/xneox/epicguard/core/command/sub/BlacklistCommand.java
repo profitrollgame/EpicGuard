@@ -23,8 +23,9 @@ import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class BlacklistCommand implements SubCommand {
   @Override
@@ -65,12 +66,12 @@ public class BlacklistCommand implements SubCommand {
   @Override
   public @NotNull Collection<String> suggest(@NotNull String[] args, @NotNull EpicGuard epicGuard) {
     if (args.length == 2) {
-      return Arrays.asList("add", "remove");
+      return List.of("add", "remove");
     }
 
     if (args[1].equalsIgnoreCase("remove")) {
       return epicGuard.storageManager().viewAddresses(AddressMeta::blacklisted);
     }
-    return new ArrayList<>();
+    return Collections.emptyList();
   }
 }

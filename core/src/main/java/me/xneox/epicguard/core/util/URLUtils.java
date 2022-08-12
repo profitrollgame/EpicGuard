@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
  * This util helps with performing URL requests.
  */
 public final class URLUtils {
+  private URLUtils() {}
   @Nullable
   public static String readString(@NotNull String url) {
     try {
@@ -37,7 +38,7 @@ public final class URLUtils {
         return scanner.hasNext() ? scanner.next() : "";
       }
     } catch (IOException exception) {
-      EpicGuardAPI.INSTANCE.instance().logger().warn("Couldn't read the content of " + url + " [" + exception.getMessage() + "]");
+      EpicGuardAPI.INSTANCE.instance().logger().warn("Couldn't read the content of {} [{}]", url, exception.getMessage());
     }
     return null;
   }

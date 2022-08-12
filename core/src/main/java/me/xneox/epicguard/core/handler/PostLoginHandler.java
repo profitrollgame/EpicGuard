@@ -17,8 +17,6 @@ package me.xneox.epicguard.core.handler;
 
 import java.util.UUID;
 import me.xneox.epicguard.core.EpicGuard;
-import me.xneox.epicguard.core.storage.AddressMeta;
-import me.xneox.epicguard.core.user.OnlineUser;
 import me.xneox.epicguard.core.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class PostLoginHandler {
   private final EpicGuard epicGuard;
 
-  public PostLoginHandler(EpicGuard epicGuard) {
+  protected PostLoginHandler(EpicGuard epicGuard) {
     this.epicGuard = epicGuard;
   }
 

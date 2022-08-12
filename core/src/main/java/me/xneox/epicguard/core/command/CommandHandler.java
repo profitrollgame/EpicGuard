@@ -15,9 +15,8 @@
 
 package me.xneox.epicguard.core.command;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.sub.AnalyzeCommand;
@@ -37,19 +36,21 @@ import org.jetbrains.annotations.NotNull;
  * TODO: Better command system
  */
 public class CommandHandler {
-  private final Map<String, SubCommand> commandMap = new HashMap<>();
+  private final Map<String, SubCommand> commandMap;
   private final EpicGuard epicGuard;
 
   public CommandHandler(EpicGuard epicGuard) {
     this.epicGuard = epicGuard;
 
-    this.commandMap.put("analyze", new AnalyzeCommand());
-    this.commandMap.put("blacklist", new BlacklistCommand());
-    this.commandMap.put("help", new HelpCommand());
-    this.commandMap.put("reload", new ReloadCommand());
-    this.commandMap.put("status", new StatusCommand());
-    this.commandMap.put("whitelist", new WhitelistCommand());
-    this.commandMap.put("save", new SaveCommand());
+    this.commandMap = Map.of(
+      "analyze", new AnalyzeCommand(),
+      "blacklist", new BlacklistCommand(),
+      "help", new HelpCommand(),
+      "reload", new ReloadCommand(),
+      "status", new StatusCommand(),
+      "whitelist", new WhitelistCommand(),
+      "save", new SaveCommand()
+    );
   }
 
   public void handleCommand(@NotNull String[] args, @NotNull Audience audience) {
@@ -81,6 +82,6 @@ public class CommandHandler {
     if (subCommand != null) {
       return subCommand.suggest(args, this.epicGuard);
     }
-    return new ArrayList<>();
+    return Collections.emptyList();
   }
 }

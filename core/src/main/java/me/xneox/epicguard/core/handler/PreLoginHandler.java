@@ -55,7 +55,7 @@ public abstract class PreLoginHandler {
     pipeline.add(new NameSimilarityCheck(epicGuard));
     pipeline.add(new ProxyCheck(epicGuard));
 
-    epicGuard.logger().info("Order of the detection pipeline: " +
+    epicGuard.logger().info("Order of the detection pipeline: {}",
         String.join(", ", this.pipeline.stream().map(check -> check.getClass().getSimpleName()).toList()));
   }
 

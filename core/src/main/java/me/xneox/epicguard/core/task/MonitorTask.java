@@ -28,7 +28,7 @@ public record MonitorTask(EpicGuard epicGuard) implements Runnable {
   public void run() {
     var config = this.epicGuard.messages();
     var textComponent = TextUtils.component(config.actionbarMonitor()
-        .replace("%cps%", String.valueOf(this.epicGuard.attackManager().connectionCounter()))
+        .replace("%cps%", Integer.toString(this.epicGuard.attackManager().connectionCounter()))
         .replace("%status%", this.epicGuard.attackManager().isUnderAttack() ? config.actionbarAttack() : config.actionbarNoAttack()));
 
     for (OnlineUser user : this.epicGuard.userManager().users()) {

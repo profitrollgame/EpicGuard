@@ -23,8 +23,6 @@ import me.xneox.epicguard.core.user.OnlineUser;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
 
 public class StatusCommand implements SubCommand {
@@ -32,13 +30,7 @@ public class StatusCommand implements SubCommand {
   public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
     var config = epicGuard.messages().command();
 
-    // for some reason not working in Velocity
-    if (!audience.pointers().supports(Identity.UUID)) {
-      audience.sendMessage(Component
-          .text("This command is unavailable in the current environment.")
-          .color(TextColor.fromHexString("#ff6600")));
-      return;
-    }
+    // Velocity already supports pointers since 3.1.2
 
     Optional<UUID> uuidOptional = audience.pointers().get(Identity.UUID);
     uuidOptional.ifPresent(uuid -> {

@@ -37,8 +37,8 @@ public final class LogUtils {
       LOGGER.error("  (!) Your version is outdated. Update before sending bug report!");
     }
 
-    LOGGER.error(" > Details: " + details);
-    LOGGER.error(" > Platform: " + EpicGuardAPI.INSTANCE.platformVersion());
+    LOGGER.error(" > Details: {}", details);
+    LOGGER.error(" > Platform: {}", EpicGuardAPI.INSTANCE.platformVersion());
     LOGGER.error(" > Stacktrace: ");
     LOGGER.error("", throwable);
   }
@@ -50,7 +50,7 @@ public final class LogUtils {
    */
   public static void debug(@NotNull String message) {
     if (EpicGuardAPI.INSTANCE.instance().config().misc().debug()) {
-      LOGGER.info("(Debug) " + message);
+      LOGGER.info("(Debug) {}", message);
     }
   }
 }

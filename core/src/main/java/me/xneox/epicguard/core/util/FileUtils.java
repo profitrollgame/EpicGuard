@@ -15,11 +15,13 @@
 
 package me.xneox.epicguard.core.util;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import me.xneox.epicguard.core.EpicGuardAPI;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
@@ -28,19 +30,20 @@ import org.jetbrains.annotations.NotNull;
  * This util helps with managing files.
  */
 public final class FileUtils {
+  private FileUtils() {}
   public static final String EPICGUARD_DIR = "plugins/EpicGuard";
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
-  public static void downloadFile(@NotNull String urlFrom, @NotNull File file) throws IOException {
-    EpicGuardAPI.INSTANCE.instance().logger().info("Downloading file from " + urlFrom + " to " + file.getAbsolutePath());
+  public static void downloadFile(@NotNull String urlFrom, @NotNull Path file) throws IOException {
+    EpicGuardAPI.INSTANCE.instance().logger().info("Downloading file from {} to {}", urlFrom, file.toAbsolutePath());
 
     // Make sure the original file will be replaced, if it exists
-    file.delete();
-    file.createNewFile();
+    Files.deleteIfExists(file);
+    Files.createFile(file);
 
     var connection = URLUtils.openConnection(urlFrom);
     try (ReadableByteChannel channel = Channels.newChannel(connection.getInputStream());
-        var outputStream = new FileOutputStream(file)) {
+        var outputStream = new FileOutputStream(file.toFile())) {
 
       outputStream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
     }
@@ -53,12 +56,13 @@ public final class FileUtils {
    * @return The created file.
    */
   @NotNull
-  public static File create(@NotNull File file) {
+  public static Path create(@NotNull Path file) {
     Validate.notNull(file, "Can't create null file!");
 
     try {
-      if (file.createNewFile()) {
-        LogUtils.debug("Created new file: " + file.getPath());
+      if (Files.notExists(file)) {
+        Files.createFile(file);
+        LogUtils.debug("Created new file: " + file);
       }
     } catch (IOException e) {
       LogUtils.catchException("Can't create database file", e);

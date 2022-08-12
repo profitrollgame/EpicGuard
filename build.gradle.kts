@@ -47,7 +47,7 @@ subprojects {
 
     tasks.withType<JavaCompile> {
         options.encoding = Charsets.UTF_8.name()
-        options.release.set(16)
+        options.release.set(17)
     }
 
     // For Waterfall and Paper platforms: set version

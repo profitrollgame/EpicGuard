@@ -15,7 +15,6 @@
 
 package me.xneox.epicguard.core.config;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import me.xneox.epicguard.core.util.ToggleState;
@@ -36,27 +35,32 @@ public class PluginConfiguration {
   @Comment("This check will limit how many accounts can be registered from single IP address")
   private AccountLimitCheck accountLimitCheck = new AccountLimitCheck();
 
-  @Comment("Every vanilla client sends the Settings packet shortly after joining.\n"
-      + "Some bots doesn't do this, and this check will try to detect that.")
+  @Comment("""
+    Every vanilla client sends the Settings packet shortly after joining.
+    Some bots doesn't do this, and this check will try to detect that.""")
   private SettingsCheck settingsCheck = new SettingsCheck();
 
-  @Comment("Nickname-check will block players if their nickname matches\n"
-      + "the regex expression set below.")
+  @Comment("""
+    Nickname-check will block players if their nickname matches
+    the regex expression set below.""")
   private NicknameCheck nicknameCheck = new NicknameCheck();
 
-  @Comment("NameSimilarityCheck will detect similar nicknames of the connecting users\n"
-      + "(!) Experimental! https://neox.gitbook.io/epicguard-wiki/configuring/name-similarity-check")
+  @Comment("""
+    NameSimilarityCheck will detect similar nicknames of the connecting users
+    (!) Experimental! https://neox.gitbook.io/epicguard-wiki/configuring/name-similarity-check""")
   private NameSimilarityCheck nameSimilarityCheck = new NameSimilarityCheck();
 
   @Comment("ReconnectCheck will force new users to join the server again.")
   private ReconnectCheck reconnectCheck = new ReconnectCheck();
 
-  @Comment("Server-list check will force users to add your server\n"
-      + "to their server list (send a ping) before joining")
+  @Comment("""
+    Server-list check will force users to add your server
+    to their server list (send a ping) before joining""")
   private ServerListCheck serverListCheck = new ServerListCheck();
 
-  @Comment("If a player is online for long enough (see option below)\n"
-      + "He will be added to the whitelist, and be exempt from every future detections")
+  @Comment("""
+    If a player is online for long enough (see option below)
+    He will be added to the whitelist, and be exempt from every future detections""")
   private AutoWhitelist autoWhitelist = new AutoWhitelist();
 
   private ConsoleFilter consoleFilter = new ConsoleFilter();
@@ -84,10 +88,10 @@ public class PluginConfiguration {
     private boolean isBlacklist = false;
 
     @Comment("List of country codes: https://dev.maxmind.com/geoip/legacy/codes/iso3166/")
-    private List<String> countries = Arrays.asList("US", "DE");
+    private List<String> countries = List.of("US", "DE");
 
     @Comment("If a player tries to connect from city listed here, he will be blocked.")
-    private List<String> cityBlacklist = Arrays.asList("ExampleCity", "AnotherCity");
+    private List<String> cityBlacklist = List.of("ExampleCity", "AnotherCity");
 
     public ToggleState checkMode() {
       return this.checkMode;
@@ -128,7 +132,7 @@ public class PluginConfiguration {
             You can set as many proxy checking services as you want here.
             If you're not familiar with regex, see https://regexr.com/ or https://regex101.com/
             For example, (yes|VPN) will check if the response contains either 'yes' or 'VPN'""")
-    private List<ProxyService> registeredServices = Arrays.asList(
+    private List<ProxyService> registeredServices = List.of(
         new ProxyService("https://proxycheck.io/v2/{IP}?key=PROXYCHECK_KEY&risk=1&vpn=1", Pattern.compile("(yes|VPN)")));
 
     @Comment("""
@@ -189,9 +193,9 @@ public class PluginConfiguration {
     @Comment("Enable or disable this check.")
     private boolean enabled = true;
 
-    @Comment(
-        "Delay in seconds after which we check if the player has already sent this packet.\n"
-            + "Increase for faster detection, decrease if detecting players with bad internet connection")
+    @Comment("""
+      Delay in seconds after which we check if the player has already sent this packet.
+      Increase for faster detection, decrease if detecting players with bad internet connection""")
     private int delay = 5;
 
     public boolean enabled() {
@@ -217,9 +221,9 @@ public class PluginConfiguration {
         """)
     private int priority = 8;
 
-    @Comment(
-        "Default value will check if the nickname contains 'bot' or 'mcdown'.\n"
-            + "You can use https://regex101.com/ for making and testing your own expression.")
+    @Comment("""
+      Default value will check if the nickname contains 'bot' or 'mcdown'.
+      You can use https://regex101.com/ for making and testing your own expression.""")
     private String expression = "(?i).*(bot|mcdown).*";
 
     public ToggleState checkMode() {
@@ -335,10 +339,11 @@ public class PluginConfiguration {
             ALWAYS - feature will always work.""")
     private ToggleState filterMode = ToggleState.ATTACK;
 
-    @Comment("If log message contains one of these words, it will\n"
-        + "be hidden. This can save a lot of CPU on big attacks.")
+    @Comment("""
+      If log message contains one of these words, it will
+      be hidden. This can save a lot of CPU on big attacks.""")
     private List<String> filterMessages =
-        Arrays.asList(
+        List.of(
             "GameProfile",
             "Disconnected",
             "UUID of player",
@@ -360,8 +365,9 @@ public class PluginConfiguration {
     @Comment("Enable automatic whitelisting of the user's address.")
     private boolean enabled = false;
 
-    @Comment("Time in seconds the player must be online\n" +
-        "to be added to the EpicGuard's whitelist.")
+    @Comment("""
+      Time in seconds the player must be online
+      to be added to the EpicGuard's whitelist.""")
     private int timeOnline = 600;
 
     public boolean enabled() {
@@ -382,8 +388,9 @@ public class PluginConfiguration {
             false - Allow NEW players connecting during attack.""")
     private boolean lockdownOnAttack = true;
 
-    @Comment("How many connections per second must be made,\n"
-            + "to activate the attack mode temporally?")
+    @Comment("""
+      How many connections per second must be made,
+      to activate the attack mode temporally?""")
     private int attackConnectionThreshold = 6;
 
     @Comment("""
@@ -395,8 +402,9 @@ public class PluginConfiguration {
     @Comment("Set to false to disable update checker.")
     private boolean updateChecker = true;
 
-    @Comment("Time in minutes before auto-saving data.\n" +
-        "(!) Requires restart to apply.")
+    @Comment("""
+      Time in minutes before auto-saving data.
+      (!) Requires restart to apply.""")
     private long autoSaveInterval = 10L;
 
     @Comment("Enabling this will log additional useful information, such as performed detections.")

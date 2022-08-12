@@ -31,6 +31,7 @@ public class VelocityCommandHandler extends CommandHandler implements SimpleComm
     this.handleCommand(invocation.arguments(), invocation.source());
   }
 
+  //TODO: Implement suggestAsync
   @Override
   public List<String> suggest(Invocation invocation) {
     return new ArrayList<>(this.handleSuggestions(invocation.arguments()));

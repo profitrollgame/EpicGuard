@@ -16,7 +16,6 @@
 package me.xneox.epicguard.core.check;
 
 import me.xneox.epicguard.core.EpicGuard;
-import me.xneox.epicguard.core.check.AbstractCheck;
 import me.xneox.epicguard.core.user.ConnectingUser;
 import org.jetbrains.annotations.NotNull;
 

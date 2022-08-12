@@ -15,8 +15,9 @@
 
 package me.xneox.epicguard.core.command;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+
 import me.xneox.epicguard.core.EpicGuard;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,6 @@ public interface SubCommand {
    */
   @NotNull
   default Collection<String> suggest(@NotNull String[] args, @NotNull EpicGuard epicGuard) {
-    return new ArrayList<>();
+    return Collections.emptyList();
   }
 }

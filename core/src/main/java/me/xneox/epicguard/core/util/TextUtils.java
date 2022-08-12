@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class TextUtils {
+  private TextUtils() {}
   private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
       .character('&')
       .hexCharacter('#')
@@ -70,7 +71,7 @@ public final class TextUtils {
     try {
       return InetAddress.getByName(address);
     } catch (UnknownHostException ex) {
-      EpicGuardAPI.INSTANCE.instance().logger().warn("Couldn't resolve the InetAddress for the host " + address + ": " + ex.getMessage());
+      EpicGuardAPI.INSTANCE.instance().logger().warn("Couldn't resolve the InetAddress for the host {}: {}", address, ex.getMessage());
     }
     return null;
   }

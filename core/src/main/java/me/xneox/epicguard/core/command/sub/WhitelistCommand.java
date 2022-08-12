@@ -15,12 +15,12 @@
 
 package me.xneox.epicguard.core.command.sub;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.SubCommand;
-import me.xneox.epicguard.core.config.MessagesConfiguration;
 import me.xneox.epicguard.core.storage.AddressMeta;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
@@ -65,12 +65,12 @@ public class WhitelistCommand implements SubCommand {
   @Override
   public @NotNull Collection<String> suggest(@NotNull String[] args, @NotNull EpicGuard epicGuard) {
     if (args.length == 2) {
-      return Arrays.asList("add", "remove");
+      return List.of("add", "remove");
     }
 
     if (args[1].equalsIgnoreCase("remove")) {
       return epicGuard.storageManager().viewAddresses(AddressMeta::whitelisted);
     }
-    return new ArrayList<>();
+    return Collections.emptyList();
   }
 }
