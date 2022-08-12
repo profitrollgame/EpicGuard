@@ -16,7 +16,8 @@
 package me.xneox.epicguard.core.check;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.concurrent.ConcurrentHashMap;
+
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.user.ConnectingUser;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
  * This check forces player to reconnect if they are connecting for the first time.
  */
 public class ReconnectCheck extends AbstractCheck {
-  private final Collection<ConnectingUser> connectingUserCache = new HashSet<>(); //todo: thread safety :/
+  private final Collection<ConnectingUser> connectingUserCache = ConcurrentHashMap.newKeySet();
 
   public ReconnectCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().reconnect(), epicGuard.config().reconnectCheck().priority());
