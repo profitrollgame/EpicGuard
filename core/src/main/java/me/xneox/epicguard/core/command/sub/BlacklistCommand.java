@@ -22,7 +22,6 @@ import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

@@ -49,7 +49,8 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
     if (command != null) {
       var handler = new PaperCommandHandler(this.epicGuard);
       command.setExecutor(handler);
-      command.setTabCompleter(handler);
+      // AsyncTabComplete
+      pluginManager.registerEvents(handler, this);
     }
   }
 

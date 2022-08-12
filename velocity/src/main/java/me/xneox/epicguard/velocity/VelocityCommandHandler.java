@@ -18,6 +18,8 @@ package me.xneox.epicguard.velocity;
 import com.velocitypowered.api.command.SimpleCommand;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.CommandHandler;
 
@@ -31,10 +33,10 @@ public class VelocityCommandHandler extends CommandHandler implements SimpleComm
     this.handleCommand(invocation.arguments(), invocation.source());
   }
 
-  //TODO: Implement suggestAsync
   @Override
-  public List<String> suggest(Invocation invocation) {
-    return new ArrayList<>(this.handleSuggestions(invocation.arguments()));
+  public CompletableFuture<List<String>> suggestAsync(Invocation invocation) {
+    return CompletableFuture.supplyAsync(() ->
+      new ArrayList<>(this.handleSuggestions(invocation.arguments())));
   }
 
   @Override

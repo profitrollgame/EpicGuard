@@ -33,7 +33,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * This class holds all registered subcommands, and handles the user command/tab suggestion input.
- * TODO: Better command system
  */
 public class CommandHandler {
   private final Map<String, SubCommand> commandMap;
@@ -78,10 +77,12 @@ public class CommandHandler {
       return this.commandMap.keySet();
     }
 
-    var subCommand = this.commandMap.get(args[0]);
-    if (subCommand != null) {
-      return subCommand.suggest(args, this.epicGuard);
+    for (var entry : this.commandMap.entrySet()) {
+      if (entry.getKey().startsWith(args[0])) {
+        return entry.getValue().suggest(args, this.epicGuard);
+      }
     }
+
     return Collections.emptyList();
   }
 }
