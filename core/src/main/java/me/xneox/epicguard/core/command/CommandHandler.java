@@ -77,6 +77,8 @@ public class CommandHandler {
       return this.commandMap.keySet();
     }
 
+    // Handle argument completions.
+    // "rel" will be completed to "reload"
     for (var entry : this.commandMap.entrySet()) {
       if (entry.getKey().startsWith(args[0])) {
         return entry.getValue().suggest(args, this.epicGuard);

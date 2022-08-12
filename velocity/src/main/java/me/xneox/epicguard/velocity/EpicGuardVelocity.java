@@ -20,7 +20,10 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+
+import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import me.xneox.epicguard.core.EpicGuard;
@@ -31,6 +34,8 @@ import me.xneox.epicguard.velocity.listener.PlayerSettingsListener;
 import me.xneox.epicguard.velocity.listener.PostLoginListener;
 import me.xneox.epicguard.velocity.listener.PreLoginListener;
 import me.xneox.epicguard.velocity.listener.ServerPingListener;
+import net.byteflux.libby.Library;
+import net.byteflux.libby.VelocityLibraryManager;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
@@ -46,23 +51,27 @@ import org.slf4j.Logger;
 public class EpicGuardVelocity implements Platform {
   private final ProxyServer server;
   private final Logger logger;
+  private final Path path;
 
   private EpicGuard epicGuard;
 
   @Inject
-  public EpicGuardVelocity(ProxyServer server, Logger logger) {
+  public EpicGuardVelocity(ProxyServer server, Logger logger, @DataDirectory Path path) {
     this.server = server;
     this.logger = logger;
+    this.path = path;
   }
 
   @Subscribe
   public void onEnable(ProxyInitializeEvent e) {
+    this.loadLibraries();
     this.epicGuard = new EpicGuard(this);
 
     var commandManager = this.server.getCommandManager();
     var meta = commandManager
         .metaBuilder("epicguard")
         .aliases("guard", "epicguardvelocity", "guardvelocity")
+        .plugin(this)
         .build();
 
     commandManager.register(meta, new VelocityCommandHandler(this.epicGuard));
@@ -108,5 +117,26 @@ public class EpicGuardVelocity implements Platform {
   @Override
   public void scheduleRepeatingTask(@NotNull Runnable task, long seconds) {
     this.server.getScheduler().buildTask(this, task).repeat(seconds, TimeUnit.SECONDS).schedule();
+  }
+
+  private void loadLibraries() {
+    final VelocityLibraryManager<EpicGuardVelocity> manager
+      = new VelocityLibraryManager<>(this.logger, this.path, this.server.getPluginManager(), this);
+
+    final Library MYSQL = Library.builder()
+      .groupId("mysql")
+      .artifactId("mysql-connector-java")
+      .version("8.0.30")
+      .build();
+
+    final Library SQLLITE = Library.builder()
+      .groupId("org{}xerial")
+      .artifactId("sqlite-jdbc")
+      .version("3.39.2.0")
+      .build();
+
+    manager.addMavenCentral();
+    manager.loadLibrary(MYSQL);
+    manager.loadLibrary(SQLLITE);
   }
 }

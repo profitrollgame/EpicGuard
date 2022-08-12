@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class FileUtils {
   private FileUtils() {}
-  public static final String EPICGUARD_DIR = "plugins/EpicGuard";
+  public static final String EPICGUARD_DIR = "plugins/epicguard";
 
   @SuppressWarnings("ResultOfMethodCallIgnored")
   public static void downloadFile(@NotNull String urlFrom, @NotNull Path file) throws IOException {

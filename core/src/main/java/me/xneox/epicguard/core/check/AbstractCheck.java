@@ -29,7 +29,7 @@ public abstract class AbstractCheck implements Comparable<AbstractCheck> {
   private final int priority;
   private final TextComponent detectionMessage;
 
-  public AbstractCheck(@NotNull EpicGuard epicGuard, @NotNull List<String> detectionMessage, int priority) {
+  protected AbstractCheck(@NotNull EpicGuard epicGuard, @NotNull List<String> detectionMessage, int priority) {
     this.epicGuard = epicGuard;
     this.detectionMessage = TextUtils.multilineComponent(detectionMessage);
     this.priority = priority;
