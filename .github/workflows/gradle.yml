@@ -25,7 +25,7 @@ jobs:
           arguments: build
           gradle-version: wrapper
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: artifact
           path: build/
