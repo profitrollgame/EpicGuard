@@ -7,7 +7,7 @@ dependencies {
     implementation("com.maxmind.geoip2:geoip2:2.16.1")
     implementation("org.apache.commons:commons-compress:1.21")
     implementation("org.apache.commons:commons-text:1.9")
-    implementation("com.google.guava:guava:31.0.1-jre")
+    implementation("com.google.guava:guava:31.1-jre")
     implementation("org.spongepowered:configurate-hocon:4.1.2")
     implementation("org.jetbrains:annotations:23.0.0")
     implementation("com.zaxxer:HikariCP:5.0.1")
