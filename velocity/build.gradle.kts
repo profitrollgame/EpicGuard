@@ -3,7 +3,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 dependencies {
     implementation(project(":core"))
 
-    compileOnly("mysql:mysql-connector-java:8.0.27")
+    compileOnly("mysql:mysql-connector-java:8.0.32")
     compileOnly("org.xerial:sqlite-jdbc:3.36.0.3")
     implementation("net.byteflux:libby-velocity:1.1.5")
 
