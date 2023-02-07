@@ -15,7 +15,7 @@ dependencies {
     compileOnly("net.kyori:adventure-api:4.12.0")
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.12.0")
     compileOnly("org.apache.logging.log4j:log4j-core:2.19.0")
-    compileOnly("org.slf4j:slf4j-api:1.7.36")
+    compileOnly("org.slf4j:slf4j-api:2.0.6")
 }
 
 blossom {
