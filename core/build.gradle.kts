@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation("com.maxmind.geoip2:geoip2:2.16.1")
+    implementation("com.maxmind.geoip2:geoip2:4.0.0")
     implementation("org.apache.commons:commons-compress:1.22")
     implementation("org.apache.commons:commons-text:1.10.0")
     implementation("com.google.guava:guava:31.1-jre")
