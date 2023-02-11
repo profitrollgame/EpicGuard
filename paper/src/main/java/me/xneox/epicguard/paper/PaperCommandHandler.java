@@ -15,10 +15,7 @@
 
 package me.xneox.epicguard.paper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
-
+import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.CommandHandler;
 import org.bukkit.command.Command;
@@ -28,9 +25,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
-import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
 
-public class PaperCommandHandler extends CommandHandler implements CommandExecutor, Listener {
+public final class PaperCommandHandler extends CommandHandler implements CommandExecutor, Listener {
   public PaperCommandHandler(EpicGuard epicGuard) {
     super(epicGuard);
   }
@@ -52,13 +51,15 @@ public class PaperCommandHandler extends CommandHandler implements CommandExecut
     final String buffer = event.getBuffer();
     final String input = buffer.startsWith("/") ? buffer.substring(1) : buffer;
     final String[] tokens = input.split(" ");
+
+    if (tokens.length == 0) {
+      event.setCompletions(new ArrayList<>(this.handleSuggestions(EMPTY_ARRAY)));
+      return;
+    }
+
     final String command = tokens[0].toLowerCase(Locale.ROOT);
 
     if (command.equals("guard") || command.equals("epicguardpaper") || command.equals("guardpaper")) {
-      if (tokens.length == 0) {
-        event.setCompletions(new ArrayList<>(this.handleSuggestions(EMPTY_ARRAY)));
-      }
-
       event.setCompletions(new ArrayList<>(this.handleSuggestions(Arrays.copyOfRange(tokens, 1, tokens.length))));
     }
   }
