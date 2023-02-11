@@ -15,16 +15,16 @@
 
 package me.xneox.epicguard.core.util;
 
+import me.xneox.epicguard.core.EpicGuardAPI;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import me.xneox.epicguard.core.EpicGuardAPI;
-import org.apache.commons.lang3.Validate;
-import org.jetbrains.annotations.NotNull;
+import java.util.Objects;
 
 /**
  * This util helps with managing files.
@@ -33,7 +33,6 @@ public final class FileUtils {
   private FileUtils() {}
   public static final String EPICGUARD_DIR = "plugins/epicguard";
 
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   public static void downloadFile(@NotNull String urlFrom, @NotNull Path file) throws IOException {
     EpicGuardAPI.INSTANCE.instance().logger().info("Downloading file from {} to {}", urlFrom, file.toAbsolutePath());
 
@@ -57,7 +56,7 @@ public final class FileUtils {
    */
   @NotNull
   public static Path create(@NotNull Path file) {
-    Validate.notNull(file, "Can't create null file!");
+    Objects.requireNonNull(file, "Can't create null file!");
 
     try {
       if (Files.notExists(file)) {

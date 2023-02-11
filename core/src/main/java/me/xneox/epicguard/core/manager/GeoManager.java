@@ -28,7 +28,6 @@ import me.xneox.epicguard.core.util.FileUtils;
 import me.xneox.epicguard.core.util.LogUtils;
 import me.xneox.epicguard.core.util.TextUtils;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.utils.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -46,7 +45,6 @@ public class GeoManager {
     epicGuard.logger().info("This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com");
 
     var parent = Path.of(FileUtils.EPICGUARD_DIR, "data");
-    //noinspection ResultOfMethodCallIgnored
     if (Files.notExists(parent)) {
       try {
         Files.createDirectory(parent);
@@ -78,7 +76,6 @@ public class GeoManager {
     }
   }
 
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   private void downloadDatabase(@NotNull Path database, @NotNull Path archive, @NotNull String url) throws IOException {
     if (Files.notExists(database) || System.currentTimeMillis() - Files.getLastModifiedTime(database).to(TimeUnit.MILLISECONDS) > TimeUnit.DAYS.toMillis(7L)) {
       // Database does not exist or is outdated, and need to be downloaded.
@@ -91,7 +88,7 @@ public class GeoManager {
         while (entry != null) {
           // Extracting the database (.mmdb) database we are looking for.
           if (entry.getName().endsWith(database.getFileName().toString())) {
-            IOUtils.copy(tarInput, Files.newOutputStream(database));
+            Files.copy(tarInput, database);
           }
   
           entry = tarInput.getNextTarEntry();
@@ -99,7 +96,7 @@ public class GeoManager {
       }
 
       Files.delete(archive);
-      this.epicGuard.logger().info("Database ({}) has been extracted succesfuly.", database.getFileName());
+      this.epicGuard.logger().info("Database ({}) has been extracted successfully.", database.getFileName());
     }
   }
 

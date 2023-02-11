@@ -15,13 +15,14 @@
 
 package me.xneox.epicguard.core;
 
-import java.util.Collection;
 import me.xneox.epicguard.core.manager.AttackManager;
 import me.xneox.epicguard.core.manager.GeoManager;
 import me.xneox.epicguard.core.storage.AddressMeta;
 import me.xneox.epicguard.core.storage.StorageManager;
-import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.Objects;
 
 /**
  * A singleton API class which can be safely used by other projects.
@@ -110,6 +111,6 @@ public class EpicGuardAPI {
    * Checks if the EpicGuard has been initialized already.
    */
   public void checkAvailability() {
-    Validate.notNull(this.epicGuard, "Can't acces EpicGuardAPI because the plugin is not initialized. Have you set is as dependency?.");
+    Objects.requireNonNull(this.epicGuard, "Can't acces EpicGuardAPI because the plugin is not initialized. Have you set is as dependency?.");
   }
 }

@@ -15,15 +15,16 @@
 
 package me.xneox.epicguard.core.util;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
 import me.xneox.epicguard.core.EpicGuardAPI;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Objects;
 
 public final class TextUtils {
   private TextUtils() {}
@@ -50,7 +51,7 @@ public final class TextUtils {
    */
   @NotNull
   public static TextComponent multilineComponent(@NotNull List<String> list) {
-    Validate.notNull(list, "Kick message cannot be null!");
+    Objects.requireNonNull(list, "Kick message cannot be null!");
 
     var builder = new StringBuilder();
     for (String line : list) {
