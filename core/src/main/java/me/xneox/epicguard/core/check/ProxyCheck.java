@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
  * This checks if the user is using a VPN or a proxy.
  * The detection logic is located in {@link me.xneox.epicguard.core.proxy.ProxyManager}
  */
-public class ProxyCheck extends AbstractCheck {
+public final class ProxyCheck extends AbstractCheck {
   public ProxyCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().proxy(), epicGuard.config().proxyCheck().priority());
   }

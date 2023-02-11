@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This check denies any connection if the attack mode is active.
  */
-public class LockdownCheck extends AbstractCheck {
+public final class LockdownCheck extends AbstractCheck {
   public LockdownCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().attackLockdown(), 99); // will always be executed first
   }

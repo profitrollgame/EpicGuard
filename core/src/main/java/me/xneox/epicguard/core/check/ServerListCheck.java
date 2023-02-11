@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This check forces the user has to ping the server before joining.
  */
-public class ServerListCheck extends AbstractCheck {
+public final class ServerListCheck extends AbstractCheck {
   public ServerListCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().serverListPing(), epicGuard.config().serverListCheck().priority());
   }

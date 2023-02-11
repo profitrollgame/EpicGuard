@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This check forces player to reconnect if they are connecting for the first time.
  */
-public class ReconnectCheck extends AbstractCheck {
+public final class ReconnectCheck extends AbstractCheck {
   private final Collection<ConnectingUser> connectingUserCache = ConcurrentHashMap.newKeySet();
 
   public ReconnectCheck(EpicGuard epicGuard) {

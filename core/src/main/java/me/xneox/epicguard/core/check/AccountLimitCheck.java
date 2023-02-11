@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This check limits how many accounts can be created on one address.
  */
-public class AccountLimitCheck extends AbstractCheck {
+public final class AccountLimitCheck extends AbstractCheck {
   public AccountLimitCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().accountLimit(), epicGuard.config().accountLimitCheck().priority());
   }

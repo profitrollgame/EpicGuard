@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This check tries to match the user's nickname with the configured regex pattern.
  */
-public class NicknameCheck extends AbstractCheck {
+public final class NicknameCheck extends AbstractCheck {
   public NicknameCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().nickname(), epicGuard.config().nicknameCheck().priority());
   }

@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This checks if the user's geographical location is allowed based on the current configuration.
  */
-public class GeographicalCheck extends AbstractCheck {
+public final class GeographicalCheck extends AbstractCheck {
   public GeographicalCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().geographical(), epicGuard.config().geographical().priority());
   }

@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This just checks if the user is blacklisted.
  */
-public class BlacklistCheck extends AbstractCheck {
+public final class BlacklistCheck extends AbstractCheck {
   public BlacklistCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().blacklisted(), 98); // will always be executed secondly.
   }

@@ -29,7 +29,7 @@ import java.util.Queue;
  * Not tested, may be unstable.
  */
 @SuppressWarnings("UnstableApiUsage")
-public class NameSimilarityCheck extends AbstractCheck {
+public final class NameSimilarityCheck extends AbstractCheck {
   private final Queue<String> nameHistory = EvictingQueue.create(this.epicGuard.config().nameSimilarityCheck().historySize());
   private final LevenshteinDistance distanceAlgorithm = LevenshteinDistance.getDefaultInstance();
 
