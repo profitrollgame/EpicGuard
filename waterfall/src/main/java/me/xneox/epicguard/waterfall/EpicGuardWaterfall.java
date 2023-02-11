@@ -15,22 +15,18 @@
 
 package me.xneox.epicguard.waterfall;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
-import me.xneox.epicguard.waterfall.listener.DisconnectListener;
-import me.xneox.epicguard.waterfall.listener.PlayerSettingsListener;
-import me.xneox.epicguard.waterfall.listener.PostLoginListener;
-import me.xneox.epicguard.waterfall.listener.PreLoginListener;
-import me.xneox.epicguard.waterfall.listener.ServerPingListener;
+import me.xneox.epicguard.waterfall.listener.*;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class EpicGuardWaterfall extends Plugin implements Platform {
   private EpicGuard epicGuard;
@@ -58,7 +54,7 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
 
   @Override
   public @NotNull String platformVersion() {
-    return ProxyServer.getInstance().getName() + "-" + ProxyServer.getInstance().getVersion();
+    return this.getProxy().getName() + "-" + this.getProxy().getVersion();
   }
 
   @Override
@@ -68,7 +64,7 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
 
   @Override
   public Audience audience(@NotNull UUID uuid) {
-    var player = ProxyServer.getInstance().getPlayer(uuid);
+    var player = this.getProxy().getPlayer(uuid);
     if (player != null) {
       return this.adventure.player(player);
     }
@@ -77,7 +73,7 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
 
   @Override
   public void disconnectUser(@NotNull UUID uuid, @NotNull Component component) {
-    ProxyServer.getInstance()
+    this.getProxy()
         .getPlayer(uuid)
         .disconnect(BungeeUtils.toLegacyComponent(component));
   }
