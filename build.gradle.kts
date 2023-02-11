@@ -24,7 +24,7 @@ subprojects {
             archiveFileName.set("EpicGuard$platformName-${project.version}.jar")
 
             relocate("org.spongepowered.configurate", "me.xneox.epicguard.libs.configurate")
-            relocate("org.apache.commons", "me.xneox.epicguard.libs.apachecommons")
+            relocate("org.apache.commons", "me.xneox.epicguard.libs.apache.commons")
             relocate("com.fasterxml", "me.xneox.epicguard.libs.fasterxml")
             relocate("com.maxmind", "me.xneox.epicguard.libs.maxmind")
             relocate("com.typesafe.config", "me.xneox.epicguard.libs.config")

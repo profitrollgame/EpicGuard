@@ -27,6 +27,7 @@ import java.util.Objects;
 /**
  * A singleton API class which can be safely used by other projects.
  */
+@SuppressWarnings("unused")
 public class EpicGuardAPI {
 
   public static final EpicGuardAPI INSTANCE = new EpicGuardAPI();
@@ -111,6 +112,6 @@ public class EpicGuardAPI {
    * Checks if the EpicGuard has been initialized already.
    */
   public void checkAvailability() {
-    Objects.requireNonNull(this.epicGuard, "Can't acces EpicGuardAPI because the plugin is not initialized. Have you set is as dependency?.");
+    Objects.requireNonNull(this.epicGuard, "Can't access EpicGuardAPI because the plugin is not initialized. Have you set is as dependency?.");
   }
 }

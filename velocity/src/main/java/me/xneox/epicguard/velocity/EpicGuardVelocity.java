@@ -47,7 +47,7 @@ import org.slf4j.Logger;
     version = VersionUtils.CURRENT_VERSION,
     description = "Bot protection system for Minecraft servers.",
     url = "https://github.com/xxneox/EpicGuard",
-    authors = "neox")
+    authors = {"neox", "4drian3d"})
 public class EpicGuardVelocity implements Platform {
   private final ProxyServer server;
   private final Logger logger;
@@ -129,7 +129,7 @@ public class EpicGuardVelocity implements Platform {
       .version("8.0.30")
       .build();
 
-    final Library SQLLITE = Library.builder()
+    final Library SQLITE = Library.builder()
       .groupId("org{}xerial")
       .artifactId("sqlite-jdbc")
       .version("3.39.2.0")
@@ -137,6 +137,6 @@ public class EpicGuardVelocity implements Platform {
 
     manager.addMavenCentral();
     manager.loadLibrary(MYSQL);
-    manager.loadLibrary(SQLLITE);
+    manager.loadLibrary(SQLITE);
   }
 }

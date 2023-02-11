@@ -52,7 +52,7 @@ public class StorageManager {
 
   /**
    * Returns an {@link AddressMeta} for the specified address. Creates a new AddressMeta if it
-   * doesen't exist for this address.
+   * doesn't exist for this address.
    */
   @NotNull
   public AddressMeta addressMeta(@NotNull String address) {

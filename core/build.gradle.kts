@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-    // TODO: Implement runtime downloading here
     implementation(libs.geoip)
     implementation(libs.commons.compress)
     implementation(libs.commons.text)

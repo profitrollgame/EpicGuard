@@ -54,7 +54,7 @@ public interface Platform {
    * Schedules a task to be run asynchronously after the specified time (in seconds).
    *
    * @param task The task to be scheduled.
-   * @param seconds Delay in seconds after the task should be ran.
+   * @param seconds Delay in seconds after the task should be run.
    */
   void runTaskLater(@NotNull Runnable task, long seconds);
 

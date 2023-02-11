@@ -21,6 +21,7 @@ import me.xneox.epicguard.core.util.VersionUtils;
 /**
  * This task checks for updates, and if a new version is found, it will be printed to the console.
  */
+@SuppressWarnings("SpellCheckingInspection")
 public record UpdateCheckerTask(EpicGuard epicGuard) implements Runnable {
 
   @Override

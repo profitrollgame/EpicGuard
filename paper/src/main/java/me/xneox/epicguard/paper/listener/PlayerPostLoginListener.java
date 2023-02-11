@@ -21,6 +21,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.Objects;
+
 public class PlayerPostLoginListener extends PostLoginHandler implements Listener {
   public PlayerPostLoginListener(EpicGuard epicGuard) {
     super(epicGuard);
@@ -29,6 +31,6 @@ public class PlayerPostLoginListener extends PostLoginHandler implements Listene
   @EventHandler
   public void onJoin(PlayerJoinEvent event) {
     var player = event.getPlayer();
-    this.onPostLogin(player.getUniqueId(), player.getAddress().getAddress().getHostAddress());
+    this.onPostLogin(player.getUniqueId(), Objects.requireNonNull(player.getAddress()).getAddress().getHostAddress());
   }
 }
