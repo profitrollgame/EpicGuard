@@ -17,13 +17,9 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
+          cache: 'gradle'
           java-version: 17
           distribution: 'temurin'
-      - uses: burrunan/gradle-cache-action@v1
-        name: Build with Gradle
-        with:
-          arguments: build
-          gradle-version: wrapper
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
