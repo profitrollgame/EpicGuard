@@ -57,13 +57,5 @@ subprojects {
             options.encoding = Charsets.UTF_8.name()
             options.release.set(17)
         }
-
-        // TODO: replace with plugin.yml plugin to avoid deprecation warning
-        // For Waterfall and Paper platforms: set version
-        withType<ProcessResources> {
-            filesMatching("plugin.yml") {
-                expand("version" to project.version)
-            }
-        }
     }
 }
