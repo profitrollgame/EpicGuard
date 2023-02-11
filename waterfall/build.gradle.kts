@@ -1,14 +1,19 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+plugins {
+    alias(libs.plugins.runwaterfall)
+}
 
 dependencies {
-    implementation(project(":core"))
+    implementation(projects.core)
 
-    compileOnly("net.kyori:adventure-platform-bungeecord:4.2.0")
-    compileOnly("io.github.waterfallmc:waterfall-api:1.19-R0.1-SNAPSHOT")
+    compileOnly(libs.adventure.platform.bungeecord)
+    compileOnly(libs.waterfall)
 }
 
 tasks {
     build {
         dependsOn(shadowJar)
+    }
+    runWaterfall {
+        waterfallVersion(libs.versions.waterfall.get().substringBefore('-'))
     }
 }

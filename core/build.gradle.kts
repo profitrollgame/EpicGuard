@@ -1,21 +1,23 @@
 plugins {
     `maven-publish`
-    id("net.kyori.blossom") version "1.3.1"
+    alias(libs.plugins.blossom)
 }
 
 dependencies {
-    implementation("com.maxmind.geoip2:geoip2:4.0.0")
-    implementation("org.apache.commons:commons-compress:1.22")
-    implementation("org.apache.commons:commons-text:1.10.0")
-    implementation("com.google.guava:guava:31.1-jre")
-    implementation("org.spongepowered:configurate-hocon:4.1.2")
-    implementation("org.jetbrains:annotations:24.0.0")
-    implementation("com.zaxxer:HikariCP:5.0.1")
+    // TODO: Implement runtime downloading here
+    implementation(libs.geoip)
+    implementation(libs.commons.compress)
+    implementation(libs.commons.text)
+    implementation(libs.guava)
+    implementation(libs.configurate)
+    implementation(libs.hikaricp)
 
-    compileOnly("net.kyori:adventure-api:4.12.0")
-    compileOnly("net.kyori:adventure-text-serializer-legacy:4.12.0")
-    compileOnly("org.apache.logging.log4j:log4j-core:2.19.0")
-    compileOnly("org.slf4j:slf4j-api:2.0.6")
+    compileOnly(libs.adventure.api)
+    compileOnly(libs.adventure.serializer.legacy)
+    compileOnly(libs.log4j2)
+    compileOnly(libs.slf4j)
+
+    compileOnly(libs.annotations)
 }
 
 blossom {

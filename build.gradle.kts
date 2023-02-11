@@ -1,13 +1,14 @@
+import com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     java
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    alias(libs.plugins.shadow)
 }
 
 allprojects {
-    apply(plugin = "java")
-    apply(plugin = "com.github.johnrengelman.shadow")
+    apply<JavaPlugin>()
+    apply<ShadowPlugin>()
 
     java {
         toolchain {

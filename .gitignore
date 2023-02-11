@@ -155,3 +155,6 @@ gradle-app.setting
 
 # VisualStudioCode
 .vscode
+
+# Run-Task
+*/run/

@@ -1,10 +1,17 @@
+plugins {
+    alias(libs.plugins.runpaper)
+}
+
 dependencies {
-    implementation(project(":core"))
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    implementation(projects.core)
+    compileOnly(libs.paper)
 }
 
 tasks {
     build {
         dependsOn(shadowJar)
+    }
+    runServer {
+        minecraftVersion(libs.versions.paper.get().substringBefore('-'))
     }
 }
