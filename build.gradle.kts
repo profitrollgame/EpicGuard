@@ -46,6 +46,10 @@ subprojects {
         }
     }
 
+    tasks.withType<Delete> {
+        delete("run")
+    }
+
     tasks.withType<JavaCompile> {
         options.encoding = Charsets.UTF_8.name()
         options.release.set(17)
