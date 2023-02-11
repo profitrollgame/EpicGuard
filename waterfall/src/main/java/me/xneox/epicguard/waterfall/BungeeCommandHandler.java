@@ -33,6 +33,7 @@ public class BungeeCommandHandler extends Command implements TabExecutor {
 
   @Override
   public void execute(CommandSender sender, String[] args) {
+    //noinspection resource
     this.commandHandler.handleCommand(args, this.plugin.adventure().sender(sender));
   }
 

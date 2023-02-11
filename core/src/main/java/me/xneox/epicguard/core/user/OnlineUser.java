@@ -15,7 +15,7 @@
 
 package me.xneox.epicguard.core.user;
 
-import com.google.common.base.Objects;
+import java.util.Objects;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,7 +70,7 @@ public class OnlineUser {
       return false;
     }
     OnlineUser that = (OnlineUser) o;
-    return Objects.equal(uuid, that.uuid);
+    return Objects.equals(uuid, that.uuid);
   }
 
   @Override

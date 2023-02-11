@@ -61,17 +61,16 @@ public class StorageManager {
 
   /**
    * When an address is specified:
-   * - Redirects to the {@link #addressMeta(String)} method.
-   * - Never returns null.
-   *
-   * When a nickname is specified:
-   * - Tries to detect last used address by this nickname.
-   * - If found, redirects to the {@link #addressMeta(String)} method.
-   * - If not found, returns null.
+   * <p>- Redirects to the {@link #addressMeta(String)} method.</p>
+   * <p>- Never returns null.</p>
+   * <p>
+   * <p>When a nickname is specified:</p>
+   * <p>- Tries to detect last used address by this nickname.
+   * <p>- If found, redirects to the {@link #addressMeta(String)} method.
+   * <p>- If not found, returns null.
    */
   @Nullable
   public AddressMeta resolveAddressMeta(@NotNull String value) {
-    //noinspection UnstableApiUsage
     String address = InetAddresses.isInetAddress(value) ? value : lastSeenAddress(value);
     return address != null ? addressMeta(address) : null;
   }
@@ -102,8 +101,8 @@ public class StorageManager {
   /**
    * A legacy method for viewing addresses that meet a specific condition. For example, this can
    * return whitelisted or blacklisted addresses.
-   *
-   * Returned list is immutable, used only for statistics and command suggestions.
+   * <p></p>
+   * <p>Returned list is immutable, used only for statistics and command suggestions.</p>
    */
   @NotNull
   public List<String> viewAddresses(@NotNull Predicate<AddressMeta> predicate) {

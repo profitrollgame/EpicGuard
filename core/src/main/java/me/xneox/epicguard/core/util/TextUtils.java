@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class TextUtils {
+  //TODO: Implement Component Cache
   private TextUtils() {}
   private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
       .character('&')

@@ -51,6 +51,7 @@ subprojects {
         options.release.set(17)
     }
 
+    // TODO: replace with plugin.yml plugin to avoid deprecation warning
     // For Waterfall and Paper platforms: set version
     tasks.withType<ProcessResources> {
         filesMatching("plugin.yml") {

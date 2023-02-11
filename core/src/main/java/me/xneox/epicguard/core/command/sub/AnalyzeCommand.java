@@ -25,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class AnalyzeCommand implements SubCommand {
 
-  @SuppressWarnings("UnstableApiUsage")
   @Override
   public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
     var config = epicGuard.messages().command();

@@ -31,7 +31,7 @@ import java.util.Objects;
  */
 public final class FileUtils {
   private FileUtils() {}
-  public static final String EPICGUARD_DIR = "plugins/epicguard";
+  public static final String EPICGUARD_DIR = "plugins/EpicGuard";
 
   public static void downloadFile(@NotNull String urlFrom, @NotNull Path file) throws IOException {
     EpicGuardAPI.INSTANCE.instance().logger().info("Downloading file from {} to {}", urlFrom, file.toAbsolutePath());

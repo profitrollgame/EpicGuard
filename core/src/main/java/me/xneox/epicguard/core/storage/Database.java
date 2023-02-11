@@ -20,7 +20,7 @@ public class Database {
   }
 
   // Initial connection to the database, obtaining HikariDataSource.
-  public void connect() throws SQLException, ClassNotFoundException {
+  public void connect() throws ClassNotFoundException {
     var config = this.core.config().storage();
     var hikariConfig = new HikariConfig();
 
@@ -39,7 +39,7 @@ public class Database {
       var file = FileUtils.create(Path.of(FileUtils.EPICGUARD_DIR, "database.db"));
 
       Class.forName("org.sqlite.JDBC"); // Driver is not loaded on Waterfall/Velocity
-      hikariConfig.setJdbcUrl("jdbc:sqlite:" + file.toString());
+      hikariConfig.setJdbcUrl("jdbc:sqlite:" + file);
     }
 
     // Enable leak detection when debug is enabled.

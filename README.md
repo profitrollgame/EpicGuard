@@ -76,21 +76,21 @@ dependencies {
 <summary>Maven</summary>
 
 ```xml
-<repositories>
-   <repository>
-     <id>jitpack.io</id>
-     <url>https://jitpack.io</url>
-   </repository>
-</repositories>
-
-<dependencies>
-    <dependency>
-       <groupId>com.github.xxneox</groupId>
-       <artifactId>EpicGuard</artifactId>
-       <version>[VERSION OR COMMIT ID HERE]</version>
-       <scope>provided</scope>
-   </dependency>
-</dependencies>
+  <repositories>
+     <repository>
+       <id>jitpack.io</id>
+       <url>https://jitpack.io</url>
+     </repository>
+  </repositories>
+  
+  <dependencies>
+      <dependency>
+         <groupId>com.github.xxneox</groupId>
+         <artifactId>EpicGuard</artifactId>
+         <version>[VERSION OR COMMIT ID HERE]</version>
+         <scope>provided</scope>
+     </dependency>
+  </dependencies>
 ```
 </details>
 
