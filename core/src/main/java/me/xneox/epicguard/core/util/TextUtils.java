@@ -30,8 +30,8 @@ public final class TextUtils {
   //TODO: Implement Component Cache
   private TextUtils() {}
   private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
-      .character('&')
-      .hexCharacter('#')
+      .character(LegacyComponentSerializer.AMPERSAND_CHAR)
+      .hexCharacter(LegacyComponentSerializer.HEX_CHAR)
       .hexColors()
       .build();
 

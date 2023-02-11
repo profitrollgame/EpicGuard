@@ -126,13 +126,13 @@ public class EpicGuardVelocity implements Platform {
     final Library MYSQL = Library.builder()
       .groupId("mysql")
       .artifactId("mysql-connector-java")
-      .version("8.0.30")
+      .version("8.0.32")
       .build();
 
     final Library SQLITE = Library.builder()
       .groupId("org{}xerial")
       .artifactId("sqlite-jdbc")
-      .version("3.39.2.0")
+      .version("3.40.1.0")
       .build();
 
     manager.addMavenCentral();
