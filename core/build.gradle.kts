@@ -8,9 +8,11 @@ dependencies {
     implementation(libs.geoip)
     implementation(libs.commons.compress)
     implementation(libs.commons.text)
-    implementation(libs.guava)
+    compileOnly(libs.guava)
     implementation(libs.configurate)
-    implementation(libs.hikaricp)
+    implementation(libs.hikaricp) {
+        exclude(group = libs.slf4j.get().group)
+    }
 
     compileOnly(libs.adventure.api)
     compileOnly(libs.adventure.serializer.legacy)

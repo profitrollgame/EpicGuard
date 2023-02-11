@@ -26,16 +26,11 @@ subprojects {
         relocate("org.apache.commons", "me.xneox.epicguard.libs.apachecommons")
         relocate("com.fasterxml", "me.xneox.epicguard.libs.fasterxml")
         relocate("com.maxmind", "me.xneox.epicguard.libs.maxmind")
-        relocate("com.google.common", "me.xneox.epicguard.libs.googlecommons")
         relocate("com.typesafe.config", "me.xneox.epicguard.libs.config")
         relocate("com.zaxxer.hikari", "me.xneox.epicguard.libs.hikari")
         relocate("io.leangen.geantyref", "me.xneox.epicguard.libs.geantyref")
 
-        // Minimize, but exclude drivers shaded in the velocity platform.
-        minimize {
-            exclude(dependency("mysql:.*:.*"))
-            exclude(dependency("org.xerial:sqlite-jdbc:.*"))
-        }
+        minimize()
 
         // Copy compiled platform jars to '/build' directory for convenience.
         doLast {
