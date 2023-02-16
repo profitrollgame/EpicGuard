@@ -29,8 +29,8 @@ public class PlayerPreLoginListener extends PreLoginHandler implements Listener 
 
   @EventHandler(priority = EventPriority.LOWEST)
   public void onPreLogin(AsyncPlayerPreLoginEvent event) {
-    String address = event.getAddress().getHostAddress();
-    String nickname = event.getName();
+    final String address = event.getAddress().getHostAddress();
+    final String nickname = event.getName();
 
     this.onPreLogin(address, nickname).ifPresent(result ->
         event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, result));

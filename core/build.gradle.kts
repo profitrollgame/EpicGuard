@@ -8,6 +8,7 @@ dependencies {
     implementation(libs.commons.compress)
     implementation(libs.commons.text)
     compileOnly(libs.guava)
+    compileOnly(libs.caffeine)
     implementation(libs.configurate)
     implementation(libs.hikaricp) {
         exclude(group = libs.slf4j.get().group)

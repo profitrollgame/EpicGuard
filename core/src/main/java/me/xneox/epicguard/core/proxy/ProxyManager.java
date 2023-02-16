@@ -15,13 +15,14 @@
 
 package me.xneox.epicguard.core.proxy;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import java.util.concurrent.TimeUnit;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.util.LogUtils;
 import me.xneox.epicguard.core.util.URLUtils;
 import org.jetbrains.annotations.NotNull;
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 
 /**
  * Performs requests to the registered ProxyServices and caches the results.
@@ -32,7 +33,7 @@ public class ProxyManager {
 
   public ProxyManager(EpicGuard epicGuard) {
     this.epicGuard = epicGuard;
-    this.resultCache = CacheBuilder.newBuilder()
+    this.resultCache = Caffeine.newBuilder()
         .expireAfterWrite(epicGuard.config().proxyCheck().cacheDuration(), TimeUnit.SECONDS)
         .build();
   }

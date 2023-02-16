@@ -63,8 +63,8 @@ public class EpicGuardVelocity implements Platform {
         this.loadLibraries();
         this.epicGuard = new EpicGuard(this);
 
-        var commandManager = this.server.getCommandManager();
-        var meta = commandManager
+        final var commandManager = this.server.getCommandManager();
+        final var meta = commandManager
                 .metaBuilder("epicguard")
                 .aliases("guard", "epicguardvelocity", "guardvelocity")
                 .plugin(this)
@@ -72,7 +72,7 @@ public class EpicGuardVelocity implements Platform {
 
         commandManager.register(meta, new VelocityCommandHandler(this.epicGuard));
 
-        var eventManager = this.server.getEventManager();
+        final var eventManager = this.server.getEventManager();
         eventManager.register(this, new PostLoginListener(this.epicGuard));
         eventManager.register(this, new PreLoginListener(this.epicGuard));
         eventManager.register(this, new DisconnectListener(this.epicGuard));
