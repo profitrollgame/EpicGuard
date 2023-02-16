@@ -15,6 +15,7 @@
 
 package me.xneox.epicguard.velocity.listener;
 
+import com.velocitypowered.api.event.Continuation;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerSettingsChangedEvent;
 import me.xneox.epicguard.core.EpicGuard;
@@ -26,7 +27,8 @@ public class PlayerSettingsListener extends SettingsHandler {
   }
 
   @Subscribe
-  public void onPostLogin(PlayerSettingsChangedEvent event) {
+  public void onPostLogin(PlayerSettingsChangedEvent event, Continuation continuation) {
     this.onSettingsChanged(event.getPlayer().getUniqueId());
+    continuation.resume();
   }
 }

@@ -15,6 +15,7 @@
 
 package me.xneox.epicguard.velocity.listener;
 
+import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import me.xneox.epicguard.core.EpicGuard;
@@ -26,8 +27,10 @@ public class PostLoginListener extends PostLoginHandler {
   }
 
   @Subscribe
-  public void onPostLogin(PostLoginEvent event) {
-    var player = event.getPlayer();
-    this.onPostLogin(player.getUniqueId(), player.getRemoteAddress().getAddress().getHostAddress());
+  public EventTask onPostLogin(PostLoginEvent event) {
+    return EventTask.async(() -> {
+      var player = event.getPlayer();
+      this.onPostLogin(player.getUniqueId(), player.getRemoteAddress().getAddress().getHostAddress());
+    });
   }
 }

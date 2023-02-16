@@ -29,8 +29,8 @@ public class PreLoginListener extends PreLoginHandler {
 
   @Subscribe(order = PostOrder.FIRST)
   public EventTask onPreLogin(PreLoginEvent event) {
-    String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
-    String nickname = event.getUsername();
+    final String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
+    final String nickname = event.getUsername();
 
     return EventTask.async(() ->
         this.onPreLogin(address, nickname).ifPresent(result -> event.setResult(PreLoginEvent.PreLoginComponentResult.denied(result))));
