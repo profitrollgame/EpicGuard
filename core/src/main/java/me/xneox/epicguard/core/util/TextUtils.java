@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class TextUtils {
-  //TODO: Implement Component Cache
+  //TODO: Implement Component Cache in MiniMessage migration
   private TextUtils() {}
   private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
       .character(LegacyComponentSerializer.AMPERSAND_CHAR)

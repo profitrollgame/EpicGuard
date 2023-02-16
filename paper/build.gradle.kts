@@ -33,4 +33,7 @@ bukkit {
             aliases = listOf("guard", "epicguardpaper", "guardpaper")
         }
     }
+    libraries = listOf(
+        "${libs.caffeine.get().module}:${libs.versions.caffeine.get()}"
+    )
 }

@@ -15,13 +15,14 @@
 
 package me.xneox.epicguard.core.storage;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.common.net.InetAddresses;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.user.ConnectingUser;
@@ -33,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
  * This class caches all known {@link AddressMeta}'s and performs various operations on them.
  */
 public class StorageManager {
-  private final Map<String, AddressMeta> addresses = new ConcurrentHashMap<>();
+  private final Cache<String, AddressMeta> addresses = Caffeine.newBuilder().build();
   private final Collection<String> pingCache = new HashSet<>();
   private final Database database;
 
@@ -56,7 +57,7 @@ public class StorageManager {
    */
   @NotNull
   public AddressMeta addressMeta(@NotNull String address) {
-    return this.addresses.computeIfAbsent(address, s -> new AddressMeta(false, false, new ArrayList<>()));
+    return this.addresses.get(address, s -> new AddressMeta(false, false, new ArrayList<>()));
   }
 
   /**
@@ -80,7 +81,7 @@ public class StorageManager {
    */
   @Nullable
   public String lastSeenAddress(@NotNull String nickname) {
-    return this.addresses.entrySet().stream()
+    return this.addresses.asMap().entrySet().stream()
         .filter(entry -> entry.getValue().nicknames().stream().anyMatch(nick -> nick.equalsIgnoreCase(nickname)))
         .findFirst()
         .map(Map.Entry::getKey)
@@ -106,14 +107,14 @@ public class StorageManager {
    */
   @NotNull
   public List<String> viewAddresses(@NotNull Predicate<AddressMeta> predicate) {
-    return this.addresses.entrySet().stream()
+    return this.addresses.asMap().entrySet().stream()
         .filter(entry -> predicate.test(entry.getValue()))
         .map(Map.Entry::getKey)
         .toList();
   }
 
   @NotNull
-  public Map<String, AddressMeta> addresses() {
+  public Cache<String, AddressMeta> addresses() {
     return this.addresses;
   }
 
