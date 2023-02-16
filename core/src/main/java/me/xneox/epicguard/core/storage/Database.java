@@ -78,7 +78,7 @@ public class Database {
 
   // Saving cached addresses to the database.
   public void save() throws SQLException {
-    for (Map.Entry<String, AddressMeta> entry : this.core.storageManager().addresses().entrySet()) {
+    for (Map.Entry<String, AddressMeta> entry : this.core.storageManager().addresses().asMap().entrySet()) {
       var meta = entry.getValue();
 
       try (var connection = this.source.getConnection(); var statement = connection.prepareStatement(

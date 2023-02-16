@@ -46,7 +46,7 @@ public class AnalyzeCommand implements SubCommand {
 
     // If executor provided nickname as the argument instead, we have to find their IP address.
     if (!InetAddresses.isInetAddress(args[1])) {
-      for (var entry : epicGuard.storageManager().addresses().entrySet()) {
+      for (var entry : epicGuard.storageManager().addresses().asMap().entrySet()) {
         if (entry.getValue().equals(meta)) {
           address = entry.getKey();
           break;
@@ -68,6 +68,6 @@ public class AnalyzeCommand implements SubCommand {
 
   @Override
   public @NotNull Collection<String> suggest(@NotNull String[] args, @NotNull EpicGuard epicGuard) {
-    return epicGuard.storageManager().addresses().keySet();
+    return epicGuard.storageManager().addresses().asMap().keySet();
   }
 }

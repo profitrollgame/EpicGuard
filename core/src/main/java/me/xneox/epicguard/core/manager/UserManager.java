@@ -16,9 +16,10 @@
 package me.xneox.epicguard.core.manager;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import me.xneox.epicguard.core.user.OnlineUser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,11 +28,11 @@ import org.jetbrains.annotations.Nullable;
  * This manager caches the {@link OnlineUser} for currently online players
  */
 public class UserManager {
-  private final Map<UUID, OnlineUser> userMap = new ConcurrentHashMap<>();
+  private final Cache<UUID, OnlineUser> userMap = Caffeine.newBuilder().build();
 
   @NotNull
   public Collection<OnlineUser> users() {
-    return this.userMap.values();
+    return this.userMap.asMap().values();
   }
 
   /**
@@ -40,7 +41,7 @@ public class UserManager {
    */
   @NotNull
   public OnlineUser getOrCreate(@NotNull UUID uuid) {
-    return this.userMap.computeIfAbsent(uuid, OnlineUser::new);
+    return this.userMap.get(uuid, OnlineUser::new);
   }
 
   /**
@@ -49,10 +50,10 @@ public class UserManager {
    */
   @Nullable
   public OnlineUser get(@NotNull UUID uuid) {
-    return this.userMap.get(uuid);
+    return this.userMap.getIfPresent(uuid);
   }
 
   public void removeUser(@NotNull UUID uuid) {
-    this.userMap.remove(uuid);
+    this.userMap.invalidate(uuid);
   }
 }
