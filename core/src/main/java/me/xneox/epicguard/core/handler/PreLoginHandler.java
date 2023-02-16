@@ -68,7 +68,7 @@ public abstract class PreLoginHandler {
    */
   @NotNull
   public Optional<TextComponent> onPreLogin(@NotNull String address, @NotNull String nickname) {
-    LogUtils.debug("Handling incoming connection: " + address + "/" + nickname);
+    LogUtils.debug(() -> "Handling incoming connection: " + address + "/" + nickname);
 
     // Increment the connections per second and check if it's bigger than max-cps in config.
     if (this.epicGuard.attackManager().incrementConnectionCounter() >= this.epicGuard.config().misc().attackConnectionThreshold()) {
@@ -78,19 +78,19 @@ public abstract class PreLoginHandler {
 
     // Check if the user is whitelisted, if yes, return empty result (undetected).
     if (this.epicGuard.storageManager().addressMeta(address).whitelisted()) {
-      LogUtils.debug("Skipping whitelisted user: " + address + "/" + nickname);
+      LogUtils.debug(() -> "Skipping whitelisted user: " + address + "/" + nickname);
       return Optional.empty();
     }
 
     var user = new ConnectingUser(address, nickname);
     for (AbstractCheck check : this.pipeline) {
       if (check.isDetected(user)) {
-        LogUtils.debug(nickname + "/" + address + " detected by " + check.getClass().getSimpleName());
+        LogUtils.debug(() -> nickname + "/" + address + " detected by " + check.getClass().getSimpleName());
         return Optional.of(check.detectionMessage());
       }
     }
 
-    LogUtils.debug(nickname + "/" + address + " has passed all checks and is allowed to connect.");
+    LogUtils.debug(() -> nickname + "/" + address + " has passed all checks and is allowed to connect.");
     this.epicGuard.storageManager().updateAccounts(user);
     return Optional.empty();
   }

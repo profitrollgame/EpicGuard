@@ -19,6 +19,8 @@ import me.xneox.epicguard.core.EpicGuardAPI;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.util.function.Supplier;
+
 /**
  * This util helps with various logging operations.
  */
@@ -51,6 +53,17 @@ public final class LogUtils {
   public static void debug(@NotNull String message) {
     if (EpicGuardAPI.INSTANCE.instance().config().misc().debug()) {
       LOGGER.info("(Debug) {}", message);
+    }
+  }
+
+  /**
+   * Logs a message if debug is enabled in the configuration.
+   *
+   * @param message message to be logged
+   */
+  public static void debug(@NotNull Supplier<String> message) {
+    if (EpicGuardAPI.INSTANCE.instance().config().misc().debug()) {
+      LOGGER.info("(Debug) {}", message.get());
     }
   }
 }

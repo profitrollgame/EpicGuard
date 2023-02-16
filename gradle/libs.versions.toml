@@ -8,7 +8,6 @@ waterfall="1.19-R0.1-SNAPSHOT"
 paper = "1.19.3-R0.1-SNAPSHOT"
 
 libby = "1.1.5"
-bstats = "3.0.1"
 configurate = "4.1.2"
 miniplaceholders = "1.3.1"
 
@@ -52,11 +51,6 @@ annotations = { module = "org.jetbrains:annotations", version.ref = "annotations
 velocity = { group  = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 waterfall = { group = "io.github.waterfallmc", name = "waterfall-api", version.ref = "waterfall" }
-
-# BStats
-bstats-velocity = { module = "org.bstats:bstats-velocity", version.ref = "bstats" }
-bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats" }
-bstats-waterfall = { module = "org.bstats:bstats-waterfall", version.ref = "bstats" }
 
 configurate = { module = "org.spongepowered:configurate-hocon", version.ref = "configurate" }
 miniplaceholders = { group = "com.github.4drian3d", name = "MiniPlaceholders", version.ref = "miniplaceholders" }
