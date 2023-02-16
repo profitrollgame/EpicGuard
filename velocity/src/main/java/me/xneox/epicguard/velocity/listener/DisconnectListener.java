@@ -15,6 +15,7 @@
 
 package me.xneox.epicguard.velocity.listener;
 
+import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import me.xneox.epicguard.core.EpicGuard;
@@ -26,8 +27,14 @@ public class DisconnectListener extends DisconnectHandler {
   }
 
   @Subscribe
-  public void onDisconnect(DisconnectEvent event) {
-    var player = event.getPlayer();
-    this.onDisconnect(player.getUniqueId());
+  public EventTask onDisconnect(DisconnectEvent event) {
+    if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CONFLICTING_LOGIN) {
+      return null;
+    }
+
+    return EventTask.async(() -> {
+      var player = event.getPlayer();
+      this.onDisconnect(player.getUniqueId());
+    });
   }
 }
