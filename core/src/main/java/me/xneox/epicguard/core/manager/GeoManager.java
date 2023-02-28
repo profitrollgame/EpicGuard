@@ -21,6 +21,7 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import me.xneox.epicguard.core.EpicGuard;
@@ -88,7 +89,7 @@ public class GeoManager {
         while (entry != null) {
           // Extracting the database (.mmdb) database we are looking for.
           if (entry.getName().endsWith(database.getFileName().toString())) {
-            Files.copy(tarInput, database);
+            Files.copy(tarInput, database, StandardCopyOption.REPLACE_EXISTING);
           }
   
           entry = tarInput.getNextTarEntry();
