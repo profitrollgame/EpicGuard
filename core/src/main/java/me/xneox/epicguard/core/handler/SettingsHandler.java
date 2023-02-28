@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * If the user has sent the Settings packet, it will be marked on their {@link OnlineUser} instance.
- * Vanilla clients will send this packet shortly after joining the <b>world</>.
+ * Vanilla clients will send this packet shortly after joining the <b>world</b>.
  */
 public abstract class SettingsHandler {
   private final EpicGuard epicGuard;

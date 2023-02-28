@@ -37,7 +37,7 @@ public final class TextUtils {
 
   /**
    * Constructs a {@link TextComponent} from legacy string.
-   * Supports legacy color-codes by "&" and hex colors by "&#"
+   * Supports legacy color-codes by "&amp;" and hex colors by "&amp;#"
    *
    * @param message the original string
    * @return a component created from the string
@@ -56,7 +56,7 @@ public final class TextUtils {
 
     var builder = new StringBuilder();
     for (String line : list) {
-      builder.append(line).append("\n");
+      builder.append(line).append('\n');
     }
     return component(builder.toString());
   }

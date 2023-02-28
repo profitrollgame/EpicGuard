@@ -2,10 +2,12 @@
 A simple AntiBot plugin for newest Minecraft versions.
 
 ## ✅ Supported platforms / Latest release requirements
-* [Paper 1.17+](https://papermc.io/) *(all paper forks are supported)*
-* [Velocity 3.0+](https://velocitypowered.com/)
+* [Paper 1.18+](https://papermc.io/) *(all paper forks are supported)*
+* [Velocity 3.1+](https://velocitypowered.com/)
 * [Waterfall](https://papermc.io/downloads#Waterfall)
 * Java **17**
+
+[![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/available/modrinth_46h.png)](https://modrinth.com/plugin/epicguard)
 
 ## ✨ Features
 * A total of **8** configurable antibot checks:
@@ -19,7 +21,7 @@ A simple AntiBot plugin for newest Minecraft versions.
   * Name similarity check (BETA)
   * Account limit.
 * SQLite/MySQL support.
-* Live actionbar statistics. 
+* Live actionbar statistics.
 * Automatic whitelisting.
 * Console filter.
 
@@ -39,32 +41,35 @@ On different platforms there are additional aliases available, such as **/guardv
 
 ## 🔧 Using EpicGuard API in your project:
 The api is not very advanced, and there is not much you can do with it for now.
-<details>
-<summary>Gradle (Groovy)</summary>
-
-```groovy
-repositories {
-    maven {
-      url = 'https://jitpack.io'
-    }
-}
-
-dependencies {
-    compileOnly 'com.github.xxneox:EpicGuard:[VERSION OR COMMIT ID HERE]'
-}
-```
-</details>
 
 <details>
 <summary>Gradle (Kotlin)</summary>
 
 ```kotlin
 repositories {
-    maven("https://jitpack.io")
+    // Snapshots
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+    // Releases
+    mavenCentral()
 }
-
 dependencies {
-    compileOnly("com.github.4drian3d:EpicGuard:[VERSION OR COMMIT ID HERE]")
+    compileOnly("com.github.4drian3d:epicguard-api:[VERSION HERE]")
+}
+```
+</details>
+
+<details>
+<summary>Gradle (Groovy)</summary>
+
+```groovy
+repositories {
+    maven {
+      url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+    }
+  mavenCentral()
+}
+dependencies {
+    compileOnly 'com.github.4drian3d:epicguard-api:[VERSION OR COMMIT ID HERE]'
 }
 ```
 </details>
@@ -74,16 +79,17 @@ dependencies {
 
 ```xml
   <repositories>
-     <repository>
-       <id>jitpack.io</id>
-       <url>https://jitpack.io</url>
-     </repository>
+    <!-- Only for Snapshots-->
+    <repository>
+      <id>sonatype-oss-snapshots1</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+    </repository>
   </repositories>
   <dependencies>
       <dependency>
-         <groupId>com.github.xxneox</groupId>
-         <artifactId>EpicGuard</artifactId>
-         <version>[VERSION OR COMMIT ID HERE]</version>
+         <groupId>com.github.4drian3d</groupId>
+         <artifactId>epicguard-api</artifactId>
+         <version>[VERSION HERE]</version>
          <scope>provided</scope>
      </dependency>
   </dependencies>
@@ -100,17 +106,13 @@ Make sure that EpicGuard is fully loaded before your plugin.
 // Importing the API class.
 import me.xneox.epicguard.core.EpicGuardAPI;
 import me.xneox.epicguard.core.manager.AttackManager;
-
 public class EpicGuardAPIExample {
   // Accessing the EpicGuardAPI instance.
   EpicGuardAPI api = EpicGuardAPI.INSTANCE;
-
   // Obtaining the AttackManager instance:
   AttackManager attackManager = api.attackManager();
-
   // Checking if server is under attack.
   boolean isUnderAttack = attackManager.isUnderAttack();
-
   // checking current connections per second.
   int cps = attackManager.connectionCounter();
   
@@ -122,7 +124,7 @@ public class EpicGuardAPIExample {
 
 ## 🕵️ Privacy disclaimers
 * This plugin connect to various external services, to fully work as intended.
-  * [MaxMind's Geolite2 databases](https://dev.maxmind.com/geoip/geoip2/geolite2) (country and city) are downloaded at the first startup and updated every week. Geolocation of your users is checked locally on your server. 
+  * [MaxMind's Geolite2 databases](https://dev.maxmind.com/geoip/geoip2/geolite2) (country and city) are downloaded at the first startup and updated every week. Geolocation of your users is checked locally on your server.
   * *In the default configuration*, IP addresses of connecting users are sent to https://proxycheck.io/ to check if they're not using a proxy or a VPN.
   * IPs and nicknames associated with them are stored in the local database *(as plain text(!))*.
   * This plugin periodically checks the latest version released in this repository. *This feature can be disabled.*
