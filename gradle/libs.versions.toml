@@ -36,7 +36,7 @@ guava = "31.1-jre"
 commons-compress = "1.22"
 commons-text = "1.10.0"
 
-geoip = "4.0.0"
+geoip = "4.0.1"
 
 caffeine = "3.1.4"
 
