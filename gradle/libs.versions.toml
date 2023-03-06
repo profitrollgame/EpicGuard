@@ -38,7 +38,7 @@ commons-text = "1.10.0"
 
 geoip = "4.0.0"
 
-caffeine = "3.1.4"
+caffeine = "3.1.5"
 
 
 [libraries]
