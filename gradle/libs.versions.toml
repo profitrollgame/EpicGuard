@@ -24,7 +24,7 @@ log4j2 = "2.20.0"
 # Required by Configurate 4
 geantyref = "1.3.13"
 
-adventure = "4.12.0"
+adventure = "4.13.0"
 adventure-platform = "4.2.0"
 
 annotations = "24.0.1"
