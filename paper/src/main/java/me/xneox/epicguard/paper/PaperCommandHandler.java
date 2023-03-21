@@ -15,52 +15,54 @@
 
 package me.xneox.epicguard.paper;
 
-import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.CommandHandler;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.command.PluginIdentifiableCommand;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
-public final class PaperCommandHandler extends CommandHandler implements CommandExecutor, Listener {
-  public PaperCommandHandler(EpicGuard epicGuard) {
-    super(epicGuard);
-  }
-
-  @Override
-  public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-    this.handleCommand(args, sender);
-    return true;
+public final class PaperCommandHandler extends Command implements PluginIdentifiableCommand {
+  private final CommandHandler HANDLER;
+  private final EpicGuardPaper plugin;
+  public PaperCommandHandler(EpicGuard epicGuard, EpicGuardPaper plugin) {
+    super("epicguard", "Main plugin command.", "",
+            List.of("guard", "epicguardpaper", "guardpaper"));
+    this.setPermission("epicguard.admin");
+    this.plugin = plugin;
+    this.HANDLER = new CommandHandler(epicGuard);
   }
 
   private static final String[] EMPTY_ARRAY = new String[0];
 
-  @EventHandler
-  public void onTabComplete(AsyncTabCompleteEvent event) {
-    if (!event.isCommand()) {
-      return;
+  @Override
+  public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+    HANDLER.handleCommand(args, sender);
+    return false;
+  }
+
+  @Override
+  public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+    if (args.length == 0) {
+      return new ArrayList<>(HANDLER.handleSuggestions(EMPTY_ARRAY));
     }
 
-    final String buffer = event.getBuffer();
-    final String input = buffer.startsWith("/") ? buffer.substring(1) : buffer;
-    final String[] tokens = input.split(" ");
-
-    if (tokens.length == 0) {
-      event.setCompletions(new ArrayList<>(this.handleSuggestions(EMPTY_ARRAY)));
-      return;
-    }
-
-    final String command = tokens[0].toLowerCase(Locale.ROOT);
+    final String command = args[0].toLowerCase(Locale.ROOT);
 
     if (command.equals("guard") || command.equals("epicguardpaper") || command.equals("guardpaper")) {
-      event.setCompletions(new ArrayList<>(this.handleSuggestions(Arrays.copyOfRange(tokens, 1, tokens.length))));
+      return new ArrayList<>(HANDLER.handleSuggestions(Arrays.copyOfRange(args, 1, args.length)));
     }
+    return List.of();
+  }
+
+  @Override
+  public @NotNull Plugin getPlugin() {
+    return this.plugin;
   }
 }

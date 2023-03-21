@@ -45,18 +45,14 @@ import java.util.concurrent.TimeUnit;
         url = "https://github.com/xxneox/EpicGuard",
         authors = {"neox", "4drian3d"})
 public class EpicGuardVelocity implements Platform {
-    private final ProxyServer server;
-    private final Logger logger;
-    private final Path path;
+    @Inject
+    private ProxyServer server;
+    @Inject
+    private Logger logger;
+    @Inject
+    private @DataDirectory Path path;
 
     private EpicGuard epicGuard;
-
-    @Inject
-    public EpicGuardVelocity(ProxyServer server, Logger logger, @DataDirectory Path path) {
-        this.server = server;
-        this.logger = logger;
-        this.path = path;
-    }
 
     @Subscribe
     public void onEnable(ProxyInitializeEvent e) {
@@ -133,9 +129,51 @@ public class EpicGuardVelocity implements Platform {
                 .id("sqlite")
                 .id("mysql")
                 .build();
+        final Library hocon = Library.builder()
+                .groupId("org{}spongepowered")
+                .artifactId("configurate-hocon")
+                .version(VersionUtils.CONFIGURATE)
+                .id("configurate-hocon")
+                .build();
+        final Library confCore = Library.builder()
+                .groupId("org{}spongepowered")
+                .artifactId("configurate-core")
+                .version(VersionUtils.CONFIGURATE)
+                .id("configurate-core")
+                .build();
+        final Library geantyref = Library.builder()
+                .groupId("io{}leangen{}geantyref")
+                .artifactId("geantyref")
+                .version("1.3.13")
+                .id("geantyref")
+                .build();
+        final Library hikari = Library.builder()
+                .groupId("com.zaxxer")
+                .artifactId("HikariCP")
+                .version(VersionUtils.HIKARI)
+                .id("hikari")
+                .build();
+        final Library compress = Library.builder()
+                .groupId("org.apache.commons")
+                .artifactId("commons-compress")
+                .version(VersionUtils.COMMANDS_COMPRESS)
+                .id("hikari")
+                .build();
+        final Library text = Library.builder()
+                .groupId("org.apache.commons")
+                .artifactId("commons-text")
+                .version(VersionUtils.COMMONS_TEXT)
+                .id("hikari")
+                .build();
 
         manager.addMavenCentral();
         manager.loadLibrary(SQLITE);
         manager.loadLibrary(MYSQL);
+        manager.loadLibrary(geantyref);
+        manager.loadLibrary(confCore);
+        manager.loadLibrary(hocon);
+        manager.loadLibrary(hikari);
+        manager.loadLibrary(compress);
+        manager.loadLibrary(text);
     }
 }

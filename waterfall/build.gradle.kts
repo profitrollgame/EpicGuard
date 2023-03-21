@@ -28,6 +28,10 @@ bungee {
     libraries = listOf(
         "${libs.adventure.platform.bungeecord.get().module}:${libs.versions.adventure.platform.get()}",
         "${libs.sqlite.get().module}:${libs.versions.sqlite.get()}",
-        "${libs.caffeine.get().module}:${libs.versions.caffeine.get()}"
+        "${libs.caffeine.get().module}:${libs.versions.caffeine.get()}",
+        "${libs.hikaricp.get().module}:${libs.versions.hikaricp.get()}",
+        "${libs.configurate.get().module}:${libs.versions.configurate.get()}",
+        "${libs.commons.compress.get().module}:${libs.versions.commons.compress.get()}",
+        "${libs.commons.text.get().module}:${libs.versions.commons.text.get()}",
     )
 }

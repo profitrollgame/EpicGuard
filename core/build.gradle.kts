@@ -5,19 +5,16 @@ plugins {
 
 dependencies {
     implementation(libs.geoip)
-    implementation(libs.commons.compress)
-    implementation(libs.commons.text)
+    compileOnly(libs.commons.compress)
+    compileOnly(libs.commons.text)
     compileOnly(libs.guava)
     compileOnly(libs.caffeine)
-    implementation(libs.configurate)
-    implementation(libs.hikaricp) {
-        exclude(group = libs.slf4j.get().group)
-    }
+    compileOnly(libs.configurate)
+    compileOnly(libs.hikaricp)
 
     compileOnly(libs.adventure.api)
     compileOnly(libs.adventure.serializer.legacy)
     compileOnly(libs.log4j2)
-    compileOnly(libs.slf4j)
 
     compileOnly(libs.annotations)
 }
@@ -38,8 +35,11 @@ java {
 blossom {
     replaceTokenIn("src/main/java/me/xneox/epicguard/core/util/VersionUtils.java")
     replaceToken("{version}", project.version)
-    replaceToken("{hikari}", libs.versions.hikaricp)
-    replaceToken("{configurate}", libs.versions.configurate)
+    replaceToken("{hikari}", libs.versions.hikaricp.get())
+    replaceToken("{configurate}", libs.versions.configurate.get())
+    replaceToken("{caffeine}", libs.versions.caffeine.get())
+    replaceToken("{common-compress}", libs.versions.commons.compress.get())
+    replaceToken("{common-text}", libs.versions.commons.text.get())
 
 }
 

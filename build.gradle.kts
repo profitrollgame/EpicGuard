@@ -1,5 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.util.*
 
 plugins {
     java
@@ -20,16 +21,11 @@ allprojects {
 subprojects {
     tasks {
         withType<ShadowJar> {
-            val platformName = project.name.capitalize()
+            val platformName = project.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
             archiveFileName.set("EpicGuard$platformName-${project.version}.jar")
 
-            relocate("org.spongepowered.configurate", "me.xneox.epicguard.libs.configurate")
-            relocate("org.apache.commons", "me.xneox.epicguard.libs.apache.commons")
             relocate("com.fasterxml", "me.xneox.epicguard.libs.fasterxml")
             relocate("com.maxmind", "me.xneox.epicguard.libs.maxmind")
-            relocate("com.typesafe.config", "me.xneox.epicguard.libs.config")
-            relocate("com.zaxxer.hikari", "me.xneox.epicguard.libs.hikari")
-            relocate("io.leangen.geantyref", "me.xneox.epicguard.libs.geantyref")
 
             minimize()
 

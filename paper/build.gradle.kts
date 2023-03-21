@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.runpaper)
-    alias(libs.plugins.pluginyml.bukkit)
 }
 
 dependencies {
@@ -15,25 +14,9 @@ tasks {
     runServer {
         minecraftVersion(libs.versions.paper.get().substringBefore('-'))
     }
-}
-
-bukkit {
-    main = "me.xneox.epicguard.paper.EpicGuardPaper"
-    description = project.description as String
-    name = "EpicGuard"
-    version = project.version as String
-    apiVersion = "1.17"
-    authors = listOf("neox", "4drian3d")
-    load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.STARTUP
-    website = "https://github.com/4drian3d/EpicGuard"
-    commands {
-        register("epicguard") {
-            description = "Main plugin command."
-            permission = "epicguard.admin"
-            aliases = listOf("guard", "epicguardpaper", "guardpaper")
+    processResources {
+        filesMatching("paper-plugin.yml") {
+            expand("version" to project.version)
         }
     }
-    libraries = listOf(
-        "${libs.caffeine.get().module}:${libs.versions.caffeine.get()}"
-    )
 }

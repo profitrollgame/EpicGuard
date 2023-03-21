@@ -45,13 +45,8 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
     pluginManager.registerEvents(new ServerPingListener(this.epicGuard), this);
     pluginManager.registerEvents(new PlayerSettingsListener(this.epicGuard), this);
 
-    var command = this.getCommand("epicguard");
-    if (command != null) {
-      var handler = new PaperCommandHandler(this.epicGuard);
-      command.setExecutor(handler);
-      // AsyncTabComplete
-      pluginManager.registerEvents(handler, this);
-    }
+    this.getServer().getCommandMap()
+            .register("epicguard", new PaperCommandHandler(this.epicGuard, this));
   }
 
   @Override
