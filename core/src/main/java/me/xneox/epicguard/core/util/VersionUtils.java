@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class VersionUtils {
   public static final String CURRENT_VERSION = "{version}"; // replaced by the blossom task.
+  public static final String HIKARI = "{hikari}";
+  public static final String CONFIGURATE = "{configurate}";
   private static final String CHECK_URL = "https://raw.githubusercontent.com/4drian3d/EpicGuard/master/VERSION.txt";
 
   private static boolean updateAvailable;
