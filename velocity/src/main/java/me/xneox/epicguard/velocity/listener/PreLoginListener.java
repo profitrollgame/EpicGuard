@@ -15,24 +15,38 @@
 
 package me.xneox.epicguard.velocity.listener;
 
+import com.google.inject.Inject;
+import com.velocitypowered.api.event.AwaitingEventExecutor;
+import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.PostOrder;
-import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.PreLoginHandler;
+import me.xneox.epicguard.velocity.EpicGuardVelocity;
 
-public class PreLoginListener extends PreLoginHandler {
-  public PreLoginListener(EpicGuard epicGuard) {
-    super(epicGuard);
-  }
+public final class PreLoginListener extends PreLoginHandler implements Listener {
+    @Inject
+    private EventManager eventManager;
+    @Inject
+    private EpicGuardVelocity plugin;
+    @Inject
+    public PreLoginListener(EpicGuard epicGuard) {
+        super(epicGuard);
+    }
 
-  @Subscribe(order = PostOrder.FIRST)
-  public EventTask onPreLogin(PreLoginEvent event) {
-    final String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
-    final String nickname = event.getUsername();
-
-    return EventTask.async(() ->
-        this.onPreLogin(address, nickname).ifPresent(result -> event.setResult(PreLoginEvent.PreLoginComponentResult.denied(result))));
-  }
+    @Override
+    public void register() {
+        this.eventManager.register(plugin, PreLoginEvent.class, PostOrder.FIRST,
+                (AwaitingEventExecutor<PreLoginEvent>) event ->
+                        EventTask.withContinuation((continuation) -> {
+                                    final String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
+                                    final String nickname = event.getUsername();
+                                    this.onPreLogin(address, nickname)
+                                            .ifPresent(result -> event.setResult(PreLoginEvent.PreLoginComponentResult.denied(result)));
+                                    continuation.resume();
+                                }
+                        )
+        );
+    }
 }

@@ -15,22 +15,34 @@
 
 package me.xneox.epicguard.velocity.listener;
 
+import com.google.inject.Inject;
+import com.velocitypowered.api.event.AwaitingEventExecutor;
+import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
-import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.PostLoginHandler;
+import me.xneox.epicguard.velocity.EpicGuardVelocity;
 
-public class PostLoginListener extends PostLoginHandler {
-  public PostLoginListener(EpicGuard epicGuard) {
-    super(epicGuard);
-  }
+public final class PostLoginListener extends PostLoginHandler implements Listener {
+    @Inject
+    private EventManager eventManager;
+    @Inject
+    private EpicGuardVelocity plugin;
 
-  @Subscribe
-  public EventTask onPostLogin(PostLoginEvent event) {
-    return EventTask.async(() -> {
-      var player = event.getPlayer();
-      this.onPostLogin(player.getUniqueId(), player.getRemoteAddress().getAddress().getHostAddress());
-    });
-  }
+    @Inject
+    public PostLoginListener(EpicGuard epicGuard) {
+        super(epicGuard);
+    }
+
+    @Override
+    public void register() {
+        this.eventManager.register(plugin, PostLoginEvent.class,
+                (AwaitingEventExecutor<PostLoginEvent>) event ->
+                        EventTask.async(() -> {
+                            var player = event.getPlayer();
+                            this.onPostLogin(player.getUniqueId(), player.getRemoteAddress().getAddress().getHostAddress());
+                        })
+        );
+    }
 }

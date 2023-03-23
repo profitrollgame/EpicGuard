@@ -15,6 +15,8 @@
 
 package me.xneox.epicguard.velocity;
 
+import com.google.inject.Inject;
+import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.SimpleCommand;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,12 @@ import java.util.concurrent.CompletableFuture;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.CommandHandler;
 
-public class VelocityCommandHandler extends CommandHandler implements SimpleCommand {
+public final class VelocityCommandHandler extends CommandHandler implements SimpleCommand {
+  @Inject
+  private CommandManager commandManager;
+  @Inject
+  private EpicGuardVelocity plugin;
+  @Inject
   public VelocityCommandHandler(EpicGuard epicGuard) {
     super(epicGuard);
   }
@@ -42,5 +49,14 @@ public class VelocityCommandHandler extends CommandHandler implements SimpleComm
   @Override
   public boolean hasPermission(Invocation invocation) {
     return invocation.source().hasPermission("epicguard.admin");
+  }
+
+  void register() {
+    final var meta = commandManager
+            .metaBuilder("epicguard")
+            .aliases("guard", "epicguardvelocity", "guardvelocity")
+            .plugin(plugin)
+            .build();
+    commandManager.register(meta, this);
   }
 }

@@ -15,26 +15,36 @@
 
 package me.xneox.epicguard.velocity.listener;
 
+import com.google.inject.Inject;
+import com.velocitypowered.api.event.AwaitingEventExecutor;
+import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
-import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.DisconnectHandler;
+import me.xneox.epicguard.velocity.EpicGuardVelocity;
 
-public class DisconnectListener extends DisconnectHandler {
+public final class DisconnectListener extends DisconnectHandler implements Listener {
+  @Inject
+  private EventManager eventManager;
+  @Inject
+  private EpicGuardVelocity plugin;
+  @Inject
   public DisconnectListener(EpicGuard epicGuard) {
     super(epicGuard);
   }
 
-  @Subscribe
-  public EventTask onDisconnect(DisconnectEvent event) {
-    if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CONFLICTING_LOGIN) {
-      return null;
-    }
+  @Override
+  public void register() {
+    eventManager.register(plugin, DisconnectEvent.class, (AwaitingEventExecutor<DisconnectEvent>) (event) -> {
+      if (event.getLoginStatus() == DisconnectEvent.LoginStatus.CONFLICTING_LOGIN) {
+        return null;
+      }
 
-    return EventTask.async(() -> {
-      var player = event.getPlayer();
-      this.onDisconnect(player.getUniqueId());
+      return EventTask.async(() -> {
+        var player = event.getPlayer();
+        this.onDisconnect(player.getUniqueId());
+      });
     });
   }
 }
