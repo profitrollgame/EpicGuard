@@ -106,7 +106,10 @@ public class GeoManager {
     var inetAddress = TextUtils.parseAddress(address);
     if (inetAddress != null && this.countryReader != null) {
       try {
-        return this.countryReader.country(inetAddress).getCountry().getIsoCode();
+        final String isoCode = this.countryReader.country(inetAddress).getCountry().getIsoCode();
+        if (isoCode != null) {
+          return isoCode;
+        }
       } catch (IOException | GeoIp2Exception ex) {
         this.epicGuard.logger().warn("Couldn't find the country for the address {}: {}", address, ex.getMessage());
       }
@@ -119,7 +122,10 @@ public class GeoManager {
     var inetAddress = TextUtils.parseAddress(address);
     if (inetAddress != null && this.cityReader != null) {
       try {
-        return this.cityReader.city(inetAddress).getCity().getName();
+        final String city = this.cityReader.city(inetAddress).getCity().getName();
+        if (city != null) {
+          return city;
+        }
       } catch (IOException | GeoIp2Exception ex) {
         this.epicGuard.logger().warn("Couldn't find the city for the address {}: {}", address, ex.getMessage());
       }

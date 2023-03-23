@@ -30,8 +30,6 @@ public class StatusCommand implements SubCommand {
   public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
     var config = epicGuard.messages().command();
 
-    // Velocity already supports pointers since 3.1.2
-
     Optional<UUID> uuidOptional = audience.pointers().get(Identity.UUID);
     uuidOptional.ifPresent(uuid -> {
       // UUID is present, enable notifications.
