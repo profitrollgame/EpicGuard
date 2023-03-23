@@ -25,12 +25,14 @@ import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class EpicGuardWaterfall extends Plugin implements Platform {
   private EpicGuard epicGuard;
   private BungeeAudiences adventure;
+  private final Logger logger = this.getSLF4JLogger();
 
   @Override
   public void onEnable() {
@@ -45,6 +47,22 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
     pluginManager.registerListener(this, new PlayerSettingsListener(this.epicGuard));
 
     pluginManager.registerCommand(this, new BungeeCommandHandler(this));
+
+    if (new Random().nextBoolean())
+      this.logger.warn("""
+            ---------------------------------------
+            This version of EpicGuard for Waterfall
+            is deprecated and will stop working in a future update.
+            One of the pillars of EpicGuard is to offer the best AntiBot plugin,
+            using the most recent and optimized features, therefore,
+            being Bungeecord/Waterfall a rather outdated platform,
+            it does not fit EpicGuard's concept.
+            Therefore, we recommend the use of Velocity,
+            where you can get better protection for your network
+            and better performance in times of bot attacks
+            Download it from: https://papermc.io/software/velocity
+            ---------------------------------------
+            """);
   }
 
   @Override
@@ -59,7 +77,7 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
 
   @Override
   public @NotNull Logger logger() {
-    return this.getSLF4JLogger();
+    return logger;
   }
 
   @Override

@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 
 public class EpicGuardPaper extends JavaPlugin implements Platform {
   private EpicGuard epicGuard;
+  private final Logger logger = this.getSLF4JLogger();
 
   @Override
   public void onEnable() {
@@ -61,7 +62,7 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
 
   @Override
   public @NotNull Logger logger() {
-    return this.getSLF4JLogger();
+    return this.logger;
   }
 
   @Override
@@ -79,7 +80,7 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
 
   @Override
   public void runTaskLater(@NotNull Runnable task, long seconds) {
-    Bukkit.getScheduler().runTaskLater(this, task, seconds * 20L);
+    Bukkit.getScheduler().runTaskLaterAsynchronously(this, task, seconds * 20L);
   }
 
   @Override

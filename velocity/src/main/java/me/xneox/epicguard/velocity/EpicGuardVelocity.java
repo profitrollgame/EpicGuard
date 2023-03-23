@@ -50,7 +50,8 @@ public class EpicGuardVelocity implements Platform {
     @Inject
     private Logger logger;
     @Inject
-    private @DataDirectory Path path;
+    @DataDirectory
+    private Path path;
 
     private EpicGuard epicGuard;
 
