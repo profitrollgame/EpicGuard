@@ -19,7 +19,7 @@ plugin-yml = "0.5.3"
 indra = "3.0.1"
 
 # Test versions
-slf4j = "2.0.6"
+slf4j = "2.0.7"
 log4j2 = "2.20.0"
 
 # Required by Configurate 4
