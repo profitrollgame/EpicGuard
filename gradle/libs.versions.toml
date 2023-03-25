@@ -34,7 +34,7 @@ sqlite = "3.41.0.0"
 hikaricp = "5.0.1"
 guava = "31.1-jre"
 
-commons-compress = "1.22"
+commons-compress = "1.23.0"
 commons-text = "1.10.0"
 
 geoip = "4.0.1"
