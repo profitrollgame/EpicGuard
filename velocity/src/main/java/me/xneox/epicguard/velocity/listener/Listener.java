@@ -15,7 +15,9 @@
 
 package me.xneox.epicguard.velocity.listener;
 
-public sealed interface Listener
+import com.velocitypowered.api.event.AwaitingEventExecutor;
+
+public sealed interface Listener<E> extends AwaitingEventExecutor<E>
 permits DisconnectListener,
         PlayerSettingsListener,
         PostLoginListener,

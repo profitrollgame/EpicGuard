@@ -7,7 +7,6 @@ dependencyResolutionManagement {
     repositories {
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://repo.alessiodp.com/releases/")
-        mavenCentral()
     }
 }
 

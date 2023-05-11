@@ -5,7 +5,6 @@ plugins {
 
 dependencies {
     implementation(projects.core)
-
     compileOnly(libs.adventure.platform.bungeecord)
     compileOnly(libs.waterfall)
 }

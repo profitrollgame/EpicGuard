@@ -16,7 +16,6 @@
 package me.xneox.epicguard.velocity.listener;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.event.AwaitingEventExecutor;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.player.PlayerSettingsChangedEvent;
@@ -24,7 +23,7 @@ import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.SettingsHandler;
 import me.xneox.epicguard.velocity.EpicGuardVelocity;
 
-public final class PlayerSettingsListener extends SettingsHandler implements Listener {
+public final class PlayerSettingsListener extends SettingsHandler implements Listener<PlayerSettingsChangedEvent> {
   @Inject
   private EventManager eventManager;
   @Inject
@@ -36,9 +35,11 @@ public final class PlayerSettingsListener extends SettingsHandler implements Lis
 
   @Override
   public void register() {
-    this.eventManager.register(plugin, PlayerSettingsChangedEvent.class,
-            (AwaitingEventExecutor<PlayerSettingsChangedEvent>) event ->
-                    EventTask.async(() -> this.onSettingsChanged(event.getPlayer().getUniqueId()))
-    );
+    this.eventManager.register(plugin, PlayerSettingsChangedEvent.class, this);
+  }
+
+  @Override
+  public EventTask executeAsync(final PlayerSettingsChangedEvent event) {
+    return EventTask.async(() -> this.onSettingsChanged(event.getPlayer().getUniqueId()));
   }
 }

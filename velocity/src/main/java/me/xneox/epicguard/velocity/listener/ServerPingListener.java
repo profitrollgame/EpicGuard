@@ -16,26 +16,31 @@
 package me.xneox.epicguard.velocity.listener;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.event.*;
+import com.velocitypowered.api.event.EventManager;
+import com.velocitypowered.api.event.EventTask;
+import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.PingHandler;
 import me.xneox.epicguard.velocity.EpicGuardVelocity;
 
-public final class ServerPingListener extends PingHandler implements Listener {
+public final class ServerPingListener extends PingHandler implements Listener<ProxyPingEvent> {
   @Inject
   private EventManager eventManager;
   @Inject
   private EpicGuardVelocity plugin;
   @Inject
-  public ServerPingListener(EpicGuard epicGuard) {
+  public ServerPingListener(final EpicGuard epicGuard) {
     super(epicGuard);
   }
 
   @Override
   public void register() {
-    this.eventManager.register(plugin, ProxyPingEvent.class, PostOrder.FIRST, (AwaitingEventExecutor<ProxyPingEvent>) event ->
-      EventTask.async(() -> this.onPing(event.getConnection().getRemoteAddress().getAddress().getHostAddress()))
-    );
+    this.eventManager.register(plugin, ProxyPingEvent.class, PostOrder.FIRST, this);
+  }
+
+  @Override
+  public EventTask executeAsync(final ProxyPingEvent event) {
+    return EventTask.async(() -> this.onPing(event.getConnection().getRemoteAddress().getAddress().getHostAddress()));
   }
 }

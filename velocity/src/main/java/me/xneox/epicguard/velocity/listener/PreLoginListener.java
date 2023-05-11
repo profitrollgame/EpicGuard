@@ -16,7 +16,6 @@
 package me.xneox.epicguard.velocity.listener;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.event.AwaitingEventExecutor;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.PostOrder;
@@ -25,28 +24,31 @@ import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.PreLoginHandler;
 import me.xneox.epicguard.velocity.EpicGuardVelocity;
 
-public final class PreLoginListener extends PreLoginHandler implements Listener {
+public final class PreLoginListener extends PreLoginHandler implements Listener<PreLoginEvent> {
     @Inject
     private EventManager eventManager;
     @Inject
     private EpicGuardVelocity plugin;
+
     @Inject
-    public PreLoginListener(EpicGuard epicGuard) {
+    public PreLoginListener(final EpicGuard epicGuard) {
         super(epicGuard);
     }
 
     @Override
     public void register() {
-        this.eventManager.register(plugin, PreLoginEvent.class, PostOrder.FIRST,
-                (AwaitingEventExecutor<PreLoginEvent>) event ->
-                        EventTask.withContinuation((continuation) -> {
-                                    final String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
-                                    final String nickname = event.getUsername();
-                                    this.onPreLogin(address, nickname)
-                                            .ifPresent(result -> event.setResult(PreLoginEvent.PreLoginComponentResult.denied(result)));
-                                    continuation.resume();
-                                }
-                        )
+        this.eventManager.register(plugin, PreLoginEvent.class, PostOrder.FIRST, this);
+    }
+
+    @Override
+    public EventTask executeAsync(PreLoginEvent event) {
+        return EventTask.withContinuation((continuation) -> {
+                    final String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
+                    final String nickname = event.getUsername();
+                    this.onPreLogin(address, nickname)
+                            .ifPresent(result -> event.setResult(PreLoginEvent.PreLoginComponentResult.denied(result)));
+                    continuation.resume();
+                }
         );
     }
 }
