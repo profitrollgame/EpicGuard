@@ -17,17 +17,20 @@ package me.xneox.epicguard.paper.listener;
 
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.SettingsHandler;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLocaleChangeEvent;
 
-public class PlayerSettingsListener extends SettingsHandler implements Listener {
+public class PlayerSettingsListener extends SettingsHandler implements PaperListener<PlayerLocaleChangeEvent> {
   public PlayerSettingsListener(EpicGuard epicGuard) {
     super(epicGuard);
   }
 
-  @EventHandler
-  public void onSettingsChanged(PlayerLocaleChangeEvent event) {
+  @Override
+  public void handle(PlayerLocaleChangeEvent event) {
     this.onSettingsChanged(event.getPlayer().getUniqueId());
+  }
+
+  @Override
+  public Class<PlayerLocaleChangeEvent> clazz() {
+    return PlayerLocaleChangeEvent.class;
   }
 }

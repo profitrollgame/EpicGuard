@@ -17,22 +17,30 @@ package me.xneox.epicguard.paper.listener;
 
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.PreLoginHandler;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
-public class PlayerPreLoginListener extends PreLoginHandler implements Listener {
+public class PlayerPreLoginListener extends PreLoginHandler implements PaperListener<AsyncPlayerPreLoginEvent> {
   public PlayerPreLoginListener(EpicGuard epicGuard) {
     super(epicGuard);
   }
 
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onPreLogin(AsyncPlayerPreLoginEvent event) {
+  @Override
+  public void handle(AsyncPlayerPreLoginEvent event) {
     final String address = event.getAddress().getHostAddress();
     final String nickname = event.getName();
 
     this.onPreLogin(address, nickname).ifPresent(result ->
-        event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, result));
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, result));
+  }
+
+  @Override
+  public Class<AsyncPlayerPreLoginEvent> clazz() {
+    return AsyncPlayerPreLoginEvent.class;
+  }
+
+  @Override
+  public EventPriority priority() {
+    return EventPriority.LOWEST;
   }
 }

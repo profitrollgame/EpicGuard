@@ -17,18 +17,26 @@ package me.xneox.epicguard.paper.listener;
 
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.PingHandler;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
 
-public class ServerPingListener extends PingHandler implements Listener {
+public class ServerPingListener extends PingHandler implements PaperListener<ServerListPingEvent> {
   public ServerPingListener(EpicGuard epicGuard) {
     super(epicGuard);
   }
 
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onPing(ServerListPingEvent event) {
+  @Override
+  public void handle(ServerListPingEvent event) {
     this.onPing(event.getAddress().getHostAddress());
+  }
+
+  @Override
+  public Class<ServerListPingEvent> clazz() {
+    return ServerListPingEvent.class;
+  }
+
+  @Override
+  public EventPriority priority() {
+    return EventPriority.LOWEST;
   }
 }

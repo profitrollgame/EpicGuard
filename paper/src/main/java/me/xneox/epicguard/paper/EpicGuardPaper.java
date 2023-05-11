@@ -16,6 +16,8 @@
 package me.xneox.epicguard.paper;
 
 import java.util.UUID;
+import java.util.stream.Stream;
+
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
 import me.xneox.epicguard.paper.listener.PlayerPostLoginListener;
@@ -26,6 +28,7 @@ import me.xneox.epicguard.paper.listener.ServerPingListener;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,11 +43,21 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
     this.epicGuard = new EpicGuard(this);
 
     var pluginManager = Bukkit.getPluginManager();
-    pluginManager.registerEvents(new PlayerPreLoginListener(this.epicGuard), this);
-    pluginManager.registerEvents(new PlayerQuitListener(this.epicGuard), this);
-    pluginManager.registerEvents(new PlayerPostLoginListener(this.epicGuard), this);
-    pluginManager.registerEvents(new ServerPingListener(this.epicGuard), this);
-    pluginManager.registerEvents(new PlayerSettingsListener(this.epicGuard), this);
+    final Listener listener = new Listener() {};
+    Stream.of(
+            new PlayerPreLoginListener(this.epicGuard),
+            new PlayerQuitListener(this.epicGuard),
+            new PlayerPostLoginListener(this.epicGuard),
+            new ServerPingListener(this.epicGuard),
+            new PlayerSettingsListener(this.epicGuard)
+    ).forEach(handler -> pluginManager.registerEvent(
+            handler.clazz(),
+            listener,
+            handler.priority(),
+            (l, event) -> handler.handle(event),
+            this,
+            handler.ignoreCancelled()
+    ));
 
     this.getServer().getCommandMap()
             .register("epicguard", new PaperCommandHandler(this.epicGuard, this));

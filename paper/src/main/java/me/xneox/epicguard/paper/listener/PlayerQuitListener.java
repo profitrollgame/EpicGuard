@@ -17,17 +17,20 @@ package me.xneox.epicguard.paper.listener;
 
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.handler.DisconnectHandler;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class PlayerQuitListener extends DisconnectHandler implements Listener {
+public class PlayerQuitListener extends DisconnectHandler implements PaperListener<PlayerQuitEvent> {
   public PlayerQuitListener(EpicGuard epicGuard) {
     super(epicGuard);
   }
 
-  @EventHandler
-  public void onQuit(PlayerQuitEvent event) {
+  @Override
+  public void handle(final PlayerQuitEvent event) {
     this.onDisconnect(event.getPlayer().getUniqueId());
+  }
+
+  @Override
+  public Class<PlayerQuitEvent> clazz() {
+    return PlayerQuitEvent.class;
   }
 }
