@@ -20,13 +20,13 @@ import me.xneox.epicguard.core.handler.PreLoginHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
-public class PlayerPreLoginListener extends PreLoginHandler implements PaperListener<AsyncPlayerPreLoginEvent> {
+public final class PlayerPreLoginListener extends PreLoginHandler implements PaperListener<AsyncPlayerPreLoginEvent> {
   public PlayerPreLoginListener(EpicGuard epicGuard) {
     super(epicGuard);
   }
 
   @Override
-  public void handle(AsyncPlayerPreLoginEvent event) {
+  public void handle(final AsyncPlayerPreLoginEvent event) {
     final String address = event.getAddress().getHostAddress();
     final String nickname = event.getName();
 

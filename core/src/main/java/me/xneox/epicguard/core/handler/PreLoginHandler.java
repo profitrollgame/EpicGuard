@@ -29,6 +29,7 @@ import me.xneox.epicguard.core.check.NicknameCheck;
 import me.xneox.epicguard.core.check.ProxyCheck;
 import me.xneox.epicguard.core.check.ReconnectCheck;
 import me.xneox.epicguard.core.check.ServerListCheck;
+import me.xneox.epicguard.core.manager.AttackManager;
 import me.xneox.epicguard.core.user.ConnectingUser;
 import me.xneox.epicguard.core.util.LogUtils;
 import net.kyori.adventure.text.TextComponent;
@@ -67,13 +68,14 @@ public abstract class PreLoginHandler {
    * @return Disconnect message, or an empty Optional if undetected.
    */
   @NotNull
-  public Optional<TextComponent> onPreLogin(@NotNull String address, @NotNull String nickname) {
+  public Optional<TextComponent> onPreLogin(final @NotNull String address, final @NotNull String nickname) {
     LogUtils.debug(() -> "Handling incoming connection: " + address + "/" + nickname);
 
+    final AttackManager attackManager = this.epicGuard.attackManager();
     // Increment the connections per second and check if it's bigger than max-cps in config.
-    if (this.epicGuard.attackManager().incrementConnectionCounter() >= this.epicGuard.config().misc().attackConnectionThreshold()) {
+    if (attackManager.incrementConnectionCounter() >= this.epicGuard.config().misc().attackConnectionThreshold() && !attackManager.isUnderAttack()) {
       this.epicGuard.logger().warn("Enabling attack-mode (" + this.epicGuard.attackManager().connectionCounter() + " connections/s)");
-      this.epicGuard.attackManager().attack(true);
+      attackManager.attack(true);
     }
 
     // Check if the user is whitelisted, if yes, return empty result (undetected).
@@ -82,7 +84,7 @@ public abstract class PreLoginHandler {
       return Optional.empty();
     }
 
-    var user = new ConnectingUser(address, nickname);
+    final var user = new ConnectingUser(address, nickname);
     for (AbstractCheck check : this.pipeline) {
       if (check.isDetected(user)) {
         LogUtils.debug(() -> nickname + "/" + address + " detected by " + check.getClass().getSimpleName());
