@@ -76,7 +76,7 @@ public final class EpicGuardVelocity implements Platform {
 
     @Override
     public @NotNull String platformVersion() {
-        return this.server.getVersion().toString();
+        return this.server.getVersion().getName() + " " + this.server.getVersion().getVersion();
     }
 
     @Override
