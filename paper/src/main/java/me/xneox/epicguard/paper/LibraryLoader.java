@@ -9,6 +9,8 @@ import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.stream.Stream;
+
 @SuppressWarnings({"unused", "UnstableApiUsage"})
 public class LibraryLoader implements PluginLoader {
     @Override
@@ -18,33 +20,22 @@ public class LibraryLoader implements PluginLoader {
         final RemoteRepository mavenCentral = new RemoteRepository
                 .Builder("central", "default", "https://repo1.maven.org/maven2/")
                 .build();
-        final Dependency configurateHocon = new Dependency(
-                new DefaultArtifact("org.spongepowered:configurate-hocon:"+VersionUtils.CONFIGURATE),
-                null
-        );
-        final Dependency hikari = new Dependency(
-                new DefaultArtifact("com.zaxxer:HikariCP:"+ VersionUtils.HIKARI),
-                null
-        );
-        final Dependency caffeine = new Dependency(
-                new DefaultArtifact("com.github.ben-manes.caffeine:caffeine:"+ VersionUtils.CAFFEINE),
-                null
-        );
-        final Dependency compress = new Dependency(
-                new DefaultArtifact("org.apache.commons:commons-compress:"+ VersionUtils.COMMANDS_COMPRESS),
-                null
-        );
-        final Dependency text = new Dependency(
-                new DefaultArtifact("org.apache.commons:commons-text:"+ VersionUtils.COMMONS_TEXT),
-                null
-        );
-
         resolver.addRepository(mavenCentral);
-        resolver.addDependency(configurateHocon);
-        resolver.addDependency(hikari);
-        resolver.addDependency(caffeine);
-        resolver.addDependency(compress);
-        resolver.addDependency(text);
+
+        Stream.of(
+                "org.spongepowered:configurate-hocon:" + VersionUtils.CONFIGURATE,
+                "com.zaxxer:HikariCP:" + VersionUtils.HIKARI,
+                "com.github.ben-manes.caffeine:caffeine:" + VersionUtils.CAFFEINE,
+                "org.apache.commons:commons-compress:" + VersionUtils.COMMANDS_COMPRESS,
+                "org.apache.commons:commons-text:" + VersionUtils.COMMONS_TEXT,
+                "com.maxmind.geoip2:geoip2:" + VersionUtils.GEOIP,
+                "com.maxmind.db:maxmind-db:" + VersionUtils.MAXMIND_DB,
+                "com.fasterxml.jackson.core:jackson-annotations:" + VersionUtils.JACKSON,
+                "com.fasterxml.jackson.core:jackson-core:" + VersionUtils.JACKSON,
+                "com.fasterxml.jackson.core:jackson-databind:" + VersionUtils.JACKSON
+        )
+                .map(artifact -> new Dependency(new DefaultArtifact(artifact), null))
+                .forEach(resolver::addDependency);
 
         classpathBuilder.addLibrary(resolver);
     }

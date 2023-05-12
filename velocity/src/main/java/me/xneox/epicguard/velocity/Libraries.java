@@ -97,6 +97,36 @@ final class Libraries {
                 .id("commons-text")
                 .relocate(commonsRelocation)
                 .build();
+        final Library MAXMIND_GEOIP = Library.builder()
+                .groupId("com.maxmind.geoip2")
+                .artifactId("geoip2")
+                .version(VersionUtils.GEOIP)
+                .id("geoip2")
+                .build();
+        final Library MAXMIND_DB = Library.builder()
+                .groupId("com.maxmind.db")
+                .artifactId("maxmind-db")
+                .version(VersionUtils.MAXMIND_DB)
+                .id("maxmind-db")
+                .build();
+        final Library JACKSON_ANNOTATIONS = Library.builder()
+                .groupId("com.fasterxml.jackson.core")
+                .artifactId("jackson-annotations")
+                .version(VersionUtils.JACKSON)
+                .id("jackson-annotations")
+                .build();
+        final Library JACKSON_CORE = Library.builder()
+                .groupId("com.fasterxml.jackson.core")
+                .artifactId("jackson-core")
+                .version(VersionUtils.JACKSON)
+                .id("jackson-core")
+                .build();
+        final Library JACKSON_DATABIND = Library.builder()
+                .groupId("com.fasterxml.jackson.core")
+                .artifactId("jackson-databind")
+                .version(VersionUtils.JACKSON)
+                .id("jackson-databind")
+                .build();
 
         manager.addMavenCentral();
         manager.loadLibrary(SQLITE);
@@ -107,6 +137,11 @@ final class Libraries {
         manager.loadLibrary(HIKARI);
         manager.loadLibrary(COMMONS_COMPRESS);
         manager.loadLibrary(COMMONS_TEXT);
+        manager.loadLibrary(MAXMIND_GEOIP);
+        manager.loadLibrary(MAXMIND_DB);
+        manager.loadLibrary(JACKSON_ANNOTATIONS);
+        manager.loadLibrary(JACKSON_CORE);
+        manager.loadLibrary(JACKSON_DATABIND);
     }
 
 }

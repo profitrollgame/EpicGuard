@@ -24,9 +24,6 @@ subprojects {
             val platformName = project.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
             archiveFileName.set("EpicGuard$platformName-${project.version}.jar")
 
-            relocate("com.fasterxml", "me.xneox.epicguard.libs.fasterxml")
-            relocate("com.maxmind", "me.xneox.epicguard.libs.maxmind")
-
             minimize()
 
             // Copy compiled platform jars to '/build' directory for convenience.

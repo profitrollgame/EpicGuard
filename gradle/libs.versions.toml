@@ -38,6 +38,8 @@ commons-compress = "1.23.0"
 commons-text = "1.10.0"
 
 geoip = "4.0.1"
+jackson = "2.14.2"
+maxmind-db = "3.0.0"
 
 caffeine = "3.1.6"
 
@@ -73,6 +75,10 @@ commons-text = { group = "org.apache.commons", name = "commons-text", version.re
 commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commons-compress" }
 
 geoip = { group = "com.maxmind.geoip2", name = "geoip2", version.ref = "geoip" }
+maxmind-db = { group = "com.maxmind.db", name = "maxmind-db", version.ref = "maxmind-db" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
 

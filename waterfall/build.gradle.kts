@@ -25,12 +25,18 @@ bungee {
     version = project.version as String
     author = "neox, 4drian3d"
     libraries = listOf(
-        "${libs.adventure.platform.bungeecord.get().module}:${libs.versions.adventure.platform.get()}",
-        "${libs.sqlite.get().module}:${libs.versions.sqlite.get()}",
-        "${libs.caffeine.get().module}:${libs.versions.caffeine.get()}",
-        "${libs.hikaricp.get().module}:${libs.versions.hikaricp.get()}",
-        "${libs.configurate.get().module}:${libs.versions.configurate.get()}",
-        "${libs.commons.compress.get().module}:${libs.versions.commons.compress.get()}",
-        "${libs.commons.text.get().module}:${libs.versions.commons.text.get()}",
-    )
+        libs.adventure.platform.bungeecord to libs.versions.adventure.platform,
+        libs.sqlite to libs.versions.sqlite,
+        libs.caffeine to libs.versions.caffeine,
+        libs.hikaricp to libs.versions.hikaricp,
+        libs.configurate to libs.versions.configurate,
+        libs.commons.compress to libs.versions.commons.compress,
+        libs.commons.text to libs.versions.commons.text,
+        libs.geoip to libs.versions.geoip,
+        libs.maxmind.db to libs.versions.maxmind.db,
+        libs.jackson.core to libs.versions.jackson,
+        libs.jackson.databind to libs.versions.jackson,
+        libs.jackson.annotations to libs.versions.jackson,
+    ).map { "${it.first.get().module}:${it.second.get()}" }
 }
+

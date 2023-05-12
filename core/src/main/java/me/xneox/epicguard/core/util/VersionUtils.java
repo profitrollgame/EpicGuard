@@ -29,6 +29,9 @@ public final class VersionUtils {
   public static final String CAFFEINE = "{caffeine}";
   public static final String COMMONS_TEXT = "{common-text}";
   public static final String COMMANDS_COMPRESS = "{common-compress}";
+  public static final String GEOIP = "{geoip}";
+  public static final String JACKSON = "{jackson}";
+  public static final String MAXMIND_DB = "{maxmind-db}";
   private static final String CHECK_URL = "https://raw.githubusercontent.com/4drian3d/EpicGuard/master/VERSION.txt";
 
   private static boolean updateAvailable;

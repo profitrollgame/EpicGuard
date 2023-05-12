@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.geoip)
+    compileOnly(libs.geoip)
     compileOnly(libs.commons.compress)
     compileOnly(libs.commons.text)
     compileOnly(libs.guava)
@@ -41,7 +41,9 @@ blossom {
     replaceToken("{caffeine}", libs.versions.caffeine.get())
     replaceToken("{common-compress}", libs.versions.commons.compress.get())
     replaceToken("{common-text}", libs.versions.commons.text.get())
-
+    replaceToken("{geoip}", libs.versions.geoip.get())
+    replaceToken("{jackson}", libs.versions.jackson.get())
+    replaceToken("{maxmind-db}", libs.versions.maxmind.db.get())
 }
 
 // Publish to Maven Central
