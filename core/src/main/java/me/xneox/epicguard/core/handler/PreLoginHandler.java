@@ -85,7 +85,7 @@ public abstract class PreLoginHandler {
     }
 
     final var user = new ConnectingUser(address, nickname);
-    for (AbstractCheck check : this.pipeline) {
+    for (final AbstractCheck check : this.pipeline) {
       if (check.isDetected(user)) {
         LogUtils.debug(() -> nickname + "/" + address + " detected by " + check.getClass().getSimpleName());
         return Optional.of(check.detectionMessage());

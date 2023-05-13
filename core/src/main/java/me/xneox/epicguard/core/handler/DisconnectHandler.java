@@ -36,7 +36,7 @@ public abstract class DisconnectHandler {
    *
    * @param uuid UUID of the (offline) player.
    */
-  public void onDisconnect(@NotNull UUID uuid) {
+  public void onDisconnect(final @NotNull UUID uuid) {
     this.epicGuard.userManager().removeUser(uuid);
   }
 }

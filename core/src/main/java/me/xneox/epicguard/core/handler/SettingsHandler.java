@@ -37,7 +37,7 @@ public abstract class SettingsHandler {
    *
    * @param uuid UUID of the online player.
    */
-  public void onSettingsChanged(@NotNull UUID uuid) {
+  public void onSettingsChanged(final @NotNull UUID uuid) {
     this.epicGuard.userManager().getOrCreate(uuid).settingsChanged(true);
   }
 }

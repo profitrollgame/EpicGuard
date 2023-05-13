@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
  * AddressMeta holds information about an IP address.
  * All known AddressMeta's are stored in the database and cached in the {@link StorageManager}
  */
-public class AddressMeta {
+public final class AddressMeta {
   private final List<String> nicknames;
   private boolean blacklisted;
   private boolean whitelisted;
@@ -60,10 +60,9 @@ public class AddressMeta {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (!(o instanceof final AddressMeta that)) {
       return false;
     }
-    AddressMeta that = (AddressMeta) o;
     return blacklisted == that.blacklisted && whitelisted == that.whitelisted
         && Objects.equals(nicknames, that.nicknames);
   }

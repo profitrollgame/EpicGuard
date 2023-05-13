@@ -32,7 +32,7 @@ public final class URLUtils {
   @Nullable
   public static String readString(@NotNull String url) {
     try {
-      var connection = openConnection(url);
+      final var connection = openConnection(url);
       try (Scanner scanner = new Scanner(connection.getInputStream(), StandardCharsets.UTF_8)) {
         scanner.useDelimiter("\\A");
         return scanner.hasNext() ? scanner.next() : "";
@@ -45,7 +45,7 @@ public final class URLUtils {
 
   @NotNull
   public static URLConnection openConnection(@NotNull String url) throws IOException {
-    var connection = new URL(url).openConnection();
+    final var connection = new URL(url).openConnection();
     connection.addRequestProperty("User-Agent", "Mozilla/4.0");
     connection.setConnectTimeout(5000);
     connection.setReadTimeout(5000);

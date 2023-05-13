@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * This manager caches the {@link OnlineUser} for currently online players
  */
-public class UserManager {
+public final class UserManager {
   private final Cache<UUID, OnlineUser> userMap = Caffeine.newBuilder().build();
 
   @NotNull
@@ -40,7 +40,7 @@ public class UserManager {
    * UUID. Creates a new object if absent.
    */
   @NotNull
-  public OnlineUser getOrCreate(@NotNull UUID uuid) {
+  public OnlineUser getOrCreate(final @NotNull UUID uuid) {
     return this.userMap.get(uuid, OnlineUser::new);
   }
 
@@ -49,11 +49,11 @@ public class UserManager {
    * UUID, or null if the user is offline.
    */
   @Nullable
-  public OnlineUser get(@NotNull UUID uuid) {
+  public OnlineUser get(final @NotNull UUID uuid) {
     return this.userMap.getIfPresent(uuid);
   }
 
-  public void removeUser(@NotNull UUID uuid) {
+  public void removeUser(final @NotNull UUID uuid) {
     this.userMap.invalidate(uuid);
   }
 }

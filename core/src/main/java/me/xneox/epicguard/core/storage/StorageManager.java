@@ -56,7 +56,7 @@ public class StorageManager {
    * doesn't exist for this address.
    */
   @NotNull
-  public AddressMeta addressMeta(@NotNull String address) {
+  public AddressMeta addressMeta(final @NotNull String address) {
     return this.addresses.get(address, s -> new AddressMeta(false, false, new ArrayList<>()));
   }
 
@@ -72,7 +72,7 @@ public class StorageManager {
    */
   @Nullable
   public AddressMeta resolveAddressMeta(@NotNull String value) {
-    String address = InetAddresses.isInetAddress(value) ? value : lastSeenAddress(value);
+    final String address = InetAddresses.isInetAddress(value) ? value : lastSeenAddress(value);
     return address != null ? addressMeta(address) : null;
   }
 
@@ -93,7 +93,7 @@ public class StorageManager {
    * If absent, it is added.
    */
   public void updateAccounts(@NotNull ConnectingUser user) {
-    var accounts = this.addressMeta(user.address()).nicknames();
+    final var accounts = this.addressMeta(user.address()).nicknames();
     if (!accounts.contains(user.nickname())) {
       accounts.add(user.nickname());
     }

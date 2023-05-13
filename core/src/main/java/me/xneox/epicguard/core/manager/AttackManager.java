@@ -15,14 +15,15 @@
 
 package me.xneox.epicguard.core.manager;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class holds variables related to the current server attack status.
  */
-public class AttackManager {
+public final class AttackManager {
   private final AtomicInteger connectionCounter = new AtomicInteger();
-  private boolean attack;
+  private final AtomicBoolean attack = new AtomicBoolean(false);
 
   /**
    * Attack-mode is a special temporary state, that indicates that the server is under attack. It
@@ -31,11 +32,11 @@ public class AttackManager {
    * @return State of the attack-mode
    */
   public boolean isUnderAttack() {
-    return this.attack;
+    return this.attack.get();
   }
 
-  public void attack(boolean attack) {
-    this.attack = attack;
+  public void attack(final boolean attack) {
+    this.attack.set(attack);
   }
 
   public int connectionCounter() {

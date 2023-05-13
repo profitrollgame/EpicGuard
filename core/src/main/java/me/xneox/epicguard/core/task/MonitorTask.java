@@ -26,14 +26,14 @@ public record MonitorTask(EpicGuard epicGuard) implements Runnable {
 
   @Override
   public void run() {
-    var config = this.epicGuard.messages();
-    var textComponent = TextUtils.component(config.actionbarMonitor()
+    final var config = this.epicGuard.messages();
+    final var textComponent = TextUtils.component(config.actionbarMonitor()
         .replace("%cps%", Integer.toString(this.epicGuard.attackManager().connectionCounter()))
         .replace("%status%", this.epicGuard.attackManager().isUnderAttack() ? config.actionbarAttack() : config.actionbarNoAttack()));
 
-    for (OnlineUser user : this.epicGuard.userManager().users()) {
+    for (final OnlineUser user : this.epicGuard.userManager().users()) {
       if (user.notifications()) {
-        var audience = this.epicGuard.platform().audience(user.uuid());
+        final var audience = this.epicGuard.platform().audience(user.uuid());
         if (audience != null) {
           audience.sendActionBar(textComponent);
         }

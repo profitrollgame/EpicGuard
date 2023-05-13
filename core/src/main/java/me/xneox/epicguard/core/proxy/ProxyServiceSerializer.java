@@ -30,12 +30,12 @@ public class ProxyServiceSerializer implements TypeSerializer<ProxyService> {
   public static final ProxyServiceSerializer INSTANCE = new ProxyServiceSerializer();
 
   @Override
-  public ProxyService deserialize(Type type, ConfigurationNode node) throws SerializationException {
+  public ProxyService deserialize(final Type type, final ConfigurationNode node) throws SerializationException {
     final var urlNode = node.node("url");
     final URL url = urlNode.get(URL.class);
 
-    var matcherNode = node.node("matcher");
-    String matcher = matcherNode.getString();
+    final var matcherNode = node.node("matcher");
+    final String matcher = matcherNode.getString();
 
     if (url == null || matcher == null) {
       throw new SerializationException("Invalid proxy-services configuration.");

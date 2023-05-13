@@ -28,6 +28,7 @@ import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.util.FileUtils;
 import me.xneox.epicguard.core.util.LogUtils;
 import me.xneox.epicguard.core.util.TextUtils;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
  * This class manages the GeoLite2's databases, downloads and updates them if needed. It also
  * contains methods for easy database access.
  */
-public class GeoManager {
+public final class GeoManager {
   private final EpicGuard epicGuard;
 
   private DatabaseReader countryReader;
@@ -45,7 +46,7 @@ public class GeoManager {
     this.epicGuard = epicGuard;
     epicGuard.logger().info("This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com");
 
-    var parent = Path.of(FileUtils.EPICGUARD_DIR, "data");
+    final var parent = Path.of(FileUtils.EPICGUARD_DIR, "data");
     if (Files.notExists(parent)) {
       try {
         Files.createDirectory(parent);
@@ -54,11 +55,11 @@ public class GeoManager {
       }
     }
 
-    var countryDatabase = parent.resolve("GeoLite2-Country.mmdb");
-    var cityDatabase = parent.resolve("GeoLite2-City.mmdb");
+    final var countryDatabase = parent.resolve("GeoLite2-Country.mmdb");
+    final var cityDatabase = parent.resolve("GeoLite2-City.mmdb");
 
-    var countryArchive = parent.resolve("GeoLite2-Country.tar.gz");
-    var cityArchive = parent.resolve("GeoLite2-City.tar.gz");
+    final var countryArchive = parent.resolve("GeoLite2-Country.tar.gz");
+    final var cityArchive = parent.resolve("GeoLite2-City.tar.gz");
 
     try {
       this.downloadDatabase(
@@ -85,14 +86,12 @@ public class GeoManager {
 
       this.epicGuard.logger().info("Extracting the database from the tar archive...");
       try (var tarInput = new TarArchiveInputStream(new GZIPInputStream(Files.newInputStream(archive)))) {
-        var entry = tarInput.getNextTarEntry();
-        while (entry != null) {
+        TarArchiveEntry entry;
+        while ((entry = tarInput.getNextTarEntry()) != null) {
           // Extracting the database (.mmdb) database we are looking for.
           if (entry.getName().endsWith(database.getFileName().toString())) {
             Files.copy(tarInput, database, StandardCopyOption.REPLACE_EXISTING);
           }
-  
-          entry = tarInput.getNextTarEntry();
         }
       }
 
@@ -102,8 +101,8 @@ public class GeoManager {
   }
 
   @NotNull
-  public String countryCode(@NotNull String address) {
-    var inetAddress = TextUtils.parseAddress(address);
+  public String countryCode(final @NotNull String address) {
+    final var inetAddress = TextUtils.parseAddress(address);
     if (inetAddress != null && this.countryReader != null) {
       try {
         final String isoCode = this.countryReader.country(inetAddress).getCountry().getIsoCode();
@@ -118,8 +117,8 @@ public class GeoManager {
   }
 
   @NotNull
-  public String city(@NotNull String address) {
-    var inetAddress = TextUtils.parseAddress(address);
+  public String city(final @NotNull String address) {
+    final var inetAddress = TextUtils.parseAddress(address);
     if (inetAddress != null && this.cityReader != null) {
       try {
         final String city = this.cityReader.city(inetAddress).getCity().getName();

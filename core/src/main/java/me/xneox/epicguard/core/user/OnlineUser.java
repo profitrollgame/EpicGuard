@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents a player who is currently connected to the server.
  */
-public class OnlineUser {
+public final class OnlineUser {
   private final UUID uuid;
   private boolean notifications;
   private boolean settingsChanged;

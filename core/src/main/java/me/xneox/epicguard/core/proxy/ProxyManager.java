@@ -27,11 +27,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * Performs requests to the registered ProxyServices and caches the results.
  */
-public class ProxyManager {
+public final class ProxyManager {
   private final EpicGuard epicGuard;
   private final Cache<String, Boolean> resultCache;
 
-  public ProxyManager(EpicGuard epicGuard) {
+  public ProxyManager(final EpicGuard epicGuard) {
     this.epicGuard = epicGuard;
     this.resultCache = Caffeine.newBuilder()
         .expireAfterWrite(epicGuard.config().proxyCheck().cacheDuration(), TimeUnit.SECONDS)
@@ -45,13 +45,13 @@ public class ProxyManager {
    * @param address The checked IP address.
    * @return Whenever the address is detected to be a proxy or not.
    */
-  public boolean isProxy(@NotNull String address) {
+  public boolean isProxy(final @NotNull String address) {
     return this.resultCache.get(address, userIp -> {
-      for (ProxyService service : this.epicGuard.config().proxyCheck().services()) {
-        String url = service.url().replace("{IP}", userIp);
+      for (final ProxyService service : this.epicGuard.config().proxyCheck().services()) {
+        final String url = service.url().replace("{IP}", userIp);
         LogUtils.debug("Sending request to: " + url);
 
-        String response = URLUtils.readString(url);
+        final String response = URLUtils.readString(url);
         LogUtils.debug("Received response: " + response);
 
         if (response != null && service.matcher().matcher(response).find()) {
