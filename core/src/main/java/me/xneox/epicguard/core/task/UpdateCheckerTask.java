@@ -26,6 +26,9 @@ public record UpdateCheckerTask(EpicGuard epicGuard) implements Runnable {
 
   @Override
   public void run() {
+    if (!epicGuard.config().misc().updateChecker()) {
+      return;
+    }
     VersionUtils.checkForUpdates(latest ->
         this.epicGuard.logger().info(this.epicGuard.messages().updateAvailable()
             .replace("{NEWVER}", latest)
