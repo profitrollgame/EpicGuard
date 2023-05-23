@@ -30,7 +30,7 @@ adventure-platform = "4.3.0"
 
 annotations = "24.0.1"
 
-sqlite = "3.41.2.2"
+sqlite = "3.42.0.0"
 hikaricp = "5.0.1"
 guava = "31.1-jre"
 
