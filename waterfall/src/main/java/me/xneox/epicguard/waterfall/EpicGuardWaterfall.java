@@ -36,7 +36,7 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
 
   @Override
   public void onEnable() {
-    this.epicGuard = new EpicGuard(this);
+    this.epicGuard = new EpicGuard(this, getDataFolder().toPath());
     this.adventure = BungeeAudiences.create(this);
 
     var pluginManager = this.getProxy().getPluginManager();

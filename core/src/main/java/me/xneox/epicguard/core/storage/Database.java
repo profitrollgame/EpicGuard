@@ -2,7 +2,6 @@ package me.xneox.epicguard.core.storage;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,7 @@ public class Database {
       hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
       hikariConfig.addDataSourceProperty("useServerPrepStmts", true);
     } else {
-      var file = FileUtils.create(Path.of(FileUtils.EPICGUARD_DIR, "database.db"));
+      var file = FileUtils.create(core.getFolderPath().resolve("database.db"));
 
       Class.forName("org.sqlite.JDBC"); // Driver is not loaded on Waterfall/Velocity
       hikariConfig.setJdbcUrl("jdbc:sqlite:" + file);

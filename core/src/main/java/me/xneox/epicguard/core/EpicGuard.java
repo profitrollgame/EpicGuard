@@ -35,7 +35,6 @@ import me.xneox.epicguard.core.task.DataSaveTask;
 import me.xneox.epicguard.core.task.MonitorTask;
 import me.xneox.epicguard.core.task.UpdateCheckerTask;
 import me.xneox.epicguard.core.util.ConfigurationLoader;
-import me.xneox.epicguard.core.util.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.spongepowered.configurate.ConfigurateException;
@@ -56,9 +55,11 @@ public class EpicGuard {
 
   private PluginConfiguration config;
   private MessagesConfiguration messages;
+  private final Path folderPath;
 
-  public EpicGuard(Platform platform) {
+  public EpicGuard(final Platform platform, Path folderPath) {
     this.platform = platform;
+    this.folderPath = folderPath;
     this.startup();
   }
 
@@ -93,11 +94,11 @@ public class EpicGuard {
   public void loadConfigurations() {
     var configLoader = HoconConfigurationLoader.builder()
         .defaultOptions(opt -> opt.serializers(builder -> builder.register(ProxyService.class, ProxyServiceSerializer.INSTANCE)))
-        .path(Path.of(FileUtils.EPICGUARD_DIR, "settings.conf"))
+        .path(folderPath.resolve("settings.conf"))
         .build();
 
     var messagesLoader = HoconConfigurationLoader.builder()
-        .path(Path.of(FileUtils.EPICGUARD_DIR, "messages.conf"))
+        .path(folderPath.resolve("messages.conf"))
         .build();
 
     try {
@@ -160,5 +161,10 @@ public class EpicGuard {
   @NotNull
   public ProxyManager proxyManager() {
     return this.proxyManager;
+  }
+
+  @NotNull
+  public Path getFolderPath() {
+    return this.folderPath;
   }
 }

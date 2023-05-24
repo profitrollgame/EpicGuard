@@ -46,7 +46,7 @@ public final class GeoManager {
     this.epicGuard = epicGuard;
     epicGuard.logger().info("This product includes GeoLite2 data created by MaxMind, available from https://www.maxmind.com");
 
-    final var parent = Path.of(FileUtils.EPICGUARD_DIR, "data");
+    final var parent = epicGuard.getFolderPath().resolve("data");
     if (Files.notExists(parent)) {
       try {
         Files.createDirectory(parent);

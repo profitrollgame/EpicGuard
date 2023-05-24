@@ -21,6 +21,7 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
@@ -31,6 +32,7 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -48,13 +50,16 @@ public final class EpicGuardVelocity implements Platform {
     @Inject
     private Logger logger;
     @Inject
+    @DataDirectory
+    private Path dataFolder;
+    @Inject
     private Injector injector;
     private EpicGuard epicGuard;
 
     @Subscribe
     public void onEnable(ProxyInitializeEvent e) {
         this.injector.getInstance(Libraries.class).register();
-        this.epicGuard = new EpicGuard(this);
+        this.epicGuard = new EpicGuard(this, dataFolder);
         this.injector = injector.createChildInjector(
                 binder -> binder.bind(EpicGuard.class).toInstance(epicGuard)
         );

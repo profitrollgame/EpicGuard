@@ -27,7 +27,6 @@ import me.xneox.epicguard.paper.listener.PlayerSettingsListener;
 import me.xneox.epicguard.paper.listener.ServerPingListener;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -40,9 +39,9 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
 
   @Override
   public void onEnable() {
-    this.epicGuard = new EpicGuard(this);
+    this.epicGuard = new EpicGuard(this, getDataFolder().toPath());
 
-    var pluginManager = Bukkit.getPluginManager();
+    var pluginManager = getServer().getPluginManager();
     final Listener listener = new Listener() {};
     Stream.of(
             new PlayerPreLoginListener(this.epicGuard),
@@ -70,7 +69,7 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
 
   @Override
   public @NotNull String platformVersion() {
-    return Bukkit.getVersion();
+    return getServer().getVersion();
   }
 
   @Override
@@ -80,12 +79,12 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
 
   @Override
   public @Nullable Audience audience(@NotNull UUID uuid) {
-    return Bukkit.getPlayer(uuid);
+    return getServer().getPlayer(uuid);
   }
 
   @Override
   public void disconnectUser(@NotNull UUID uuid, @NotNull Component message) {
-    var player = Bukkit.getPlayer(uuid);
+    var player = getServer().getPlayer(uuid);
     if (player != null) {
       player.kick(message);
     }
@@ -93,11 +92,11 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
 
   @Override
   public void runTaskLater(@NotNull Runnable task, long seconds) {
-    Bukkit.getScheduler().runTaskLaterAsynchronously(this, task, seconds * 20L);
+    getServer().getScheduler().runTaskLaterAsynchronously(this, task, seconds * 20L);
   }
 
   @Override
   public void scheduleRepeatingTask(@NotNull Runnable task, long seconds) {
-    Bukkit.getScheduler().runTaskTimerAsynchronously(this, task, 20L, seconds * 20L);
+    getServer().getScheduler().runTaskTimerAsynchronously(this, task, 20L, seconds * 20L);
   }
 }
