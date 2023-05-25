@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
+import me.xneox.epicguard.core.placeholder.Placeholders;
 import me.xneox.epicguard.paper.listener.PlayerPostLoginListener;
 import me.xneox.epicguard.paper.listener.PlayerPreLoginListener;
 import me.xneox.epicguard.paper.listener.PlayerQuitListener;
@@ -60,6 +61,10 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
 
     this.getServer().getCommandMap()
             .register("epicguard", new PaperCommandHandler(this.epicGuard, this));
+
+    if (this.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
+      Placeholders.register();
+    }
   }
 
   @Override

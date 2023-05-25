@@ -21,10 +21,12 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
+import me.xneox.epicguard.core.placeholder.Placeholders;
 import me.xneox.epicguard.core.util.VersionUtils;
 import me.xneox.epicguard.velocity.listener.*;
 import net.kyori.adventure.audience.Audience;
@@ -47,6 +49,8 @@ import java.util.stream.Stream;
 public final class EpicGuardVelocity implements Platform {
     @Inject
     private ProxyServer server;
+    @Inject
+    private PluginManager pluginManager;
     @Inject
     private Logger logger;
     @Inject
@@ -72,6 +76,10 @@ public final class EpicGuardVelocity implements Platform {
                 ServerPingListener.class,
                 PlayerSettingsListener.class
         ).map(injector::getInstance).forEach(Listener::register);
+
+        if (this.pluginManager.isLoaded("miniplaceholders")) {
+            Placeholders.register();
+        }
     }
 
     @Subscribe

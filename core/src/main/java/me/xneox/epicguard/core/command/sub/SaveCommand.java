@@ -28,10 +28,10 @@ public class SaveCommand implements SubCommand {
   public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
     try {
       epicGuard.storageManager().database().save();
-      audience.sendMessage(TextUtils.component(epicGuard.messages().command().prefix() + "&aData has been saved successfully."));
+      audience.sendMessage(TextUtils.component(epicGuard.messages().command().prefix() + "<red>Data has been saved successfully."));
     } catch (SQLException ex) {
       audience.sendMessage(TextUtils.component(epicGuard.messages().command().prefix() +
-          "&cAn exception occurred when saving data. See console for details."));
+          "<red>An exception occurred when saving data. See console for details."));
       LogUtils.catchException("Could not save data to the SQL database (command-induced)", ex);
     }
   }

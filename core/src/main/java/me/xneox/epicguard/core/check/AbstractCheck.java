@@ -21,7 +21,7 @@ import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.user.ConnectingUser;
 import me.xneox.epicguard.core.util.TextUtils;
 import me.xneox.epicguard.core.util.ToggleState;
-import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 public abstract sealed class AbstractCheck implements Comparable<AbstractCheck>
@@ -40,7 +40,7 @@ public abstract sealed class AbstractCheck implements Comparable<AbstractCheck>
     protected final EpicGuard epicGuard;
 
     private final int priority;
-    private final TextComponent detectionMessage;
+    private final Component detectionMessage;
 
     protected AbstractCheck(@NotNull EpicGuard epicGuard, @NotNull List<String> detectionMessage, int priority) {
         this.epicGuard = epicGuard;
@@ -76,12 +76,12 @@ public abstract sealed class AbstractCheck implements Comparable<AbstractCheck>
     }
 
     /**
-     * A formatted {@link TextComponent} which is a disconnect message for this check.
+     * A formatted {@link Component} which is a disconnect message for this check.
      *
      * @return disconnect message of this check
      */
     @NotNull
-    public TextComponent detectionMessage() {
+    public Component detectionMessage() {
         return this.detectionMessage;
     }
 

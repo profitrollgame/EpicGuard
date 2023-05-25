@@ -26,9 +26,9 @@ public class MessagesConfiguration {
   private Command command = new Command();
   private Disconnect disconnect = new Disconnect();
 
-  private String actionbarMonitor = "&cEpicGuard &8// &6%cps% &7connections/s &8| %status%";
-  private String actionbarNoAttack = "&7No attack...";
-  private String actionbarAttack = "&cAttack detected!";
+  private String actionbarMonitor = "<red>EpicGuard <dark_gray>// <gold>%cps% <gray>connections/s <dark_gray>| %status%";
+  private String actionbarNoAttack = "<gray>No attack...";
+  private String actionbarAttack = "<red>Attack detected!";
   private String updateAvailable = "A new update is available: {NEWVER} (You are still on {OLDVER})";
 
   public Command command() {
@@ -57,54 +57,54 @@ public class MessagesConfiguration {
 
   @ConfigSerializable
   public static class Command {
-    private String prefix = " &cEpicGuard &8// &7";
-    private String usage = "&cCorrect usage: &6{USAGE}";
-    private String unknownCommand = "&cUnknown command, use &6/epicguard &cfor available commands.";
-    private String whitelistAdd = "&7The user &a{USER} &7has been added to the whitelist.";
-    private String whitelistRemove = "The user &6{USER} &7has been removed from the whitelist";
-    private String blacklistAdd = "&7The user &c{USER} &7has been added to the blacklist.";
-    private String blacklistRemove = "&7The user &6{USER} &7has been removed from the blacklist.";
-    private String alreadyWhitelisted = "&cThe user &6{USER} &cis already whitelisted!";
-    private String alreadyBlacklisted = "&cThe user &6{USER} &cis already blacklisted!";
-    private String notWhitelisted = "&cThe user &6{USER} &cis not in whitelist!";
-    private String notBlacklisted = "&cThe user &6{USER} &cis not in the blacklist!";
-    private String reloaded = "&7Succesfully reloaded config and messages!";
-    private String toggleStatus = "&7You have toggled your attack status!";
-    private String invalidArgument = "&cCould not resolve address for this nickname, or provided address is invalid.";
+    private String prefix = " <red>EpicGuard <dark_gray>// <gray>";
+    private String usage = "<red>Correct usage: <gold>{USAGE}";
+    private String unknownCommand = "<red>Unknown command, use <gold>/epicguard <red>for available commands.";
+    private String whitelistAdd = "<gray>The user <green>{USER}</green> has been added to the whitelist.";
+    private String whitelistRemove = "The user <gold>{USER} <gray>has been removed from the whitelist";
+    private String blacklistAdd = "<gray>The user <red>{USER}</red> has been added to the blacklist.";
+    private String blacklistRemove = "<gray>The user <gold>{USER}</gold> has been removed from the blacklist.";
+    private String alreadyWhitelisted = "<red>The user <gold>{USER}</gold> is already whitelisted!";
+    private String alreadyBlacklisted = "<red>The user <gold>{USER}</gold> >is already blacklisted!";
+    private String notWhitelisted = "<red>The user <gold>{USER}</gold> is not in whitelist!";
+    private String notBlacklisted = "<red>The user <gold>{USER}</gold> is not in the blacklist!";
+    private String reloaded = "<gray>Succesfully reloaded config and messages!";
+    private String toggleStatus = "<gray>You have toggled your attack status!";
+    private String invalidArgument = "<red>Could not resolve address for this nickname, or provided address is invalid.";
 
     private List<String> mainCommand =
         List.of(
             "",
-            " &6EpicGuard Protection System &8- &7Running version &f{VERSION}",
+            " <gold>EpicGuard Protection System <dark_gray>- <gray>Running version <white>{VERSION}",
             "",
-            " &8▸ &7Under attack: {ATTACK}",
-            " &8▸ &7Connections: &e{CPS}/s",
-            " &8▸ &7Blacklist: &e{BLACKLISTED-IPS} &7IPs",
-            " &8▸ &7Whitelist: &e{WHITELISTED-IPS} &7IPs",
+            " <dark_gray>▸ <gray>Under attack: {ATTACK}",
+            " <dark_gray>▸ <gray>Connections: <yellow>{CPS}/s",
+            " <dark_gray>▸ <gray>Blacklist: <yellow>{BLACKLISTED-IPS}</yellow> IPs",
+            " <dark_gray>▸ <gray>Whitelist: <yellow>{WHITELISTED-IPS}</yellow> IPs",
             "",
-            " &8/&fguard status &8- &7Toggle attack status on actionbar.",
-            " &8/&fguard reload &8- &7Reload config and messages.",
-            " &8/&fguard save &8- &7Save data to the database.",
-            " &8/&fguard analyze <nick/address> &8- &7Perform detailed analysis on specified user.",
-            " &8/&fguard whitelist <add/remove> <nick/address> &8- &7Whitelist/unwhitelist an address or nickname.",
-            " &8/&fguard blacklist <add/remove> <nick/address> &8- &7Blacklist/unblacklist an address or nickname.",
+            " <dark_gray>/<white>guard status </white>- <gray>Toggle attack status on actionbar.",
+            " <dark_gray>/<white>guard reload </white>- <gray>Reload config and messages.",
+            " <dark_gray>/<white>guard save </white>- <gray>Save data to the database.",
+            " <dark_gray>/<white>guard analyze <nick/address> </white>- <gray>Perform detailed analysis on specified user.",
+            " <dark_gray>/<white>guard whitelist <add/remove> <nick/address> </white>- <gray>Whitelist/unwhitelist an address or nickname.",
+            " <dark_gray>/<white>guard blacklist <add/remove> <nick/address> </white>- <gray>Blacklist/unblacklist an address or nickname.",
             "");
 
     private List<String> analyzeCommand =
         List.of(
             "",
-            " &6EpicGuard Analysis System &8- &7Results for &f{ADDRESS}",
+            " <gold>EpicGuard Analysis System <dark_gray>- <gray>Results for <white>{ADDRESS}",
             "",
-            " &eGeographic Data:",
-            "  &8▸ &7Country: &f{COUNTRY}",
-            "  &8▸ &7City: &f{CITY}",
+            " <yellow>Geographic Data:",
+            "  <dark_gray>▸ <gray>Country: <white>{COUNTRY}",
+            "  <dark_gray>▸ <gray>City: <white>{CITY}",
             "",
-            " &eKnown Accounts&6 ({ACCOUNT-AMOUNT}):",
-            "  &8▸ &f{NICKNAMES}",
+            " <yellow>Known Accounts<gold> ({ACCOUNT-AMOUNT}):",
+            "  <dark_gray>▸ <white>{NICKNAMES}",
             "",
-            " &eOther Data:",
-            "  &8▸ &7Whitelisted: {WHITELISTED}",
-            "  &8▸ &7Blacklisted: {BLACKLISTED}",
+            " <yellow>Other Data:",
+            "  <dark_gray>▸ <gray>Whitelisted: {WHITELISTED}",
+            "  <dark_gray>▸ <gray>Blacklisted: {BLACKLISTED}",
             "");
 
     public String prefix() {
@@ -175,44 +175,44 @@ public class MessagesConfiguration {
   @ConfigSerializable
   public static class Disconnect {
     private List<String> geographical = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cYour country/city is not allowed on this server.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>Your country/city is not allowed on this server.");
 
     private List<String> blacklisted = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cYou have been blacklisted on this server.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>You have been blacklisted on this server.");
 
     private List<String> attackLockdown = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cServer is under attack, please wait some seconds before joining.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>Server is under attack, please wait some seconds before joining.");
 
     private List<String> proxy = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cYou are using VPN or Proxy.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>You are using VPN or Proxy.");
 
     private List<String> reconnect = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cJoin the server again.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>Join the server again.");
 
     private List<String> nickname = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cYou nickname is not allowed on this server.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>You nickname is not allowed on this server.");
 
     private List<String> accountLimit = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cYou have too many accounts on your IP address.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>You have too many accounts on your IP address.");
 
     private List<String> serverListPing = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cYou must add our server to your servers list to verify yourself.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>You must add our server to your servers list to verify yourself.");
 
     private List<String> nameSimilarity = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cYour nickname is too similar to other users connecting to the server.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>Your nickname is too similar to other users connecting to the server.");
 
     private List<String> settingsPacket = List.of(
-        "&8» &7You have been kicked by &bAntiBot Protection&7:",
-        "&8» &cBot-like behaviour detected, please join the server again.");
+        "<dark_gray>» <gray>You have been kicked by <aqua>AntiBot Protection</aqua>:",
+        "<dark_gray>» <red>Bot-like behaviour detected, please join the server again.");
 
     public List<String> geographical() {
       return this.geographical;

@@ -14,8 +14,9 @@ dependencies {
     compileOnly(libs.hikaricp)
 
     compileOnly(libs.adventure.api)
-    compileOnly(libs.adventure.serializer.legacy)
+    compileOnly(libs.adventure.minimessage)
     compileOnly(libs.log4j2)
+    compileOnly(libs.miniplaceholders)
 
     compileOnly(libs.annotations)
 }
