@@ -29,6 +29,8 @@ import me.xneox.epicguard.core.command.sub.WhitelistCommand;
 import me.xneox.epicguard.core.util.TextUtils;
 import me.xneox.epicguard.core.util.VersionUtils;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -55,15 +57,15 @@ public class CommandHandler {
   public void handleCommand(@NotNull String[] args, @NotNull Audience audience) {
     // No arguments provided - send the version message.
     if (args.length < 1) {
-      audience.sendMessage(TextUtils.component("&#99ff00 You are running EpicGuard v" + VersionUtils.CURRENT_VERSION +
-          " on " + this.epicGuard.platform().platformVersion()));
-      audience.sendMessage(TextUtils.component("&#99ff00 Run &l/guard help &#99ff00to see available commands and statistics"));
+      audience.sendMessage(Component.text("You are running EpicGuard v" + VersionUtils.CURRENT_VERSION +
+          " on " + this.epicGuard.platform().platformVersion(), TextColor.color(0x99ff00)));
+      audience.sendMessage(TextUtils.cachedComponent("<#99ff00> Run <bold><white>/guard help</bold> to see available commands and statistics"));
       return;
     }
 
     var subCommand = this.commandMap.get(args[0]);
     if (subCommand == null) {
-      audience.sendMessage(TextUtils.component(this.epicGuard.messages().command().prefix() + this.epicGuard.messages().command().unknownCommand()));
+      audience.sendMessage(TextUtils.cachedComponent(this.epicGuard.messages().command().prefix() + this.epicGuard.messages().command().unknownCommand()));
       return;
     }
 

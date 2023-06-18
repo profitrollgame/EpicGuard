@@ -15,25 +15,17 @@
 
 package me.xneox.epicguard.core.handler;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 import me.xneox.epicguard.core.EpicGuard;
-import me.xneox.epicguard.core.check.AbstractCheck;
-import me.xneox.epicguard.core.check.AccountLimitCheck;
-import me.xneox.epicguard.core.check.BlacklistCheck;
-import me.xneox.epicguard.core.check.GeographicalCheck;
-import me.xneox.epicguard.core.check.LockdownCheck;
-import me.xneox.epicguard.core.check.NameSimilarityCheck;
-import me.xneox.epicguard.core.check.NicknameCheck;
-import me.xneox.epicguard.core.check.ProxyCheck;
-import me.xneox.epicguard.core.check.ReconnectCheck;
-import me.xneox.epicguard.core.check.ServerListCheck;
+import me.xneox.epicguard.core.check.*;
 import me.xneox.epicguard.core.manager.AttackManager;
 import me.xneox.epicguard.core.user.ConnectingUser;
 import me.xneox.epicguard.core.util.LogUtils;
-import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Handler for PreLogin listeners. It performs every antibot check (except SettingsCheck).
@@ -68,7 +60,7 @@ public abstract class PreLoginHandler {
    * @return Disconnect message, or an empty Optional if undetected.
    */
   @NotNull
-  public Optional<TextComponent> onPreLogin(final @NotNull String address, final @NotNull String nickname) {
+  public Optional<Component> onPreLogin(final @NotNull String address, final @NotNull String nickname) {
     LogUtils.debug(() -> "Handling incoming connection: " + address + "/" + nickname);
 
     final AttackManager attackManager = this.epicGuard.attackManager();

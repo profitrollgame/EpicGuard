@@ -15,9 +15,11 @@
 
 package me.xneox.epicguard.core.util;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import me.xneox.epicguard.core.EpicGuardAPI;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,40 +27,44 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public final class TextUtils {
-  //TODO: Implement Component Cache in MiniMessage migration
   private TextUtils() {}
-  private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.builder()
-      .character(LegacyComponentSerializer.AMPERSAND_CHAR)
-      .hexCharacter(LegacyComponentSerializer.HEX_CHAR)
-      .hexColors()
-      .build();
+  private static final MiniMessage SERIALIZER = MiniMessage.miniMessage();
+  private static final LoadingCache<String, Component> COMPONENT_CACHE = Caffeine.newBuilder()
+          .expireAfterWrite(1, TimeUnit.MINUTES)
+          .build(SERIALIZER::deserialize);
 
   /**
-   * Constructs a {@link TextComponent} from legacy string.
-   * Supports legacy color-codes by "&amp;" and hex colors by "&amp;#"
+   * Constructs a {@link Component} from string.
+   * Supports MiniMessage format
    *
    * @param message the original string
    * @return a component created from the string
    */
   @NotNull
-  public static TextComponent component(@NotNull String message) {
+  public static Component component(@NotNull String message) {
     return SERIALIZER.deserialize(message);
   }
 
+  @NotNull
+  public static Component cachedComponent(@NotNull String message) {
+    return COMPONENT_CACHE.get(message);
+  }
+
   /**
-   * Builds a multiline {@link TextComponent} from list of strings.
+   * Builds a multiline {@link Component} from list of strings.
    */
   @NotNull
-  public static TextComponent multilineComponent(@NotNull List<String> list) {
+  public static Component multilineComponent(@NotNull List<String> list) {
     Objects.requireNonNull(list, "Kick message cannot be null!");
 
-    var builder = new StringBuilder();
-    for (String line : list) {
+    final var builder = new StringBuilder();
+    for (final String line : list) {
       builder.append(line).append('\n');
     }
-    return component(builder.toString());
+    return cachedComponent(builder.toString());
   }
 
   /**

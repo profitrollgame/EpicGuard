@@ -37,6 +37,7 @@ bungee {
         libs.jackson.core to libs.versions.jackson,
         libs.jackson.databind to libs.versions.jackson,
         libs.jackson.annotations to libs.versions.jackson,
+        libs.adventure.minimessage to libs.versions.adventure.api,
     ).map { "${it.first.get().module}:${it.second.get()}" }
 }
 
