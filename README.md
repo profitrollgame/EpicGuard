@@ -2,8 +2,8 @@
 A simple AntiBot plugin for newest Minecraft versions.
 
 ## ✅ Supported platforms / Latest release requirements
-* [Paper 1.19.3+](https://papermc.io/) *(all paper forks are supported)*
-* [Velocity 3.1+](https://velocitypowered.com/)
+* [Paper 1.20.1+](https://papermc.io/) *(all paper forks are supported)*
+* [Velocity 3.2+](https://velocitypowered.com/)
 * [Waterfall](https://papermc.io/downloads#Waterfall)
 * Java **17**
 
