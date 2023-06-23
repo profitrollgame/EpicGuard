@@ -32,7 +32,7 @@ public class HelpCommand implements SubCommand {
           .replace("{BLACKLISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::blacklisted).size()))
           .replace("{WHITELISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::whitelisted).size()))
           .replace("{CPS}", Integer.toString(epicGuard.attackManager().connectionCounter()))
-          .replace("{ATTACK}", epicGuard.attackManager().isUnderAttack() ? "&a✔" : "&c✖")));
+          .replace("{ATTACK}", epicGuard.attackManager().isUnderAttack() ? "<green>✔" : "<red>✖")));
     }
   }
 }

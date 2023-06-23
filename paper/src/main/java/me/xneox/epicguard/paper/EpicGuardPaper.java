@@ -15,24 +15,20 @@
 
 package me.xneox.epicguard.paper;
 
-import java.util.UUID;
-import java.util.stream.Stream;
-
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
 import me.xneox.epicguard.core.placeholder.Placeholders;
-import me.xneox.epicguard.paper.listener.PlayerPostLoginListener;
-import me.xneox.epicguard.paper.listener.PlayerPreLoginListener;
-import me.xneox.epicguard.paper.listener.PlayerQuitListener;
-import me.xneox.epicguard.paper.listener.PlayerSettingsListener;
-import me.xneox.epicguard.paper.listener.ServerPingListener;
+import me.xneox.epicguard.paper.listener.*;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class EpicGuardPaper extends JavaPlugin implements Platform {
   private EpicGuard epicGuard;
@@ -43,7 +39,7 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
     this.epicGuard = new EpicGuard(this, getDataFolder().toPath());
 
     var pluginManager = getServer().getPluginManager();
-    final Listener listener = new Listener() {};
+
     Stream.of(
             new PlayerPreLoginListener(this.epicGuard),
             new PlayerQuitListener(this.epicGuard),
@@ -52,7 +48,7 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
             new PlayerSettingsListener(this.epicGuard)
     ).forEach(handler -> pluginManager.registerEvent(
             handler.clazz(),
-            listener,
+            handler,
             handler.priority(),
             (l, event) -> handler.handle(event),
             this,
@@ -83,25 +79,25 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
   }
 
   @Override
-  public @Nullable Audience audience(@NotNull UUID uuid) {
+  public @Nullable Audience audience(final @NotNull UUID uuid) {
     return getServer().getPlayer(uuid);
   }
 
   @Override
-  public void disconnectUser(@NotNull UUID uuid, @NotNull Component message) {
-    var player = getServer().getPlayer(uuid);
+  public void disconnectUser(final @NotNull UUID uuid, final @NotNull Component message) {
+    final var player = getServer().getPlayer(uuid);
     if (player != null) {
       player.kick(message);
     }
   }
 
   @Override
-  public void runTaskLater(@NotNull Runnable task, long seconds) {
-    getServer().getScheduler().runTaskLaterAsynchronously(this, task, seconds * 20L);
+  public void runTaskLater(final @NotNull Runnable task, final long seconds) {
+    getServer().getAsyncScheduler().runDelayed(this, $ -> task.run(), seconds, TimeUnit.SECONDS);
   }
 
   @Override
-  public void scheduleRepeatingTask(@NotNull Runnable task, long seconds) {
-    getServer().getScheduler().runTaskTimerAsynchronously(this, task, 20L, seconds * 20L);
+  public void scheduleRepeatingTask(final @NotNull Runnable task, final long seconds) {
+    getServer().getAsyncScheduler().runAtFixedRate(this, $ -> task.run(), 0, seconds, TimeUnit.SECONDS);
   }
 }

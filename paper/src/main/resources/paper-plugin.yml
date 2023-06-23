@@ -4,5 +4,6 @@ main: me.xneox.epicguard.paper.EpicGuardPaper
 description: Bot protection system for Minecraft servers.
 website: https://github.com/4drian3d/EpicGuard
 authors: [4drian3d, xneox]
-api-version: '1.19'
+api-version: '1.20'
 loader: me.xneox.epicguard.paper.LibraryLoader
+folia-supported: true

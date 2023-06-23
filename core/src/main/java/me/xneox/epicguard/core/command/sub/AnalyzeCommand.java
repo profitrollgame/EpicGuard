@@ -59,8 +59,8 @@ public class AnalyzeCommand implements SubCommand {
           .replace("{ADDRESS}", address)
           .replace("{COUNTRY}", epicGuard.geoManager().countryCode(address))
           .replace("{CITY}", epicGuard.geoManager().city(address))
-          .replace("{WHITELISTED}", meta.whitelisted() ? "&a✔" : "&c✖")
-          .replace("{BLACKLISTED}", meta.blacklisted() ? "&a✔" : "&c✖")
+          .replace("{WHITELISTED}", meta.whitelisted() ? "<green>✔" : "<red>✖")
+          .replace("{BLACKLISTED}", meta.blacklisted() ? "<green>✔" : "<red>✖")
           .replace("{ACCOUNT-AMOUNT}", Integer.toString(meta.nicknames().size()))
           .replace("{NICKNAMES}", String.join(", ", meta.nicknames()))));
     }
