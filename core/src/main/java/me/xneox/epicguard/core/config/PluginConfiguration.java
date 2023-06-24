@@ -402,6 +402,9 @@ public class PluginConfiguration {
     @Comment("Set to false to disable update checker.")
     private boolean updateChecker = true;
 
+    @Comment("Set to false to not try to download the latest geolocation database.")
+    private boolean geoDatabaseDownload = true;
+
     @Comment("""
       Time in minutes before auto-saving data.
       (!) Requires restart to apply.""")
@@ -424,6 +427,10 @@ public class PluginConfiguration {
 
     public boolean updateChecker() {
       return this.updateChecker;
+    }
+
+    public boolean geoDatabaseDownload() {
+      return this.geoDatabaseDownload;
     }
 
     public long autoSaveInterval() {

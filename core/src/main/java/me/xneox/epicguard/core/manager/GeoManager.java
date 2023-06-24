@@ -62,19 +62,24 @@ public final class GeoManager {
     final var cityArchive = parent.resolve("GeoLite2-City.tar.gz");
 
     try {
-      this.downloadDatabase(
-          countryDatabase,
-          countryArchive,
-          "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=LARAgQo3Fw7W9ZMS&suffix=tar.gz");
-      this.downloadDatabase(
-          cityDatabase,
-          cityArchive,
-          "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=LARAgQo3Fw7W9ZMS&suffix=tar.gz");
+      if (epicGuard.config().misc().geoDatabaseDownload()) {
+        this.downloadDatabase(
+                countryDatabase,
+                countryArchive,
+                "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=LARAgQo3Fw7W9ZMS&suffix=tar.gz");
+        this.downloadDatabase(
+                cityDatabase,
+                cityArchive,
+                "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=LARAgQo3Fw7W9ZMS&suffix=tar.gz");
+
+      } else {
+        epicGuard.logger().info("GeoIP database download is disabled, skipping...");
+      }
 
       this.countryReader = new DatabaseReader.Builder(countryDatabase.toFile()).withCache(new CHMCache()).build();
       this.cityReader = new DatabaseReader.Builder(cityDatabase.toFile()).withCache(new CHMCache()).build();
     } catch (IOException ex) {
-      LogUtils.catchException("Couldn't download the GeoIP databases, please check your internet connection.", ex);
+      LogUtils.catchException("Error while getting the GeoIP databases, please check your internet connection.", ex);
     }
   }
 
