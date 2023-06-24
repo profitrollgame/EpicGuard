@@ -16,6 +16,7 @@
 package me.xneox.epicguard.core.check;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.user.ConnectingUser;
@@ -59,19 +60,23 @@ public abstract sealed class AbstractCheck implements Comparable<AbstractCheck>
 
     /**
      * This method asserts the following behaviour based on the provided {@link ToggleState}:
-     * - If the state is ALWAYS, it will return the value of the specified expression.
-     * - If the state is ATTACK, it will return the value of the expression ONLY if there's an attack.
+     * - If the state is ALWAYS, it will evaluate and return the value of the specified expression.
+     * - If the state is ATTACK, it will evaluate and return the value of the expression ONLY if there's an attack.
      * - If the state is NEVER, it will return false.
+     * <br/>
+     * This method invokes the expression sync, so it is advised
+     * to put all expensive operations inside the expression.
      *
      * @param state      the configured {@link ToggleState} for this check
-     * @param expression the base check's result
+     * @param expression the base check runnable if the state is met
      * @return The return value is based on the check's behaviour. True means positive detection,
      * false means negative.
      */
-    public boolean evaluate(ToggleState state, boolean expression) {
+    public boolean evaluate(ToggleState state, BooleanSupplier expression) {
         if (state == ToggleState.ALWAYS || state == ToggleState.ATTACK && this.epicGuard.attackManager().isUnderAttack()) {
-            return expression;
+            return expression.getAsBoolean();
         }
+
         return false;
     }
 

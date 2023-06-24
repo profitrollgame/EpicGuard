@@ -29,7 +29,7 @@ public final class GeographicalCheck extends AbstractCheck {
 
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
-    return this.evaluate(this.epicGuard.config().geographical().checkMode(), this.isRestricted(user.address()));
+    return this.evaluate(this.epicGuard.config().geographical().checkMode(), () -> this.isRestricted(user.address()));
   }
 
   private boolean isRestricted(String address) {

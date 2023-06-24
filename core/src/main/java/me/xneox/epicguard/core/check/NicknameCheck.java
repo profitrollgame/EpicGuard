@@ -30,6 +30,6 @@ public final class NicknameCheck extends AbstractCheck {
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
     return this.evaluate(this.epicGuard.config().nicknameCheck().checkMode(),
-        user.nickname().matches(this.epicGuard.config().nicknameCheck().expression()));
+            () -> user.nickname().matches(this.epicGuard.config().nicknameCheck().expression()));
   }
 }
