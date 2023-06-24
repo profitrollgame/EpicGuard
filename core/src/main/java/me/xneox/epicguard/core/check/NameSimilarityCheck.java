@@ -39,20 +39,22 @@ public final class NameSimilarityCheck extends AbstractCheck {
 
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
-    synchronized (this.nameHistory) {
-      for (String nick : this.nameHistory) {
-        if (nick.equals(user.nickname())) {
-          return false; // ignore identical nickname.
+    return this.evaluate(this.epicGuard.config().nameSimilarityCheck().checkMode(), () -> {
+      synchronized (this.nameHistory) {
+        for (String nick : this.nameHistory) {
+          if (nick.equals(user.nickname())) {
+            return false; // ignore identical nickname.
+          }
+
+          int distance = this.distanceAlgorithm.apply(nick, user.nickname());
+          if (distance <= this.epicGuard.config().nameSimilarityCheck().distance()) {
+            return true;
+          }
         }
 
-        int distance = this.distanceAlgorithm.apply(nick, user.nickname());
-        if (distance <= this.epicGuard.config().nameSimilarityCheck().distance()) {
-          return this.evaluate(this.epicGuard.config().nameSimilarityCheck().checkMode(), true);
-        }
+        this.nameHistory.add(user.nickname());
+        return false;
       }
-
-      this.nameHistory.add(user.nickname());
-      return false;
-    }
+    });
   }
 }

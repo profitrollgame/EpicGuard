@@ -31,6 +31,6 @@ public final class ProxyCheck extends AbstractCheck {
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
     return this.evaluate(this.epicGuard.config().proxyCheck().checkMode(),
-        this.epicGuard.proxyManager().isProxy(user.address()));
+            () -> this.epicGuard.proxyManager().isProxy(user.address()));
   }
 }

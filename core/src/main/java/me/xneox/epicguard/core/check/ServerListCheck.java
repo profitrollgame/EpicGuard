@@ -30,6 +30,6 @@ public final class ServerListCheck extends AbstractCheck {
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
     return this.evaluate(this.epicGuard.config().serverListCheck().checkMode(),
-        !this.epicGuard.storageManager().pingCache().contains(user.address()));
+            () -> !this.epicGuard.storageManager().pingCache().contains(user.address()));
   }
 }

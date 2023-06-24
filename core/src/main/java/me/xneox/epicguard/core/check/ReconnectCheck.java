@@ -34,7 +34,8 @@ public final class ReconnectCheck extends AbstractCheck {
 
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
-    return this.evaluate(this.epicGuard.config().reconnectCheck().checkMode(), this.needsReconnect(user));
+    return this.evaluate(this.epicGuard.config().reconnectCheck().checkMode(),
+            () -> this.needsReconnect(user));
   }
 
   private boolean needsReconnect(ConnectingUser connectingUser) {
