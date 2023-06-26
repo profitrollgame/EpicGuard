@@ -399,6 +399,9 @@ public class PluginConfiguration {
             (!) Requires restart to apply.""")
     private long attackResetInterval = 80L;
 
+    @Comment("Disable IPs in tab completion.")
+    private boolean disableIpTabCompletion = false;
+
     @Comment("Set to false to disable update checker.")
     private boolean updateChecker = true;
 
@@ -423,6 +426,10 @@ public class PluginConfiguration {
 
     public long attackResetInterval() {
       return this.attackResetInterval;
+    }
+
+    public boolean disableIPTabCompletion() {
+      return this.disableIpTabCompletion;
     }
 
     public boolean updateChecker() {
