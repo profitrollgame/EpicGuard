@@ -68,7 +68,8 @@ public class BlacklistCommand implements SubCommand {
       return List.of("add", "remove");
     }
 
-    if (args[1].equalsIgnoreCase("remove")) {
+    if (args[1].equalsIgnoreCase("remove")
+            && !epicGuard.config().misc().disableIPTabCompletion()) {
       return epicGuard.storageManager().viewAddresses(AddressMeta::blacklisted);
     }
     return Collections.emptyList();

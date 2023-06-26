@@ -17,6 +17,8 @@ package me.xneox.epicguard.core.command.sub;
 
 import com.google.common.net.InetAddresses;
 import java.util.Collection;
+import java.util.Collections;
+
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.SubCommand;
 import me.xneox.epicguard.core.util.TextUtils;
@@ -68,6 +70,10 @@ public class AnalyzeCommand implements SubCommand {
 
   @Override
   public @NotNull Collection<String> suggest(@NotNull String[] args, @NotNull EpicGuard epicGuard) {
+    if (epicGuard.config().misc().disableIPTabCompletion()) {
+      return Collections.emptyList();
+    }
+
     return epicGuard.storageManager().addresses().asMap().keySet();
   }
 }
