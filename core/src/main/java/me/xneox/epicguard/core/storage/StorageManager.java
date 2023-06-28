@@ -57,7 +57,7 @@ public class StorageManager {
    */
   @NotNull
   public AddressMeta addressMeta(final @NotNull String address) {
-    return this.addresses.get(address, s -> new AddressMeta(false, false, new ArrayList<>()));
+    return this.addresses.get(address, s -> new AddressMeta(false, false, new ArrayList<>(), true));
   }
 
   /**
@@ -93,9 +93,9 @@ public class StorageManager {
    * If absent, it is added.
    */
   public void updateAccounts(@NotNull ConnectingUser user) {
-    final var accounts = this.addressMeta(user.address()).nicknames();
-    if (!accounts.contains(user.nickname())) {
-      accounts.add(user.nickname());
+    final var meta = this.addressMeta(user.address());
+    if (!meta.nicknames().contains(user.nickname())) {
+      meta.addNickname(user.nickname());
     }
   }
 
