@@ -79,17 +79,15 @@ public class Database {
 
   // Saving cached addresses to the database.
   public synchronized void save() throws SQLException {
-    try (var connection = this.source.getConnection()) {
+    try (var connection = this.source.getConnection(); var statement = connection.prepareStatement("REPLACE INTO"
+            + " epicguard_addresses(address, blacklisted, whitelisted, nicknames)"
+            + " VALUES(?, ?, ?, ?)")) {
       for (Map.Entry<String, AddressMeta> entry : this.core.storageManager().addresses().asMap().entrySet()) {
         var meta = entry.getValue();
 
         if (!meta.needsSave()) {
           continue;
         }
-
-        var statement = connection.prepareStatement("REPLACE INTO"
-                + " epicguard_addresses(address, blacklisted, whitelisted, nicknames)"
-                + " VALUES(?, ?, ?, ?)");
 
         statement.setString(1, entry.getKey());
         statement.setBoolean(2, meta.blacklisted());
