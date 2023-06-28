@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 import me.xneox.epicguard.core.config.MessagesConfiguration;
 import me.xneox.epicguard.core.config.PluginConfiguration;
+import me.xneox.epicguard.core.config.migration.MiniMessageMigration;
 import me.xneox.epicguard.core.proxy.ProxyService;
 import me.xneox.epicguard.core.proxy.ProxyServiceSerializer;
 import me.xneox.epicguard.core.util.LogUtils;
@@ -103,7 +104,7 @@ public class EpicGuard {
 
     try {
       this.config = new ConfigurationLoader<>(PluginConfiguration.class, configLoader).load();
-      this.messages = new ConfigurationLoader<>(MessagesConfiguration.class, messagesLoader).load();
+      this.messages = new ConfigurationLoader<>(MessagesConfiguration.class, messagesLoader, new MiniMessageMigration()).load();
     } catch (ConfigurateException exception) {
       LogUtils.catchException("Couldn't load the configuration file", exception);
     }
