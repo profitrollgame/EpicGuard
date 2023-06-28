@@ -15,12 +15,13 @@
 
 package me.xneox.epicguard.core.config;
 
-import java.util.List;
-import java.util.regex.Pattern;
-import me.xneox.epicguard.core.util.ToggleState;
 import me.xneox.epicguard.core.proxy.ProxyService;
+import me.xneox.epicguard.core.util.ToggleState;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("ALL") // make intellij shut up about using final fields that would break the config loader.
 @ConfigSerializable
@@ -36,31 +37,31 @@ public class PluginConfiguration {
   private AccountLimitCheck accountLimitCheck = new AccountLimitCheck();
 
   @Comment("""
-    Every vanilla client sends the Settings packet shortly after joining.
-    Some bots doesn't do this, and this check will try to detect that.""")
+          Every vanilla client sends the Settings packet shortly after joining.
+          Some bots doesn't do this, and this check will try to detect that.""")
   private SettingsCheck settingsCheck = new SettingsCheck();
 
   @Comment("""
-    Nickname-check will block players if their nickname matches
-    the regex expression set below.""")
+          Nickname-check will block players if their nickname matches
+          the regex expression set below.""")
   private NicknameCheck nicknameCheck = new NicknameCheck();
 
   @Comment("""
-    NameSimilarityCheck will detect similar nicknames of the connecting users
-    (!) Experimental! https://neox.gitbook.io/epicguard-wiki/configuring/name-similarity-check""")
+          NameSimilarityCheck will detect similar nicknames of the connecting users
+          (!) Experimental! https://neox.gitbook.io/epicguard-wiki/configuring/name-similarity-check""")
   private NameSimilarityCheck nameSimilarityCheck = new NameSimilarityCheck();
 
   @Comment("ReconnectCheck will force new users to join the server again.")
   private ReconnectCheck reconnectCheck = new ReconnectCheck();
 
   @Comment("""
-    Server-list check will force users to add your server
-    to their server list (send a ping) before joining""")
+          Server-list check will force users to add your server
+          to their server list (send a ping) before joining""")
   private ServerListCheck serverListCheck = new ServerListCheck();
 
   @Comment("""
-    If a player is online for long enough (see option below)
-    He will be added to the whitelist, and be exempt from every future detections""")
+          If a player is online for long enough (see option below)
+          He will be added to the whitelist, and be exempt from every future detections""")
   private AutoWhitelist autoWhitelist = new AutoWhitelist();
 
   private ConsoleFilter consoleFilter = new ConsoleFilter();
@@ -70,15 +71,15 @@ public class PluginConfiguration {
   @ConfigSerializable
   public static class Geographical {
     @Comment("""
-        NEVER - check is disabled.
-        ATTACK - check will be performed only during bot-attack.
-        ALWAYS - check will be always performed.""")
+            NEVER - check is disabled.
+            ATTACK - check will be performed only during bot-attack.
+            ALWAYS - check will be always performed.""")
     private ToggleState checkMode = ToggleState.NEVER;
 
     @Comment("""
-        Checks with bigger priority will be executed before the checks with lower priority.
-        (!) Requires a restart.
-        """)
+            Checks with bigger priority will be executed before the checks with lower priority.
+            (!) Requires a restart.
+            """)
     private int priority = 7;
 
     @Comment("""
@@ -123,9 +124,9 @@ public class PluginConfiguration {
     private ToggleState checkMode = ToggleState.ALWAYS;
 
     @Comment("""
-        Checks with bigger priority will be executed before the checks with lower priority.
-        (!) Requires a restart.
-        """)
+            Checks with bigger priority will be executed before the checks with lower priority.
+            (!) Requires a restart.
+            """)
     private int priority = 1;
 
     @Comment("""
@@ -133,7 +134,7 @@ public class PluginConfiguration {
             If you're not familiar with regex, see https://regexr.com/ or https://regex101.com/
             For example, (yes|VPN) will check if the response contains either 'yes' or 'VPN'""")
     private List<ProxyService> registeredServices = List.of(
-        new ProxyService("https://proxycheck.io/v2/{IP}?key=PROXYCHECK_KEY&risk=1&vpn=1", Pattern.compile("(yes|VPN)")));
+            new ProxyService("https://proxycheck.io/v2/{IP}?key=PROXYCHECK_KEY&risk=1&vpn=1", Pattern.compile("(yes|VPN)")));
 
     @Comment("""
             How long in SECONDS responses from proxy check should be cached?
@@ -160,23 +161,29 @@ public class PluginConfiguration {
 
   @ConfigSerializable
   public static class AccountLimitCheck {
-    @Comment("""
-            NEVER - check is disabled.
-            ATTACK - check will be performed only during bot-attack.
-            ALWAYS - check will be always performed.""")
-    private ToggleState checkMode = ToggleState.ALWAYS;
+    @Comment("Enable or disable this check.")
+    private boolean enabled = true;
 
     @Comment("""
-        Checks with bigger priority will be executed before the checks with lower priority.
-        (!) Requires a restart.
-        """)
+            Checks with bigger priority will be executed before the checks with lower priority.
+            (!) Requires a restart.
+            """)
     private int priority = 3;
 
-    @Comment("Limit of accounts per one IP address.")
+    @Comment("""
+            Limit of accounts connected per one IP address without any attack happening.
+            A list of accounts per IP is tracked and stored in the database.
+            """)
     private int limit = 3;
 
-    public ToggleState checkMode() {
-      return this.checkMode;
+    @Comment("""
+            Limit of accounts connected per one IP address during a bot-attack.
+            A list of accounts per IP is tracked and stored in the database.
+            """)
+    private int attackLimit = 1;
+
+    public boolean enabled() {
+      return this.enabled;
     }
 
     public int priority() {
@@ -186,6 +193,10 @@ public class PluginConfiguration {
     public int accountLimit() {
       return this.limit;
     }
+
+    public int attackAccountLimit() {
+      return this.attackLimit;
+    }
   }
 
   @ConfigSerializable
@@ -194,8 +205,8 @@ public class PluginConfiguration {
     private boolean enabled = true;
 
     @Comment("""
-      Delay in seconds after which we check if the player has already sent this packet.
-      Increase for faster detection, decrease if detecting players with bad internet connection""")
+            Delay in seconds after which we check if the player has already sent this packet.
+            Increase for faster detection, decrease if detecting players with bad internet connection""")
     private int delay = 5;
 
     public boolean enabled() {
@@ -216,14 +227,14 @@ public class PluginConfiguration {
     private ToggleState checkMode = ToggleState.ALWAYS;
 
     @Comment("""
-        Checks with bigger priority will be executed before the checks with lower priority.
-        (!) Requires a restart.
-        """)
+            Checks with bigger priority will be executed before the checks with lower priority.
+            (!) Requires a restart.
+            """)
     private int priority = 8;
 
     @Comment("""
-      Default value will check if the nickname contains 'bot' or 'mcdown'.
-      You can use https://regex101.com/ for making and testing your own expression.""")
+            Default value will check if the nickname contains 'bot' or 'mcdown'.
+            You can use https://regex101.com/ for making and testing your own expression.""")
     private String expression = "(?i).*(bot|mcdown).*";
 
     public ToggleState checkMode() {
@@ -248,9 +259,9 @@ public class PluginConfiguration {
     private ToggleState checkMode = ToggleState.NEVER;
 
     @Comment("""
-        Checks with bigger priority will be executed before the checks with lower priority.
-        (!) Requires a restart.
-        """)
+            Checks with bigger priority will be executed before the checks with lower priority.
+            (!) Requires a restart.
+            """)
     private int priority = 2;
 
     @Comment("""
@@ -293,9 +304,9 @@ public class PluginConfiguration {
     private ToggleState checkMode = ToggleState.ATTACK;
 
     @Comment("""
-        Checks with bigger priority will be executed before the checks with lower priority.
-        (!) Requires a restart.
-        """)
+            Checks with bigger priority will be executed before the checks with lower priority.
+            (!) Requires a restart.
+            """)
     private int priority = 4;
 
     public ToggleState checkMode() {
@@ -316,9 +327,9 @@ public class PluginConfiguration {
     private ToggleState checkMode = ToggleState.ATTACK;
 
     @Comment("""
-        Checks with bigger priority will be executed before the checks with lower priority.
-        (!) Requires a restart.
-        """)
+            Checks with bigger priority will be executed before the checks with lower priority.
+            (!) Requires a restart.
+            """)
     private int priority = 5;
 
     public ToggleState checkMode() {
@@ -340,16 +351,16 @@ public class PluginConfiguration {
     private ToggleState filterMode = ToggleState.ATTACK;
 
     @Comment("""
-      If log message contains one of these words, it will
-      be hidden. This can save a lot of CPU on big attacks.""")
+            If log message contains one of these words, it will
+            be hidden. This can save a lot of CPU on big attacks.""")
     private List<String> filterMessages =
-        List.of(
-            "GameProfile",
-            "Disconnected",
-            "UUID of player",
-            "logged in",
-            "lost connection",
-            "InitialHandler");
+            List.of(
+                    "GameProfile",
+                    "Disconnected",
+                    "UUID of player",
+                    "logged in",
+                    "lost connection",
+                    "InitialHandler");
 
     public ToggleState filterMode() {
       return this.filterMode;
@@ -366,8 +377,8 @@ public class PluginConfiguration {
     private boolean enabled = false;
 
     @Comment("""
-      Time in seconds the player must be online
-      to be added to the EpicGuard's whitelist.""")
+            Time in seconds the player must be online
+            to be added to the EpicGuard's whitelist.""")
     private int timeOnline = 600;
 
     public boolean enabled() {
@@ -389,8 +400,8 @@ public class PluginConfiguration {
     private boolean lockdownOnAttack = true;
 
     @Comment("""
-      How many connections per second must be made,
-      to activate the attack mode temporally?""")
+            How many connections per second must be made,
+            to activate the attack mode temporally?""")
     private int attackConnectionThreshold = 6;
 
     @Comment("""
@@ -409,8 +420,8 @@ public class PluginConfiguration {
     private boolean geoDatabaseDownload = true;
 
     @Comment("""
-      Time in minutes before auto-saving data.
-      (!) Requires restart to apply.""")
+            Time in minutes before auto-saving data.
+            (!) Requires restart to apply.""")
     private long autoSaveInterval = 10L;
 
     @Comment("Enabling this will log additional useful information, such as performed detections.")
@@ -453,9 +464,9 @@ public class PluginConfiguration {
   public static class Storage {
 
     @Comment("""
-        false - use SQLite for storage
-        true - use MYSQL for storage
-        (!) This option requires a restart. Changing storage type will reset your current data.""")
+            false - use SQLite for storage
+            true - use MYSQL for storage
+            (!) This option requires a restart. Changing storage type will reset your current data.""")
     private boolean useMysql = false;
 
     private String host = "127.0.0.1";

@@ -29,8 +29,21 @@ public final class AccountLimitCheck extends AbstractCheck {
 
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
+    if (!this.epicGuard.config().accountLimitCheck().enabled()) {
+      return false;
+    }
+
     var accounts = this.epicGuard.storageManager().addressMeta(user.address()).nicknames();
-    return this.evaluate(this.epicGuard.config().accountLimitCheck().checkMode(),
-            () -> !accounts.contains(user.nickname()) && accounts.size() >= this.epicGuard.config().accountLimitCheck().accountLimit());
+
+    // Account is allowed on this address because they already passed this check before
+    if (accounts.contains(user.nickname())) {
+      return false;
+    }
+
+    int accountLimit = this.epicGuard.attackManager().isUnderAttack() ?
+            this.epicGuard.config().accountLimitCheck().attackAccountLimit()
+            : this.epicGuard.config().accountLimitCheck().accountLimit();
+
+    return accounts.size() >= accountLimit;
   }
 }
