@@ -15,50 +15,93 @@
 
 package me.xneox.epicguard.core.handler;
 
-import java.util.UUID;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Queue;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Handler for the PlayerJoin or PostLogin listeners Used for the auto-whitelist feature,
  * and for SettingsCheck.
  */
 public abstract class PostLoginHandler {
-  private final EpicGuard epicGuard;
+    private final EpicGuard epicGuard;
+    private final Queue<WhiteListInfo> whitelistedPlayers = new ConcurrentLinkedQueue<>();
+    private final Queue<SettingsInfo> settingsPlayers = new ConcurrentLinkedQueue<>();
 
-  protected PostLoginHandler(EpicGuard epicGuard) {
-    this.epicGuard = epicGuard;
-  }
+    protected PostLoginHandler(EpicGuard epicGuard) {
+        this.epicGuard = epicGuard;
 
-  /**
-   * Handling the player who just have joined to the server.
-   *
-   * @param uuid UUID of the online player.
-   * @param address Address of the online player.
-   */
-  public void onPostLogin(final @NotNull UUID uuid, final @NotNull String address) {
-    // Schedule a delayed task to whitelist the player.
-    if (this.epicGuard.config().autoWhitelist().enabled()) {
-      this.epicGuard.platform().runTaskLater(() -> {
-        final var user = this.epicGuard.userManager().get(uuid);
+        epicGuard.platform().scheduleRepeatingTask(() -> {
+            long currentTime = System.currentTimeMillis() / 1000;
+            WhiteListInfo info;
+            while ((info = this.whitelistedPlayers.peek()) != null) {
+                if (info.time() + this.epicGuard.config().autoWhitelist().timeOnline() > currentTime) {
+                    // All players after this one are too new to be checked.
+                    break;
+                }
 
-        // check if player has logged out
-        if (user != null) {
-          final var meta = this.epicGuard.storageManager().addressMeta(address);
-          meta.whitelisted(true);
-        }
-      }, this.epicGuard.config().autoWhitelist().timeOnline());
+                whitelistedPlayers.remove();
+                var user = this.epicGuard.userManager().get(info.uuid());
+
+                // Check if the player has logged out
+                if (user == null) {
+                    continue;
+                }
+
+                var meta = this.epicGuard.storageManager().addressMeta(info.address());
+                meta.whitelisted(true);
+            }
+        }, 1);
+
+        epicGuard.platform().scheduleRepeatingTask(() -> {
+            long currentTime = System.currentTimeMillis() / 1000;
+            SettingsInfo info;
+            while ((info = this.settingsPlayers.peek()) != null) {
+                if (info.time() + this.epicGuard.config().settingsCheck().delay() > currentTime) {
+                    // All players after this one are too new to be checked.
+                    break;
+                }
+
+                settingsPlayers.remove();
+                var user = this.epicGuard.userManager().get(info.uuid());
+
+                // Check if the player has logged out
+                if (user == null) {
+                    continue;
+                }
+
+                if (!user.settingsChanged()) {
+                    this.epicGuard.platform().disconnectUser(info.uuid(), TextUtils.multilineComponent(this.epicGuard.messages().disconnect().settingsPacket()));
+                }
+            }
+        }, 1);
     }
 
-    // Schedule a delayed task to check if the player has sent the Settings packet.
-    if (this.epicGuard.config().settingsCheck().enabled()) {
-      this.epicGuard.platform().runTaskLater(() -> {
-        final var user = this.epicGuard.userManager().get(uuid);
-        if (user != null && !user.settingsChanged()) {
-          this.epicGuard.platform().disconnectUser(uuid, TextUtils.multilineComponent(this.epicGuard.messages().disconnect().settingsPacket()));
+    /**
+     * Handling the player who just have joined to the server.
+     *
+     * @param uuid    UUID of the online player.
+     * @param address Address of the online player.
+     */
+    public void onPostLogin(final @NotNull UUID uuid, final @NotNull String address) {
+        // Schedule a delayed task to whitelist the player.
+        if (this.epicGuard.config().autoWhitelist().enabled()) {
+            whitelistedPlayers.add(new WhiteListInfo(uuid, address, System.currentTimeMillis() / 1000));
         }
-      }, this.epicGuard.config().settingsCheck().delay());
+
+        // Schedule a delayed task to check if the player has sent the Settings packet.
+        if (this.epicGuard.config().settingsCheck().enabled()) {
+            settingsPlayers.add(new SettingsInfo(uuid, address, System.currentTimeMillis() / 1000));
+        }
     }
-  }
+
+    private record WhiteListInfo(UUID uuid, String address, long time) {
+    }
+
+    private record SettingsInfo(UUID uuid, String address, long time) {
+    }
 }
