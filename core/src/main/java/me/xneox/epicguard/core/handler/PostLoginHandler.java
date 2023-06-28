@@ -29,15 +29,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public abstract class PostLoginHandler {
     private final EpicGuard epicGuard;
-    private final Queue<WhiteListInfo> whitelistedPlayers = new ConcurrentLinkedQueue<>();
-    private final Queue<SettingsInfo> settingsPlayers = new ConcurrentLinkedQueue<>();
+    private final Queue<UserInfo> whitelistedPlayers = new ConcurrentLinkedQueue<>();
+    private final Queue<UserInfo> settingsPlayers = new ConcurrentLinkedQueue<>();
 
     protected PostLoginHandler(EpicGuard epicGuard) {
         this.epicGuard = epicGuard;
 
         epicGuard.platform().scheduleRepeatingTask(() -> {
             long currentTime = System.currentTimeMillis() / 1000;
-            WhiteListInfo info;
+            UserInfo info;
             while ((info = this.whitelistedPlayers.peek()) != null) {
                 if (info.time() + this.epicGuard.config().autoWhitelist().timeOnline() > currentTime) {
                     // All players after this one are too new to be checked.
@@ -59,7 +59,7 @@ public abstract class PostLoginHandler {
 
         epicGuard.platform().scheduleRepeatingTask(() -> {
             long currentTime = System.currentTimeMillis() / 1000;
-            SettingsInfo info;
+            UserInfo info;
             while ((info = this.settingsPlayers.peek()) != null) {
                 if (info.time() + this.epicGuard.config().settingsCheck().delay() > currentTime) {
                     // All players after this one are too new to be checked.
@@ -90,18 +90,15 @@ public abstract class PostLoginHandler {
     public void onPostLogin(final @NotNull UUID uuid, final @NotNull String address) {
         // Schedule a delayed task to whitelist the player.
         if (this.epicGuard.config().autoWhitelist().enabled()) {
-            whitelistedPlayers.add(new WhiteListInfo(uuid, address, System.currentTimeMillis() / 1000));
+            whitelistedPlayers.add(new UserInfo(uuid, address, System.currentTimeMillis() / 1000));
         }
 
         // Schedule a delayed task to check if the player has sent the Settings packet.
         if (this.epicGuard.config().settingsCheck().enabled()) {
-            settingsPlayers.add(new SettingsInfo(uuid, address, System.currentTimeMillis() / 1000));
+            settingsPlayers.add(new UserInfo(uuid, address, System.currentTimeMillis() / 1000));
         }
     }
 
-    private record WhiteListInfo(UUID uuid, String address, long time) {
-    }
-
-    private record SettingsInfo(UUID uuid, String address, long time) {
+    private record UserInfo(UUID uuid, String address, long time) {
     }
 }
