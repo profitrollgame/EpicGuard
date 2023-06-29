@@ -17,6 +17,7 @@ package me.xneox.epicguard.core.check;
 
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.user.ConnectingUser;
+import me.xneox.epicguard.core.util.ToggleState;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -30,7 +31,14 @@ public final class AccountLimitCheck extends AbstractCheck {
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
     var accounts = this.epicGuard.storageManager().addressMeta(user.address()).nicknames();
-    return this.evaluate(this.epicGuard.config().accountLimitCheck().checkMode(),
-            () -> !accounts.contains(user.nickname()) && accounts.size() >= this.epicGuard.config().accountLimitCheck().accountLimit());
+    final ToggleState checkMode = this.epicGuard.config().accountLimitCheck().checkMode();
+    if (checkMode == ToggleState.NEVER || accounts.contains(user.nickname())) {
+        return false;
+    }
+    if (this.epicGuard.attackManager().isUnderAttack()) {
+        return accounts.size() >= this.epicGuard.config().accountLimitCheck().attackAccountLimit(); 
+    }
+
+    return checkMode == ToggleState.ALWAYS && accounts.size() >= this.epicGuard.config().accountLimitCheck().accountLimit();
   }
 }

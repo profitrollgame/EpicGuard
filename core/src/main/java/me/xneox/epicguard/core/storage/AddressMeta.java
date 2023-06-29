@@ -15,9 +15,12 @@
 
 package me.xneox.epicguard.core.storage;
 
+import com.google.common.collect.ForwardingList;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * AddressMeta holds information about an IP address.
@@ -27,11 +30,13 @@ public final class AddressMeta {
   private final List<String> nicknames;
   private boolean blacklisted;
   private boolean whitelisted;
+  private boolean needsSave;
 
-  public AddressMeta(boolean blacklisted, boolean whitelisted, @NotNull List<String> nicknames) {
+  public AddressMeta(boolean blacklisted, boolean whitelisted, @NotNull List<String> nicknames, boolean needsSave) {
     this.blacklisted = blacklisted;
     this.whitelisted = whitelisted;
     this.nicknames = nicknames;
+    this.needsSave = needsSave;
   }
 
   public boolean blacklisted() {
@@ -40,6 +45,7 @@ public final class AddressMeta {
 
   public void blacklisted(boolean blacklisted) {
     this.blacklisted = blacklisted;
+    this.needsSave = true;
   }
 
   public boolean whitelisted() {
@@ -48,11 +54,25 @@ public final class AddressMeta {
 
   public void whitelisted(boolean whitelisted) {
     this.whitelisted = whitelisted;
+    this.needsSave = true;
   }
 
   @NotNull
   public List<String> nicknames() {
-    return this.nicknames;
+    return Collections.unmodifiableList(this.nicknames);
+  }
+
+  public void addNickname(@NotNull String nickname) {
+    this.nicknames.add(nickname);
+    this.needsSave = true;
+  }
+
+  public boolean needsSave() {
+    return this.needsSave;
+  }
+
+  public void needsSave(boolean needsSave) {
+    this.needsSave = needsSave;
   }
 
   @Override
@@ -64,7 +84,7 @@ public final class AddressMeta {
       return false;
     }
     return blacklisted == that.blacklisted && whitelisted == that.whitelisted
-        && Objects.equals(nicknames, that.nicknames);
+            && Objects.equals(nicknames, that.nicknames);
   }
 
   @Override
