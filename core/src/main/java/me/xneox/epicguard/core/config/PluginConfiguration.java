@@ -182,8 +182,8 @@ public class PluginConfiguration {
             """)
     private int attackLimit = 1;
 
-    public boolean enabled() {
-      return this.enabled;
+    public ToggleState checkMode() {
+      return this.checkMode;
     }
 
     public int priority() {
