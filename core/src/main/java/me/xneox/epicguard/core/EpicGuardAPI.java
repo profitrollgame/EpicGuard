@@ -112,6 +112,6 @@ public class EpicGuardAPI {
    * Checks if the EpicGuard has been initialized already.
    */
   public void checkAvailability() {
-    Objects.requireNonNull(this.epicGuard, "Can't access EpicGuardAPI because the plugin is not initialized. Have you set is as dependency?.");
+    Objects.requireNonNull(this.epicGuard, "Can't access EpicGuardAPI because the plugin is not initialized. Have you set it as dependency?.");
   }
 }

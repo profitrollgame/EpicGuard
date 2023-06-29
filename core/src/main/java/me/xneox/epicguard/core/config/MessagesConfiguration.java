@@ -17,10 +17,13 @@ package me.xneox.epicguard.core.config;
 
 import java.util.List;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
+import org.spongepowered.configurate.objectmapping.meta.Comment;
 
 @SuppressWarnings("ALL") // make intellij shut up about using final fields that would break the config loader.
 @ConfigSerializable
 public class MessagesConfiguration {
+  @Comment("Messages Configuration Version")
+  private int version = 1;
 
   // Config sections.
   private Command command = new Command();

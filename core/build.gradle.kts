@@ -15,6 +15,7 @@ dependencies {
 
     compileOnly(libs.adventure.api)
     compileOnly(libs.adventure.minimessage)
+    compileOnly(libs.adventure.serializer.legacy)
     compileOnly(libs.log4j2)
     compileOnly(libs.miniplaceholders)
 

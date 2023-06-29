@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 @SuppressWarnings("ALL") // make intellij shut up about using final fields that would break the config loader.
 @ConfigSerializable
 public class PluginConfiguration {
+  @Comment("Configuration Version")
+  private int version = 1;
 
   @Comment("GeographicalCheck will filter countries/cities your players can connect from.")
   private Geographical geographical = new Geographical();

@@ -15,7 +15,9 @@
 
 package me.xneox.epicguard.core.util;
 
+import me.xneox.epicguard.core.config.migration.ConfigurationMigration;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ObjectMapper;
@@ -29,9 +31,15 @@ import org.spongepowered.configurate.serialize.SerializationException;
 public class ConfigurationLoader<C> {
   private final HoconConfigurationLoader loader;
   private ObjectMapper<C> mapper;
+  private final ConfigurationMigration[] migrations;
 
-  public ConfigurationLoader(@NotNull Class<C> implementation, @NotNull HoconConfigurationLoader loader) {
+  public ConfigurationLoader(
+          final @NotNull Class<C> implementation,
+          final @NotNull HoconConfigurationLoader loader,
+          final @NotNull ConfigurationMigration@NotNull... migrations
+  ) {
     this.loader = loader;
+    this.migrations = migrations;
 
     try {
       this.mapper = ObjectMapper.factory().get(implementation);
@@ -40,14 +48,29 @@ public class ConfigurationLoader<C> {
     }
   }
 
+  private CommentedConfigurationNode applyMigration() throws ConfigurateException {
+    final CommentedConfigurationNode rootNode = this.loader.load();
+    boolean migrated = false;
+    for (final ConfigurationMigration migration : migrations) {
+      if (migration.shouldMigrate(rootNode)) {
+        migration.migrate(rootNode);
+        migrated = true;
+      }
+    }
+    if (migrated) {
+      this.loader.save(rootNode);
+    }
+    return rootNode;
+  }
+
   @NotNull
   public C load() throws ConfigurateException {
-    var configuration = this.mapper.load(this.loader.load());
+    var configuration = this.mapper.load(this.applyMigration());
     this.save(configuration); // write default values
     return configuration;
   }
 
-  public void save(@NotNull C config) throws ConfigurateException {
+  public void save(final @NotNull C config) throws ConfigurateException {
     var node = this.loader.createNode();
     this.mapper.save(config, node);
     this.loader.save(node);
