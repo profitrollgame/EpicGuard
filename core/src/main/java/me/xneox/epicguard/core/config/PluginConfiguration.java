@@ -161,8 +161,11 @@ public class PluginConfiguration {
 
   @ConfigSerializable
   public static class AccountLimitCheck {
-    @Comment("Enable or disable this check.")
-    private boolean enabled = true;
+    @Comment("""
+            NEVER - check is disabled.
+            ATTACK - check will be performed only during bot-attack.
+            ALWAYS - check will be always performed.""")
+    private ToggleState checkMode = ToggleState.ALWAYS;
 
     @Comment("""
             Checks with bigger priority will be executed before the checks with lower priority.
