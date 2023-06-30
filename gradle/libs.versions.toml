@@ -29,7 +29,7 @@ annotations = "24.0.1"
 
 sqlite = "3.42.0.0"
 hikaricp = "5.0.1"
-guava = "32.0.1-jre"
+guava = "32.1.0-jre"
 
 commons-compress = "1.23.0"
 commons-text = "1.10.0"
