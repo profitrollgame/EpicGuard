@@ -9,7 +9,7 @@ import static io.github.miniplaceholders.api.utils.Components.*;
 
 public final class Placeholders {
     public static void register() {
-        EpicGuardAPI API = EpicGuardAPI.INSTANCE;
+        final EpicGuardAPI API = EpicGuardAPI.INSTANCE;
         Expansion.builder("epicguard")
                 .globalPlaceholder("attack_status", (queue, ctx) -> {
                     final Component STATUS = API.attackManager().isUnderAttack()
