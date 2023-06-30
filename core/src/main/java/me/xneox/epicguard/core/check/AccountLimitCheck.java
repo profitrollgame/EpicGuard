@@ -30,10 +30,13 @@ public final class AccountLimitCheck extends AbstractCheck {
 
   @Override
   public boolean isDetected(@NotNull ConnectingUser user) {
-    var accounts = this.epicGuard.storageManager().addressMeta(user.address()).nicknames();
     final ToggleState checkMode = this.epicGuard.config().accountLimitCheck().checkMode();
-    if (checkMode == ToggleState.NEVER || accounts.contains(user.nickname())) {
+    if (checkMode == ToggleState.NEVER) {
         return false;
+    }
+    var accounts = this.epicGuard.storageManager().addressMeta(user.address()).nicknames();
+    if (accounts.contains(user.nickname())) {
+      return false;
     }
     if (this.epicGuard.attackManager().isUnderAttack()) {
         return accounts.size() >= this.epicGuard.config().accountLimitCheck().attackAccountLimit(); 
