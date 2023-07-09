@@ -20,6 +20,7 @@ dependencies {
     compileOnly(libs.miniplaceholders)
 
     compileOnly(libs.annotations)
+    compileOnly(libs.fuzzywuzzy)
 }
 
 tasks {
@@ -46,6 +47,7 @@ blossom {
     replaceToken("{geoip}", libs.versions.geoip.get())
     replaceToken("{jackson}", libs.versions.jackson.get())
     replaceToken("{maxmind-db}", libs.versions.maxmind.db.get())
+    replaceToken("{fuzzywuzzy}", libs.versions.fuzzywuzzy.get())
 }
 
 // Publish to Maven Central

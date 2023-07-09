@@ -16,22 +16,20 @@
 package me.xneox.epicguard.core.check;
 
 import com.google.common.collect.EvictingQueue;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.user.ConnectingUser;
-import org.apache.commons.text.similarity.LevenshteinDistance;
+import me.xneox.epicguard.core.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Queue;
 
 /**
- * This check caches nicknames of the recently connecting users,
- * and uses {@link LevenshteinDistance} to check similarity between them.
- * Not tested, may be unstable.
+ * This check caches nicknames of the recently connected users,
+ * and uses {@link FuzzySearch} to check similarity between them.
  */
-@SuppressWarnings("UnstableApiUsage")
 public final class NameSimilarityCheck extends AbstractCheck {
   private final Queue<String> nameHistory = EvictingQueue.create(this.epicGuard.config().nameSimilarityCheck().historySize());
-  private final LevenshteinDistance distanceAlgorithm = LevenshteinDistance.getDefaultInstance();
 
   public NameSimilarityCheck(EpicGuard epicGuard) {
     super(epicGuard, epicGuard.messages().disconnect().nameSimilarity(), epicGuard.config().nameSimilarityCheck().priority());
@@ -41,18 +39,16 @@ public final class NameSimilarityCheck extends AbstractCheck {
   public boolean isDetected(@NotNull ConnectingUser user) {
     return this.evaluate(this.epicGuard.config().nameSimilarityCheck().checkMode(), () -> {
       synchronized (this.nameHistory) {
+        String sanitized = StringUtils.sanizitzeString(user.nickname());
         for (String nick : this.nameHistory) {
-          if (nick.equals(user.nickname())) {
-            return false; // ignore identical nickname.
-          }
-
-          int distance = this.distanceAlgorithm.apply(nick, user.nickname());
-          if (distance <= this.epicGuard.config().nameSimilarityCheck().distance()) {
+          if (StringUtils.stringSimilarityInPercent(nick, sanitized) >=
+                  this.epicGuard.config().nameSimilarityCheck().maxSimilarityPercent()) {
             return true;
           }
         }
 
-        this.nameHistory.add(user.nickname());
+        // They passed the check, add them to the history.
+        this.nameHistory.add(sanitized);
         return false;
       }
     });

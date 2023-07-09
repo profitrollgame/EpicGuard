@@ -32,7 +32,8 @@ public class LibraryLoader implements PluginLoader {
                 "com.maxmind.db:maxmind-db:" + VersionUtils.MAXMIND_DB,
                 "com.fasterxml.jackson.core:jackson-annotations:" + VersionUtils.JACKSON,
                 "com.fasterxml.jackson.core:jackson-core:" + VersionUtils.JACKSON,
-                "com.fasterxml.jackson.core:jackson-databind:" + VersionUtils.JACKSON
+                "com.fasterxml.jackson.core:jackson-databind:" + VersionUtils.JACKSON,
+                "me.xdrop:fuzzywuzzy:" + VersionUtils.FUZZYWUZZY
         )
                 .map(artifact -> new Dependency(new DefaultArtifact(artifact), null))
                 .forEach(resolver::addDependency);
