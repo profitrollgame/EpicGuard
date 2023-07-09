@@ -278,7 +278,7 @@ public class PluginConfiguration {
             A value of 0% means that the check triggers when they are 0% similar or more. (always)
             Values can range from 0 to 100.
             """)
-    private int maxSimilarityPercent = 90;
+    private int maxSimilarityPercent = 95;
 
     public ToggleState checkMode() {
       return this.checkMode;
