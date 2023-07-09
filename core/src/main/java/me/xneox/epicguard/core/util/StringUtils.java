@@ -4,11 +4,14 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.Normalizer;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+    private static final Pattern DIATRICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+
     public static String revertLeet(String str) {
-        str = str.toLowerCase();
+        str = str.toLowerCase(Locale.ROOT);
 
         str = str.replace("0", "o");
         str = str.replace("1", "i");
@@ -50,7 +53,7 @@ public class StringUtils {
         }
 
         // Strip crazy stuff like zero-width spaces
-        return Pattern.compile("\\p{InCombiningDiacriticalMarks}+").matcher(decomposed).replaceAll("");
+        return DIATRICAL_MARKS_PATTERN.matcher(decomposed).replaceAll("");
     }
 
     public static String sanizitzeString(String str) {
