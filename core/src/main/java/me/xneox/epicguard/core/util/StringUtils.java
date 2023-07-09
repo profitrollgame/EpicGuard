@@ -37,13 +37,14 @@ public class StringUtils {
     private static String stripAccents(final String input) {
         StringBuilder decomposed = new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFD));
         for (int i = 0; i < decomposed.length(); i++) {
-            if (decomposed.charAt(i) == 'Ł') {
+            final char charAtPosition = decomposed.charAt(i);
+            if (charAtPosition == 'Ł') {
                 decomposed.setCharAt(i, 'L');
-            } else if (decomposed.charAt(i) == 'ł') {
+            } else if (charAtPosition == 'ł') {
                 decomposed.setCharAt(i, 'l');
-            } else if (decomposed.charAt(i) == 'Ø') {
+            } else if (charAtPosition == 'Ø') {
                 decomposed.setCharAt(i, 'O');
-            } else if (decomposed.charAt(i) == 'ø') {
+            } else if (charAtPosition == 'ø') {
                 decomposed.setCharAt(i, 'o');
             }
         }
