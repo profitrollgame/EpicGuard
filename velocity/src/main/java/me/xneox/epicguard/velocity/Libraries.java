@@ -127,6 +127,17 @@ final class Libraries {
                 .version(VersionUtils.JACKSON)
                 .id("jackson-databind")
                 .build();
+        final Relocation fuzzywuzzyRelocator = new Relocation(
+                "me{}xdrop{}fuzzywuzzy",
+                "me{}xneox{}epicguard{}libs{}fuzzywuzzy"
+        );
+        final Library FUZZYWUZZY = Library.builder()
+                .groupId("me.xdrop")
+                .artifactId("fuzzywuzzy")
+                .version(VersionUtils.FUZZYWUZZY)
+                .id("fuzzywuzzy")
+                .relocate(fuzzywuzzyRelocator)
+                .build();
 
         manager.addMavenCentral();
         manager.loadLibrary(SQLITE);
@@ -142,6 +153,7 @@ final class Libraries {
         manager.loadLibrary(JACKSON_ANNOTATIONS);
         manager.loadLibrary(JACKSON_CORE);
         manager.loadLibrary(JACKSON_DATABIND);
+        manager.loadLibrary(FUZZYWUZZY);
     }
 
 }

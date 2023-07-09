@@ -272,11 +272,13 @@ public class PluginConfiguration {
     private int historySize = 5;
 
     @Comment("""
-            The lower the distance, the similar the names.
-            If the distance detected is lower or same as configured here,
-            it will be considered as a positive detection.
-            Values below 1 are ignored, as it means identical name.""")
-    private int distance = 1;
+            The higher the similarity percent, the similar the names.
+            A value of 100 means that the check only triggers when they are 100% similar.
+            A value of 90% means that the check triggers when they are 90% similar or more.
+            A value of 0% means that the check triggers when they are 0% similar or more. (always)
+            Values can range from 0 to 100.
+            """)
+    private int maxSimilarityPercent = 90;
 
     public ToggleState checkMode() {
       return this.checkMode;
@@ -290,8 +292,8 @@ public class PluginConfiguration {
       return this.historySize;
     }
 
-    public int distance() {
-      return this.distance;
+    public int maxSimilarityPercent() {
+      return this.maxSimilarityPercent;
     }
   }
 

@@ -40,6 +40,8 @@ maxmind-db = "3.0.0"
 
 caffeine = "3.1.6"
 
+fuzzywuzzy = "1.4.0"
+
 [libraries]
 # Adventure
 adventure-platform-bungeecord = { group =  "net.kyori", name = "adventure-platform-bungeecord", version.ref = "adventure-platform" }
@@ -78,6 +80,7 @@ jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", ver
 
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
 
+fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
 [plugins]
 

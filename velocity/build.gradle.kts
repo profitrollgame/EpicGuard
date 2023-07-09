@@ -19,6 +19,7 @@ tasks {
         relocate("com.mysql.cj", "me.xneox.epicguard.libs.mysql")
         relocate("org.xerial", "me.xneox.epicguard.libs.org.xerial")
         relocate("org.apache.commons", "me.xneox.epicguard.libs.commons")
+        relocate("me.xdrop.fuzzywuzzy", "me.xneox.epicguard.libs.fuzzywuzzy")
     }
     build {
         dependsOn(shadowJar)

@@ -1,0 +1,69 @@
+package me.xneox.epicguard.core.util;
+
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+import org.jetbrains.annotations.NotNull;
+
+import java.text.Normalizer;
+import java.util.regex.Pattern;
+
+public class StringUtils {
+    public static String revertLeet(String str) {
+        str = str.toLowerCase();
+
+        str = str.replace("0", "o");
+        str = str.replace("1", "i");
+        str = str.replace("2", "z");
+        str = str.replace("3", "e");
+        str = str.replace("4", "a");
+        str = str.replace("5", "s");
+        str = str.replace("6", "g");
+        str = str.replace("7", "t");
+        str = str.replace("8", "b");
+        str = str.replace("9", "g");
+        str = str.replace("&", "a");
+        str = str.replace("@", "a");
+        str = str.replace("(", "c");
+        str = str.replace("#", "h");
+        str = str.replace("!", "i");
+        str = str.replace("]", "i");
+        str = str.replace("|", "i");
+        str = str.replace("}", "i");
+        str = str.replace("?", "o");
+        str = str.replace("$", "s");
+
+        return str;
+    }
+
+    private static String stripAccents(final String input) {
+        StringBuilder decomposed = new StringBuilder(Normalizer.normalize(input, Normalizer.Form.NFD));
+        for (int i = 0; i < decomposed.length(); i++) {
+            if (decomposed.charAt(i) == 'Ł') {
+                decomposed.setCharAt(i, 'L');
+            } else if (decomposed.charAt(i) == 'ł') {
+                decomposed.setCharAt(i, 'l');
+            } else if (decomposed.charAt(i) == 'Ø') {
+                decomposed.setCharAt(i, 'O');
+            } else if (decomposed.charAt(i) == 'ø') {
+                decomposed.setCharAt(i, 'o');
+            }
+        }
+
+        // Strip crazy stuff like zero-width spaces
+        return Pattern.compile("\\p{InCombiningDiacriticalMarks}+").matcher(decomposed).replaceAll("");
+    }
+
+    public static String sanizitzeString(String str) {
+        return revertLeet(stripAccents(str));
+    }
+
+    /**
+     * Get the similarity in percent between two strings.
+     *
+     * @param string1 The first string.
+     * @param string2 The second string.
+     * @return A integer between 0 and 100.
+     */
+    public static int stringSimilarityInPercent(@NotNull String string1, @NotNull String string2) {
+        return FuzzySearch.weightedRatio(string1, string2);
+    }
+}
