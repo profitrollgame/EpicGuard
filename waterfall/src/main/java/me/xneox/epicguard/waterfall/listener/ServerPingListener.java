@@ -28,6 +28,12 @@ public class ServerPingListener extends PingHandler implements Listener {
 
   @EventHandler(priority = Byte.MIN_VALUE)
   public void onPing(ProxyPingEvent event) {
+
+    if(event.getConnection() == null) {
+      event.setResponse(null);
+      return;
+    }
+
     //noinspection deprecation
     this.onPing(event.getConnection().getAddress().getAddress().getHostAddress());
   }
