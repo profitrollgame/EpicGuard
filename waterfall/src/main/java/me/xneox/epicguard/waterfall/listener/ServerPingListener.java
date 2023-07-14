@@ -31,6 +31,7 @@ public class ServerPingListener extends PingHandler implements Listener {
 
     if(event.getConnection() == null) {
       event.setResponse(null);
+      return;
     }
 
     //noinspection deprecation
