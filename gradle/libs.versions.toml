@@ -34,7 +34,7 @@ guava = "32.1.1-jre"
 commons-compress = "1.23.0"
 commons-text = "1.10.0"
 
-geoip = "4.0.1"
+geoip = "4.1.0"
 jackson = "2.15.2"
 maxmind-db = "3.0.0"
 
