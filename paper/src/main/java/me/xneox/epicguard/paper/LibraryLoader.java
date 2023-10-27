@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "UnstableApiUsage"})
-public class LibraryLoader implements PluginLoader {
+public final class LibraryLoader implements PluginLoader {
     @Override
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
         final MavenLibraryResolver resolver = new MavenLibraryResolver();
@@ -23,7 +23,6 @@ public class LibraryLoader implements PluginLoader {
         resolver.addRepository(mavenCentral);
 
         Stream.of(
-                "org.spongepowered:configurate-hocon:" + VersionUtils.CONFIGURATE,
                 "com.zaxxer:HikariCP:" + VersionUtils.HIKARI,
                 "com.github.ben-manes.caffeine:caffeine:" + VersionUtils.CAFFEINE,
                 "org.apache.commons:commons-compress:" + VersionUtils.COMMANDS_COMPRESS,
