@@ -27,7 +27,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
 import me.xneox.epicguard.core.placeholder.Placeholders;
-import me.xneox.epicguard.core.util.VersionUtils;
+import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.velocity.listener.*;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -42,7 +42,7 @@ import java.util.stream.Stream;
 @Plugin(
         id = "epicguard",
         name = "EpicGuard",
-        version = VersionUtils.CURRENT_VERSION,
+        version = Constants.CURRENT_VERSION,
         description = "Bot protection system for Minecraft servers.",
         url = "https://github.com/4drian3d/EpicGuard",
         authors = {"neox", "4drian3d"})

@@ -16,6 +16,7 @@
 package me.xneox.epicguard.core.task;
 
 import me.xneox.epicguard.core.EpicGuard;
+import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.core.util.VersionUtils;
 
 /**
@@ -32,6 +33,6 @@ public record UpdateCheckerTask(EpicGuard epicGuard) implements Runnable {
     VersionUtils.checkForUpdates(latest ->
         this.epicGuard.logger().info(this.epicGuard.messages().updateAvailable()
             .replace("{NEWVER}", latest)
-            .replace("{OLDVER}", VersionUtils.CURRENT_VERSION)));
+            .replace("{OLDVER}", Constants.CURRENT_VERSION)));
   }
 }

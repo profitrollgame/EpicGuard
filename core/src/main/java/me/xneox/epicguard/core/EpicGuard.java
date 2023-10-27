@@ -23,8 +23,8 @@ import me.xneox.epicguard.core.config.PluginConfiguration;
 import me.xneox.epicguard.core.config.migration.MiniMessageMigration;
 import me.xneox.epicguard.core.proxy.ProxyService;
 import me.xneox.epicguard.core.proxy.ProxyServiceSerializer;
+import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.core.util.LogUtils;
-import me.xneox.epicguard.core.util.VersionUtils;
 import me.xneox.epicguard.core.util.logging.LogFilter;
 import me.xneox.epicguard.core.manager.AttackManager;
 import me.xneox.epicguard.core.manager.GeoManager;
@@ -89,7 +89,7 @@ public class EpicGuard {
     this.platform.scheduleRepeatingTask(new AttackResetTask(this), this.config.misc().attackResetInterval());
     this.platform.scheduleRepeatingTask(new DataSaveTask(this), TimeUnit.MINUTES.toSeconds(this.config.misc().autoSaveInterval()));
 
-    logger().info("Startup completed successfully. Welcome to EpicGuard v" + VersionUtils.CURRENT_VERSION);
+    logger().info("Startup completed successfully. Welcome to EpicGuard v" + Constants.CURRENT_VERSION);
   }
 
   public void loadConfigurations() {

@@ -26,8 +26,8 @@ import me.xneox.epicguard.core.command.sub.ReloadCommand;
 import me.xneox.epicguard.core.command.sub.SaveCommand;
 import me.xneox.epicguard.core.command.sub.StatusCommand;
 import me.xneox.epicguard.core.command.sub.WhitelistCommand;
+import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.core.util.TextUtils;
-import me.xneox.epicguard.core.util.VersionUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -57,7 +57,7 @@ public class CommandHandler {
   public void handleCommand(@NotNull String[] args, @NotNull Audience audience) {
     // No arguments provided - send the version message.
     if (args.length < 1) {
-      audience.sendMessage(Component.text("You are running EpicGuard v" + VersionUtils.CURRENT_VERSION +
+      audience.sendMessage(Component.text("You are running EpicGuard v" + Constants.CURRENT_VERSION +
           " on " + this.epicGuard.platform().platformVersion(), TextColor.color(0x99ff00)));
       audience.sendMessage(TextUtils.cachedComponent("<#99ff00> Run <bold><white>/guard help</bold> to see available commands and statistics"));
       return;

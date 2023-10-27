@@ -3,7 +3,7 @@ package me.xneox.epicguard.velocity;
 import com.google.inject.Inject;
 import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
-import me.xneox.epicguard.core.util.VersionUtils;
+import me.xneox.epicguard.core.util.Constants;
 import net.byteflux.libby.Library;
 import net.byteflux.libby.VelocityLibraryManager;
 import net.byteflux.libby.relocation.Relocation;
@@ -51,7 +51,7 @@ final class Libraries {
         final Library CONFIGURATE_HOCON = Library.builder()
                 .groupId("org{}spongepowered")
                 .artifactId("configurate-hocon")
-                .version(VersionUtils.CONFIGURATE)
+                .version(Constants.CONFIGURATE)
                 .id("configurate-hocon")
                 .relocate(configurateRelocation)
                 .relocate(geantyrefRelocation)
@@ -59,7 +59,7 @@ final class Libraries {
         final Library CONFIGURATE_CORE = Library.builder()
                 .groupId("org{}spongepowered")
                 .artifactId("configurate-core")
-                .version(VersionUtils.CONFIGURATE)
+                .version(Constants.CONFIGURATE)
                 .id("configurate-core")
                 .relocate(configurateRelocation)
                 .relocate(geantyrefRelocation)
@@ -75,7 +75,7 @@ final class Libraries {
         final Library HIKARI = Library.builder()
                 .groupId("com{}zaxxer")
                 .artifactId("HikariCP")
-                .version(VersionUtils.HIKARI)
+                .version(Constants.HIKARI)
                 .id("hikari")
                 .relocate("com{}zaxxer{}hikari", "me{}xneox{}epicguard{}libs{}com{}zaxxer{}hikari")
                 .build();
@@ -86,45 +86,45 @@ final class Libraries {
         final Library COMMONS_COMPRESS = Library.builder()
                 .groupId("org{}apache{}commons")
                 .artifactId("commons-compress")
-                .version(VersionUtils.COMMANDS_COMPRESS)
+                .version(Constants.COMMANDS_COMPRESS)
                 .id("commons-compress")
                 .relocate(commonsRelocation)
                 .build();
         final Library COMMONS_TEXT = Library.builder()
                 .groupId("org{}apache{}commons")
                 .artifactId("commons-text")
-                .version(VersionUtils.COMMONS_TEXT)
+                .version(Constants.COMMONS_TEXT)
                 .id("commons-text")
                 .relocate(commonsRelocation)
                 .build();
         final Library MAXMIND_GEOIP = Library.builder()
                 .groupId("com.maxmind.geoip2")
                 .artifactId("geoip2")
-                .version(VersionUtils.GEOIP)
+                .version(Constants.GEOIP)
                 .id("geoip2")
                 .build();
         final Library MAXMIND_DB = Library.builder()
                 .groupId("com.maxmind.db")
                 .artifactId("maxmind-db")
-                .version(VersionUtils.MAXMIND_DB)
+                .version(Constants.MAXMIND_DB)
                 .id("maxmind-db")
                 .build();
         final Library JACKSON_ANNOTATIONS = Library.builder()
                 .groupId("com.fasterxml.jackson.core")
                 .artifactId("jackson-annotations")
-                .version(VersionUtils.JACKSON)
+                .version(Constants.JACKSON)
                 .id("jackson-annotations")
                 .build();
         final Library JACKSON_CORE = Library.builder()
                 .groupId("com.fasterxml.jackson.core")
                 .artifactId("jackson-core")
-                .version(VersionUtils.JACKSON)
+                .version(Constants.JACKSON)
                 .id("jackson-core")
                 .build();
         final Library JACKSON_DATABIND = Library.builder()
                 .groupId("com.fasterxml.jackson.core")
                 .artifactId("jackson-databind")
-                .version(VersionUtils.JACKSON)
+                .version(Constants.JACKSON)
                 .id("jackson-databind")
                 .build();
         final Relocation fuzzywuzzyRelocator = new Relocation(
@@ -134,7 +134,7 @@ final class Libraries {
         final Library FUZZYWUZZY = Library.builder()
                 .groupId("me.xdrop")
                 .artifactId("fuzzywuzzy")
-                .version(VersionUtils.FUZZYWUZZY)
+                .version(Constants.FUZZYWUZZY)
                 .id("fuzzywuzzy")
                 .relocate(fuzzywuzzyRelocator)
                 .build();

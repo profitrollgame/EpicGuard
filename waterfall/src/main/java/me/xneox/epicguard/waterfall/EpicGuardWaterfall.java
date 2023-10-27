@@ -25,7 +25,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -48,8 +47,7 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
 
     pluginManager.registerCommand(this, new BungeeCommandHandler(this));
 
-    if (new Random().nextBoolean())
-      this.logger.warn("""
+    this.logger.warn("""
             ---------------------------------------
             This version of EpicGuard for Waterfall
             is deprecated and will stop working in a future update.
@@ -63,6 +61,7 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
             Download it from: https://papermc.io/software/velocity
             ---------------------------------------
             """);
+
   }
 
   @Override

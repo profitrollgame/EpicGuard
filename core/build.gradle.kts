@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.idea.ext)
     alias(libs.plugins.blossom)
     `maven-publish`
     signing
@@ -41,18 +42,23 @@ java {
     withJavadocJar()
 }
 
-blossom {
-    replaceTokenIn("src/main/java/me/xneox/epicguard/core/util/VersionUtils.java")
-    replaceToken("{version}", project.version)
-    replaceToken("{hikari}", libs.versions.hikaricp.get())
-    replaceToken("{configurate}", libs.versions.configurate.get())
-    replaceToken("{caffeine}", libs.versions.caffeine.get())
-    replaceToken("{common-compress}", libs.versions.commons.compress.get())
-    replaceToken("{common-text}", libs.versions.commons.text.get())
-    replaceToken("{geoip}", libs.versions.geoip.get())
-    replaceToken("{jackson}", libs.versions.jackson.get())
-    replaceToken("{maxmind-db}", libs.versions.maxmind.db.get())
-    replaceToken("{fuzzywuzzy}", libs.versions.fuzzywuzzy.get())
+sourceSets {
+    main {
+        blossom {
+            javaSources {
+                property("version", project.version.toString())
+                property("hikari", libs.versions.hikaricp.get())
+                property("configurate", libs.versions.configurate.get())
+                property("caffeine", libs.versions.caffeine.get())
+                property("compress", libs.versions.commons.compress.get())
+                property("text", libs.versions.commons.text.get())
+                property("geoip", libs.versions.geoip.get())
+                property("jackson", libs.versions.jackson.get())
+                property("maxminddb", libs.versions.maxmind.db.get())
+                property("fuzzywuzzy", libs.versions.fuzzywuzzy.get())
+            }
+        }
+    }
 }
 
 // Publish to Maven Central

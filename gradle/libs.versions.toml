@@ -12,7 +12,7 @@ configurate = "4.1.2"
 miniplaceholders = "2.2.1"
 
 # Plugins
-blossom = "1.3.1"
+blossom = "2.1.0"
 shadow = "8.1.1"
 runtask = "2.2.0"
 plugin-yml = "0.6.0"
@@ -61,6 +61,7 @@ miniplaceholders = { group = "io.github.miniplaceholders", name = "miniplacehold
 
 # Included Dependencies
 libby-velocity = { group = "net.byteflux", name = "libby-velocity", version.ref = "libby" }
+libby-sponge = { group = "net.byteflux", name = "libby-sponge", version.ref = "libby" }
 
 # Loggers
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
@@ -96,3 +97,5 @@ runwaterfall = { id = "xyz.jpenilla.run-waterfall", version.ref = "runtask" }
 
 pluginyml-bungee = { id = "net.minecrell.plugin-yml.bungee", version.ref = "plugin-yml" }
 pluginyml-bukkit = { id = "net.minecrell.plugin-yml.bukkit", version.ref = "plugin-yml" }
+
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.7" }
