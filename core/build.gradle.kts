@@ -22,6 +22,7 @@ dependencies {
 
     compileOnly(libs.annotations)
     compileOnly(libs.fuzzywuzzy)
+    compileOnly(libs.cloud.core)
 }
 
 tasks {

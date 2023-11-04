@@ -15,8 +15,14 @@
 
 package me.xneox.epicguard.velocity;
 
+import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
+import cloud.commandframework.velocity.CloudInjectionModule;
+import cloud.commandframework.velocity.VelocityCommandManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -26,6 +32,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
+import me.xneox.epicguard.core.command.CommandHandler;
 import me.xneox.epicguard.core.placeholder.Placeholders;
 import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.velocity.listener.*;
@@ -65,10 +72,15 @@ public final class EpicGuardVelocity implements Platform {
         this.injector.getInstance(Libraries.class).register();
         this.epicGuard = new EpicGuard(this, dataFolder);
         this.injector = injector.createChildInjector(
-                binder -> binder.bind(EpicGuard.class).toInstance(epicGuard)
+                binder -> binder.bind(EpicGuard.class).toInstance(epicGuard),
+                CloudInjectionModule.createNative(AsynchronousCommandExecutionCoordinator.simpleCoordinator())
         );
 
-        this.injector.getInstance(VelocityCommandHandler.class).register();
+        final VelocityCommandManager<CommandSource> commandManager
+                = injector.getInstance(Key.get(new TypeLiteral<>(){}));
+
+        new CommandHandler<>(epicGuard, commandManager).register();
+
         Stream.of(
                 PostLoginListener.class,
                 PreLoginListener.class,

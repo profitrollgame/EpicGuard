@@ -15,24 +15,31 @@
 
 package me.xneox.epicguard.core.command.sub;
 
-import java.sql.SQLException;
+import cloud.commandframework.CommandManager;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.SubCommand;
 import me.xneox.epicguard.core.util.LogUtils;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
-import org.jetbrains.annotations.NotNull;
+
+import java.sql.SQLException;
 
 public class SaveCommand implements SubCommand {
   @Override
-  public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
-    try {
-      epicGuard.storageManager().database().save();
-      audience.sendMessage(TextUtils.component(epicGuard.messages().command().prefix() + "<red>Data has been saved successfully."));
-    } catch (SQLException ex) {
-      audience.sendMessage(TextUtils.component(epicGuard.messages().command().prefix() +
-          "<red>An exception occurred when saving data. See console for details."));
-      LogUtils.catchException("Could not save data to the SQL database (command-induced)", ex);
-    }
+  public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
+    commandManager.command(
+      builder(commandManager)
+              .literal("save")
+              .handler(ctx -> {
+                try {
+                  epicGuard.storageManager().database().save();
+                  ctx.getSender().sendMessage(TextUtils.component(epicGuard.messages().command().prefix() + "<red>Data has been saved successfully."));
+                } catch (SQLException ex) {
+                  ctx.getSender().sendMessage(TextUtils.component(epicGuard.messages().command().prefix() +
+                          "<red>An exception occurred when saving data. See console for details."));
+                  LogUtils.catchException("Could not save data to the SQL database (command-induced)", ex);
+                }
+              })
+    );
   }
 }

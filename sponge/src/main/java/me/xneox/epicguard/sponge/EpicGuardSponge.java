@@ -1,12 +1,16 @@
 package me.xneox.epicguard.sponge;
 
+import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
+import cloud.commandframework.sponge.SpongeCommandManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
+import me.xneox.epicguard.core.command.CommandHandler;
 import me.xneox.epicguard.core.placeholder.Placeholders;
 import me.xneox.epicguard.sponge.listener.*;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,8 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.MinecraftVersion;
 import org.spongepowered.api.Server;
+import org.spongepowered.api.command.Command;
+import org.spongepowered.api.command.CommandCause;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.lifecycle.RegisterCommandEvent;
 import org.spongepowered.api.event.lifecycle.StartedEngineEvent;
 import org.spongepowered.api.event.lifecycle.StoppingEngineEvent;
 import org.spongepowered.api.plugin.PluginManager;
@@ -27,6 +34,7 @@ import org.spongepowered.plugin.builtin.jvm.Plugin;
 import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 @Plugin("epicguard")
@@ -50,7 +58,7 @@ public final class EpicGuardSponge implements Platform {
 
     @Listener
     public void onServerInitialization(StartedEngineEvent<Server> event) {
-        this.injector.getInstance(Libraries.class).register();
+        //this.injector.getInstance(Libraries.class).register();
         this.epicGuard = new EpicGuard(this, configFilePath);
         this.injector = injector.createChildInjector(
                 binder -> binder.bind(EpicGuard.class).toInstance(epicGuard)
@@ -70,6 +78,8 @@ public final class EpicGuardSponge implements Platform {
             Placeholders.register();
         }
     }
+
+
 
     @Listener
     public void onServerShutdown(final StoppingEngineEvent<Server> event) {
@@ -112,5 +122,27 @@ public final class EpicGuardSponge implements Platform {
                 .execute(task)
                 .interval(seconds, TimeUnit.SECONDS)
                 .build());
+    }
+
+    private final AtomicInteger registration = new AtomicInteger(0);
+    @Listener
+    public void onCommandRegister(final RegisterCommandEvent<Command.Parameterized> event) {
+        if (registration.getAndIncrement() == 0) {
+            final SpongeCommandManager<AudienceHolder> commandManager = new SpongeCommandManager<>(
+                    pluginContainer,
+                    AsynchronousCommandExecutionCoordinator.simpleCoordinator(),
+                    AudienceHolder::cause,
+                    AudienceHolder::new
+            );
+            new CommandHandler<>(epicGuard, commandManager).register();
+        }
+    }
+
+    record AudienceHolder(@NotNull CommandCause cause) implements ForwardingAudience.Single {
+
+        @Override
+        public @NotNull Audience audience() {
+            return cause.audience();
+        }
     }
 }

@@ -15,12 +15,17 @@
 
 package me.xneox.epicguard.waterfall;
 
+import cloud.commandframework.bungee.BungeeCommandManager;
+import cloud.commandframework.execution.CommandExecutionCoordinator;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
+import me.xneox.epicguard.core.command.CommandHandler;
 import me.xneox.epicguard.waterfall.listener.*;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.kyori.adventure.text.Component;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -28,7 +33,8 @@ import org.slf4j.Logger;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public class EpicGuardWaterfall extends Plugin implements Platform {
+@SuppressWarnings("unused")
+public final class EpicGuardWaterfall extends Plugin implements Platform {
   private EpicGuard epicGuard;
   private BungeeAudiences adventure;
   private final Logger logger = this.getSLF4JLogger();
@@ -45,7 +51,13 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
     pluginManager.registerListener(this, new ServerPingListener(this.epicGuard));
     pluginManager.registerListener(this, new PlayerSettingsListener(this.epicGuard));
 
-    pluginManager.registerCommand(this, new BungeeCommandHandler(this));
+    final BungeeCommandManager<LegacyAudienceHolder> commandManager = new BungeeCommandManager<>(
+            this,
+            CommandExecutionCoordinator.simpleCoordinator(),
+            LegacyAudienceHolder::new,
+            LegacyAudienceHolder::sender
+    );
+    new CommandHandler<>(epicGuard, commandManager).register();
 
     this.logger.warn("""
             ---------------------------------------
@@ -62,6 +74,23 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
             ---------------------------------------
             """);
 
+  }
+
+  private final class LegacyAudienceHolder implements ForwardingAudience.Single {
+    private final CommandSender sender;
+
+    private LegacyAudienceHolder(CommandSender sender) {
+      this.sender = sender;
+    }
+
+    @Override
+    public @NotNull Audience audience() {
+      return adventure.sender(sender);
+    }
+
+    CommandSender sender() {
+      return this.sender;
+    }
   }
 
   @Override
@@ -103,15 +132,5 @@ public class EpicGuardWaterfall extends Plugin implements Platform {
   @Override
   public void scheduleRepeatingTask(@NotNull Runnable task, long seconds) {
     this.getProxy().getScheduler().schedule(this, task, seconds, seconds, TimeUnit.SECONDS);
-  }
-
-  @NotNull
-  public BungeeAudiences adventure() {
-    return this.adventure;
-  }
-
-  @NotNull
-  public EpicGuard epicGuard() {
-    return this.epicGuard;
   }
 }

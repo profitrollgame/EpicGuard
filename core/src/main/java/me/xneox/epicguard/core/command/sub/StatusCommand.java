@@ -15,27 +15,30 @@
 
 package me.xneox.epicguard.core.command.sub;
 
-import java.util.Optional;
-import java.util.UUID;
+import cloud.commandframework.CommandManager;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.SubCommand;
 import me.xneox.epicguard.core.user.OnlineUser;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
-import org.jetbrains.annotations.NotNull;
 
 public class StatusCommand implements SubCommand {
-  @Override
-  public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
-    var config = epicGuard.messages().command();
+    @Override
+    public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
+        commandManager.command(
+                builder(commandManager)
+                        .literal("status")
+                        .handler(ctx -> {
+                            var config = epicGuard.messages().command();
 
-    Optional<UUID> uuidOptional = audience.pointers().get(Identity.UUID);
-    uuidOptional.ifPresent(uuid -> {
-      // UUID is present, enable notifications.
-      OnlineUser onlineUser = epicGuard.userManager().getOrCreate(uuid);
-      onlineUser.notifications(!onlineUser.notifications());
-      audience.sendMessage(TextUtils.component(config.prefix() + config.toggleStatus()));
-    });
-  }
+                            ctx.getSender().get(Identity.UUID).ifPresent(uuid -> {
+                                // UUID is present, enable notifications.
+                                OnlineUser onlineUser = epicGuard.userManager().getOrCreate(uuid);
+                                onlineUser.notifications(!onlineUser.notifications());
+                                ctx.getSender().sendMessage(TextUtils.component(config.prefix() + config.toggleStatus()));
+                            });
+                        })
+        );
+    }
 }

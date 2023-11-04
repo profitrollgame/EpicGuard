@@ -15,78 +15,52 @@
 
 package me.xneox.epicguard.core.command;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
+import cloud.commandframework.Command;
+import cloud.commandframework.CommandManager;
 import me.xneox.epicguard.core.EpicGuard;
-import me.xneox.epicguard.core.command.sub.AnalyzeCommand;
-import me.xneox.epicguard.core.command.sub.BlacklistCommand;
-import me.xneox.epicguard.core.command.sub.HelpCommand;
-import me.xneox.epicguard.core.command.sub.ReloadCommand;
-import me.xneox.epicguard.core.command.sub.SaveCommand;
-import me.xneox.epicguard.core.command.sub.StatusCommand;
-import me.xneox.epicguard.core.command.sub.WhitelistCommand;
+import me.xneox.epicguard.core.command.sub.*;
 import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import org.jetbrains.annotations.NotNull;
+
 
 /**
  * This class holds all registered subcommands, and handles the user command/tab suggestion input.
  */
-public class CommandHandler {
-  private final Map<String, SubCommand> commandMap;
-  private final EpicGuard epicGuard;
+public final class CommandHandler<A extends Audience> {
+    private final EpicGuard epicGuard;
+    private final CommandManager<A> commandManager;
 
-  public CommandHandler(EpicGuard epicGuard) {
-    this.epicGuard = epicGuard;
-
-    this.commandMap = Map.of(
-      "analyze", new AnalyzeCommand(),
-      "blacklist", new BlacklistCommand(),
-      "help", new HelpCommand(),
-      "reload", new ReloadCommand(),
-      "status", new StatusCommand(),
-      "whitelist", new WhitelistCommand(),
-      "save", new SaveCommand()
-    );
-  }
-
-  public void handleCommand(@NotNull String[] args, @NotNull Audience audience) {
-    // No arguments provided - send the version message.
-    if (args.length < 1) {
-      audience.sendMessage(Component.text("You are running EpicGuard v" + Constants.CURRENT_VERSION +
-          " on " + this.epicGuard.platform().platformVersion(), TextColor.color(0x99ff00)));
-      audience.sendMessage(TextUtils.cachedComponent("<#99ff00> Run <bold><white>/guard help</bold> to see available commands and statistics"));
-      return;
+    public CommandHandler(final EpicGuard epicGuard, final CommandManager<A> commandManager) {
+        this.epicGuard = epicGuard;
+        this.commandManager = commandManager;
     }
 
-    var subCommand = this.commandMap.get(args[0]);
-    if (subCommand == null) {
-      audience.sendMessage(TextUtils.cachedComponent(this.epicGuard.messages().command().prefix() + this.epicGuard.messages().command().unknownCommand()));
-      return;
+    public void register() {
+        commandManager.command(builder()
+                .handler(ctx -> {
+                    ctx.getSender().sendMessage(Component.text("You are running EpicGuard v" + Constants.CURRENT_VERSION +
+                            " on " + this.epicGuard.platform().platformVersion(), TextColor.color(0x99ff00)));
+                    ctx.getSender().sendMessage(TextUtils.cachedComponent("<#99ff00> Run <bold><white>/guard help</bold> to see available commands and statistics"));
+                }));
+
+        final SubCommand[] subCommands = {
+                new AnalyzeCommand(),
+                new BlacklistCommand(),
+                new HelpCommand(),
+                new ReloadCommand(),
+                new StatusCommand(),
+                new WhitelistCommand(),
+                new SaveCommand()
+        };
+        for (final SubCommand subCommand : subCommands) {
+            subCommand.register(commandManager, epicGuard);
+        }
     }
 
-    subCommand.execute(audience, args, this.epicGuard);
-  }
-
-  @NotNull
-  public Collection<String> handleSuggestions(@NotNull String[] args) {
-    // If no argument is specified, send all available subcommands.
-    if (args.length <= 1) {
-      return this.commandMap.keySet();
+    private Command.Builder<A> builder() {
+        return commandManager.commandBuilder("epicguard").permission("epicguard.admin");
     }
-
-    // Handle argument completions.
-    // "rel" will be completed to "reload"
-    for (var entry : this.commandMap.entrySet()) {
-      if (entry.getKey().startsWith(args[0])) {
-        return entry.getValue().suggest(args, this.epicGuard);
-      }
-    }
-
-    return Collections.emptyList();
-  }
 }

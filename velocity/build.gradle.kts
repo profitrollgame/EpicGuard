@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(projects.core)
     implementation(libs.libby.velocity)
+    implementation(libs.cloud.velocity)
 
     compileOnly(libs.velocity)
     annotationProcessor(libs.velocity)
