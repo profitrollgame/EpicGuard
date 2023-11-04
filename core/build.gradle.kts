@@ -57,6 +57,7 @@ sourceSets {
                 property("jackson", libs.versions.jackson.get())
                 property("maxminddb", libs.versions.maxmind.db.get())
                 property("fuzzywuzzy", libs.versions.fuzzywuzzy.get())
+                property("cloud", libs.versions.cloud.get())
             }
         }
     }

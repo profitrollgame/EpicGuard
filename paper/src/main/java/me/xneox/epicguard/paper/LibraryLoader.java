@@ -32,7 +32,8 @@ public final class LibraryLoader implements PluginLoader {
                 "com.fasterxml.jackson.core:jackson-annotations:" + Constants.JACKSON,
                 "com.fasterxml.jackson.core:jackson-core:" + Constants.JACKSON,
                 "com.fasterxml.jackson.core:jackson-databind:" + Constants.JACKSON,
-                "me.xdrop:fuzzywuzzy:" + Constants.FUZZYWUZZY
+                "me.xdrop:fuzzywuzzy:" + Constants.FUZZYWUZZY,
+                "cloud.commandframework:cloud-paper:" + Constants.CLOUD
         )
                 .map(artifact -> new Dependency(new DefaultArtifact(artifact), null))
                 .forEach(resolver::addDependency);

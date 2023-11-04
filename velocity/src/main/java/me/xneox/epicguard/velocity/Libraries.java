@@ -138,22 +138,79 @@ final class Libraries {
                 .id("fuzzywuzzy")
                 .relocate(fuzzywuzzyRelocator)
                 .build();
+        final Relocation cloudRelocation =
+                new Relocation(
+                        "cloud{}commandframework",
+                        "me.xneox.epicguard{}libs{}cloud");
+        final Library cloudVelocity = Library.builder()
+                .groupId("cloud{}commandframework")
+                .artifactId("cloud-velocity")
+                .version(Constants.CLOUD)
+                .id("cloudVelocity")
+                .relocate(geantyrefRelocation)
+                .relocate(cloudRelocation)
+                .build();
+        final Library cloudBrigadier = Library.builder()
+                .groupId("cloud{}commandframework")
+                .artifactId("cloud-brigadier")
+                .version(Constants.CLOUD)
+                .id("cloudBrigadier")
+                .relocate(geantyrefRelocation)
+                .relocate(cloudRelocation)
+                .build();
+        final Library cloudCore = Library.builder()
+                .groupId("cloud{}commandframework")
+                .artifactId("cloud-core")
+                .version(Constants.CLOUD)
+                .id("cloudCore")
+                .relocate(geantyrefRelocation)
+                .relocate(cloudRelocation)
+                .build();
+        final Library cloudServices = Library.builder()
+                .groupId("cloud{}commandframework")
+                .artifactId("cloud-services")
+                .version(Constants.CLOUD)
+                .id("cloudServices")
+                .relocate(geantyrefRelocation)
+                .relocate(cloudRelocation)
+                .build();
+        final Library apiGuardian = Library.builder()
+                .groupId("org.apiguardian")
+                .artifactId("apiguardian-api")
+                .version("1.1.2")
+                .id("apiguardian")
+                .build();
 
         manager.addMavenCentral();
-        manager.loadLibrary(SQLITE);
-        manager.loadLibrary(MYSQL);
-        manager.loadLibrary(GEANTYREF);
-        manager.loadLibrary(CONFIGURATE_CORE);
-        manager.loadLibrary(CONFIGURATE_HOCON);
-        manager.loadLibrary(HIKARI);
-        manager.loadLibrary(COMMONS_COMPRESS);
-        manager.loadLibrary(COMMONS_TEXT);
-        manager.loadLibrary(MAXMIND_GEOIP);
-        manager.loadLibrary(MAXMIND_DB);
-        manager.loadLibrary(JACKSON_ANNOTATIONS);
-        manager.loadLibrary(JACKSON_CORE);
-        manager.loadLibrary(JACKSON_DATABIND);
-        manager.loadLibrary(FUZZYWUZZY);
+        loadLibraries(
+                manager,
+                SQLITE,
+                MYSQL,
+                GEANTYREF,
+                CONFIGURATE_CORE,
+                CONFIGURATE_HOCON,
+                HIKARI,
+                COMMONS_COMPRESS,
+                COMMONS_TEXT,
+                MAXMIND_GEOIP,
+                MAXMIND_DB,
+                JACKSON_ANNOTATIONS,
+                JACKSON_CORE,
+                JACKSON_DATABIND,
+                FUZZYWUZZY,
+                cloudCore,
+                cloudBrigadier,
+                cloudServices,
+                cloudVelocity,
+                apiGuardian
+        );
+
+    }
+
+    private void loadLibraries(VelocityLibraryManager<EpicGuardVelocity> manager, Library... libraries) {
+        for (final Library library : libraries) {
+            manager.loadLibrary(library);
+        }
     }
 
 }

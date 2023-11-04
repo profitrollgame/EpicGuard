@@ -13,4 +13,5 @@ public final class Constants {
     public static final String JACKSON = "{{ jackson }}";
     public static final String FUZZYWUZZY = "{{ fuzzywuzzy }}";
     public static final String MAXMIND_DB = "{{ maxminddb }}";
+    public static final String CLOUD = "{{ cloud }}";
 }
