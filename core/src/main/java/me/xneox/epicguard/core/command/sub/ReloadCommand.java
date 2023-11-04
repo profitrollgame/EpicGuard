@@ -15,18 +15,24 @@
 
 package me.xneox.epicguard.core.command.sub;
 
+import cloud.commandframework.CommandManager;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.SubCommand;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
-import org.jetbrains.annotations.NotNull;
 
 public class ReloadCommand implements SubCommand {
   @Override
-  public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
-    var config = epicGuard.messages().command();
+  public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
+    commandManager.command(
+            builder(commandManager)
+                    .literal("reload")
+                    .handler(ctx -> {
+                      var config = epicGuard.messages().command();
 
-    epicGuard.loadConfigurations();
-    audience.sendMessage(TextUtils.component(config.prefix() + config.reloaded()));
+                      epicGuard.loadConfigurations();
+                      ctx.getSender().sendMessage(TextUtils.component(config.prefix() + config.reloaded()));
+                    })
+    );
   }
 }

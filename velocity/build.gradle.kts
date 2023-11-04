@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(projects.core)
     implementation(libs.libby.velocity)
+    compileOnly(libs.cloud.velocity)
 
     compileOnly(libs.velocity)
     annotationProcessor(libs.velocity)
@@ -20,6 +21,7 @@ tasks {
         relocate("org.xerial", "me.xneox.epicguard.libs.org.xerial")
         relocate("org.apache.commons", "me.xneox.epicguard.libs.commons")
         relocate("me.xdrop.fuzzywuzzy", "me.xneox.epicguard.libs.fuzzywuzzy")
+        relocate("cloud.commandframework", "me.xneox.epicguard.libs.cloud")
     }
     build {
         dependsOn(shadowJar)

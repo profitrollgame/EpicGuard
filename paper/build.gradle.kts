@@ -6,6 +6,7 @@ dependencies {
     implementation(projects.core)
     implementation(libs.configurate)
     compileOnly(libs.paper)
+    compileOnly(libs.cloud.paper)
 }
 
 tasks {

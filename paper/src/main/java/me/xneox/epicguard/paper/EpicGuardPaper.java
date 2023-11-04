@@ -15,12 +15,16 @@
 
 package me.xneox.epicguard.paper;
 
+import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
+import cloud.commandframework.paper.PaperCommandManager;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
+import me.xneox.epicguard.core.command.CommandHandler;
 import me.xneox.epicguard.core.placeholder.Placeholders;
 import me.xneox.epicguard.paper.listener.*;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,9 +32,11 @@ import org.slf4j.Logger;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class EpicGuardPaper extends JavaPlugin implements Platform {
+@SuppressWarnings("unused")
+public final class EpicGuardPaper extends JavaPlugin implements Platform {
   private EpicGuard epicGuard;
   private final Logger logger = this.getSLF4JLogger();
 
@@ -55,8 +61,18 @@ public class EpicGuardPaper extends JavaPlugin implements Platform {
             handler.ignoreCancelled()
     ));
 
-    this.getServer().getCommandMap()
-            .register("epicguard", new PaperCommandHandler(this.epicGuard, this));
+    try {
+      final PaperCommandManager<CommandSender> commandManager = new PaperCommandManager<>(
+              this,
+              AsynchronousCommandExecutionCoordinator.simpleCoordinator(),
+              Function.identity(),
+              Function.identity()
+      );
+      commandManager.registerBrigadier();
+      new CommandHandler<>(epicGuard, commandManager).register();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
 
     if (this.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
       Placeholders.register();

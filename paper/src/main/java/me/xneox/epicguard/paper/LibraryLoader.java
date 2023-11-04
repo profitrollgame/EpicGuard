@@ -3,7 +3,7 @@ package me.xneox.epicguard.paper;
 import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
 import io.papermc.paper.plugin.loader.PluginLoader;
 import io.papermc.paper.plugin.loader.library.impl.MavenLibraryResolver;
-import me.xneox.epicguard.core.util.VersionUtils;
+import me.xneox.epicguard.core.util.Constants;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.repository.RemoteRepository;
@@ -23,16 +23,17 @@ public final class LibraryLoader implements PluginLoader {
         resolver.addRepository(mavenCentral);
 
         Stream.of(
-                "com.zaxxer:HikariCP:" + VersionUtils.HIKARI,
-                "com.github.ben-manes.caffeine:caffeine:" + VersionUtils.CAFFEINE,
-                "org.apache.commons:commons-compress:" + VersionUtils.COMMANDS_COMPRESS,
-                "org.apache.commons:commons-text:" + VersionUtils.COMMONS_TEXT,
-                "com.maxmind.geoip2:geoip2:" + VersionUtils.GEOIP,
-                "com.maxmind.db:maxmind-db:" + VersionUtils.MAXMIND_DB,
-                "com.fasterxml.jackson.core:jackson-annotations:" + VersionUtils.JACKSON,
-                "com.fasterxml.jackson.core:jackson-core:" + VersionUtils.JACKSON,
-                "com.fasterxml.jackson.core:jackson-databind:" + VersionUtils.JACKSON,
-                "me.xdrop:fuzzywuzzy:" + VersionUtils.FUZZYWUZZY
+                "com.zaxxer:HikariCP:" + Constants.HIKARI,
+                "com.github.ben-manes.caffeine:caffeine:" + Constants.CAFFEINE,
+                "org.apache.commons:commons-compress:" + Constants.COMMANDS_COMPRESS,
+                "org.apache.commons:commons-text:" + Constants.COMMONS_TEXT,
+                "com.maxmind.geoip2:geoip2:" + Constants.GEOIP,
+                "com.maxmind.db:maxmind-db:" + Constants.MAXMIND_DB,
+                "com.fasterxml.jackson.core:jackson-annotations:" + Constants.JACKSON,
+                "com.fasterxml.jackson.core:jackson-core:" + Constants.JACKSON,
+                "com.fasterxml.jackson.core:jackson-databind:" + Constants.JACKSON,
+                "me.xdrop:fuzzywuzzy:" + Constants.FUZZYWUZZY,
+                "cloud.commandframework:cloud-paper:" + Constants.CLOUD
         )
                 .map(artifact -> new Dependency(new DefaultArtifact(artifact), null))
                 .forEach(resolver::addDependency);

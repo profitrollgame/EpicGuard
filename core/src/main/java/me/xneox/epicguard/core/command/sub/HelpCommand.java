@@ -15,24 +15,30 @@
 
 package me.xneox.epicguard.core.command.sub;
 
+import cloud.commandframework.CommandManager;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.command.SubCommand;
 import me.xneox.epicguard.core.storage.AddressMeta;
+import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.core.util.TextUtils;
-import me.xneox.epicguard.core.util.VersionUtils;
 import net.kyori.adventure.audience.Audience;
-import org.jetbrains.annotations.NotNull;
 
 public class HelpCommand implements SubCommand {
-  @Override
-  public void execute(@NotNull Audience audience, @NotNull String[] args, @NotNull EpicGuard epicGuard) {
-    for (String line : epicGuard.messages().command().mainCommand()) {
-      audience.sendMessage(TextUtils.component(line
-          .replace("{VERSION}", VersionUtils.CURRENT_VERSION)
-          .replace("{BLACKLISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::blacklisted).size()))
-          .replace("{WHITELISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::whitelisted).size()))
-          .replace("{CPS}", Integer.toString(epicGuard.attackManager().connectionCounter()))
-          .replace("{ATTACK}", epicGuard.attackManager().isUnderAttack() ? "<green>✔" : "<red>✖")));
+    @Override
+    public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
+        commandManager.command(
+                builder(commandManager)
+                        .literal("help")
+                        .handler(ctx -> {
+                            for (String line : epicGuard.messages().command().mainCommand()) {
+                                ctx.getSender().sendMessage(TextUtils.component(line
+                                        .replace("{VERSION}", Constants.CURRENT_VERSION)
+                                        .replace("{BLACKLISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::blacklisted).size()))
+                                        .replace("{WHITELISTED-IPS}", Integer.toString(epicGuard.storageManager().viewAddresses(AddressMeta::whitelisted).size()))
+                                        .replace("{CPS}", Integer.toString(epicGuard.attackManager().connectionCounter()))
+                                        .replace("{ATTACK}", epicGuard.attackManager().isUnderAttack() ? "<green>✔" : "<red>✖")));
+                            }
+                        })
+        );
     }
-  }
 }

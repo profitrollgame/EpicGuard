@@ -16,6 +16,7 @@
 package me.xneox.epicguard.core.util;
 
 import java.util.function.Consumer;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,69 +24,60 @@ import org.jetbrains.annotations.NotNull;
  * This util holds current EpicGuard version and checks for the latest available version.
  */
 public final class VersionUtils {
-  public static final String CURRENT_VERSION = "{version}"; // replaced by the blossom task.
-  public static final String HIKARI = "{hikari}";
-  public static final String CONFIGURATE = "{configurate}";
-  public static final String CAFFEINE = "{caffeine}";
-  public static final String COMMONS_TEXT = "{common-text}";
-  public static final String COMMANDS_COMPRESS = "{common-compress}";
-  public static final String GEOIP = "{geoip}";
-  public static final String JACKSON = "{jackson}";
-  public static final String FUZZYWUZZY = "{fuzzywuzzy}";
-  public static final String MAXMIND_DB = "{maxmind-db}";
-  private static final String CHECK_URL = "https://raw.githubusercontent.com/4drian3d/EpicGuard/master/VERSION.txt";
+    private static final String CHECK_URL = "https://raw.githubusercontent.com/4drian3d/EpicGuard/master/VERSION.txt";
 
-  private static boolean updateAvailable;
+    private static boolean updateAvailable;
 
-  /**
-   * Checks the latest version to see if there's any update available.
-   * @param action Action to run when there's an update available.
-   */
-  public static void checkForUpdates(@NotNull Consumer<String> action) {
-    String latest = URLUtils.readString(CHECK_URL);
-    if (latest == null) {
-      return; // a warning will be thrown by the URLUtils anyway.
-    }
-
-    var latestVersion = new Version(latest);
-    var currentVersion = new Version(CURRENT_VERSION);
-
-    // 1 means outdated, 0 means up-to-date, -1 means newer than released.
-    if (latestVersion.compareTo(currentVersion) > 0) {
-      updateAvailable = true;
-      action.accept(latest);
-    }
-  }
-
-  public static boolean isUpdateAvailable() {
-    return updateAvailable;
-  }
-
-  /*
-    @author brianguertin (https://gist.github.com/brianguertin/ada4b65c6d1c4f6d3eee3c12b6ce021b)
-   */
-  public static class Version implements Comparable<Version> {
-    public final int[] numbers;
-
-    public Version(@NonNull String version) {
-      var split = version.split("-")[0].split("\\.");
-      numbers = new int[split.length];
-      for (int i = 0; i < split.length; i++) {
-        numbers[i] = Integer.parseInt(split[i]);
-      }
-    }
-
-    @Override
-    public int compareTo(@NonNull Version another) {
-      int maxLength = Math.max(numbers.length, another.numbers.length);
-      for (int i = 0; i < maxLength; i++) {
-        int left = i < numbers.length ? numbers[i] : 0;
-        int right = i < another.numbers.length ? another.numbers[i] : 0;
-        if (left != right) {
-          return left < right ? -1 : 1;
+    /**
+     * Checks the latest version to see if there's any update available.
+     *
+     * @param action Action to run when there's an update available.
+     */
+    public static void checkForUpdates(@NotNull Consumer<String> action) {
+        String latest = URLUtils.readString(CHECK_URL);
+        if (latest == null) {
+            return; // a warning will be thrown by the URLUtils anyway.
         }
-      }
-      return 0;
+
+        var latestVersion = new Version(latest);
+        var currentVersion = new Version(Constants.CURRENT_VERSION);
+
+        // 1 means outdated, 0 means up-to-date, -1 means newer than released.
+        if (latestVersion.compareTo(currentVersion) > 0) {
+            updateAvailable = true;
+            action.accept(latest);
+        }
     }
-  }
+
+    public static boolean isUpdateAvailable() {
+        return updateAvailable;
+    }
+
+    /*
+      @author brianguertin (https://gist.github.com/brianguertin/ada4b65c6d1c4f6d3eee3c12b6ce021b)
+     */
+    public static class Version implements Comparable<Version> {
+        public final int[] numbers;
+
+        public Version(@NonNull String version) {
+            var split = version.split("-")[0].split("\\.");
+            numbers = new int[split.length];
+            for (int i = 0; i < split.length; i++) {
+                numbers[i] = Integer.parseInt(split[i]);
+            }
+        }
+
+        @Override
+        public int compareTo(@NonNull Version another) {
+            int maxLength = Math.max(numbers.length, another.numbers.length);
+            for (int i = 0; i < maxLength; i++) {
+                int left = i < numbers.length ? numbers[i] : 0;
+                int right = i < another.numbers.length ? another.numbers[i] : 0;
+                if (left != right) {
+                    return left < right ? -1 : 1;
+                }
+            }
+            return 0;
+        }
+    }
 }

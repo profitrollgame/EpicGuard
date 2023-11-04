@@ -43,12 +43,11 @@ public final class PreLoginListener extends PreLoginHandler implements Listener<
     @Override
     public EventTask executeAsync(PreLoginEvent event) {
         return EventTask.withContinuation((continuation) -> {
-                    final String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
-                    final String nickname = event.getUsername();
-                    this.onPreLogin(address, nickname)
-                            .ifPresent(result -> event.setResult(PreLoginEvent.PreLoginComponentResult.denied(result)));
-                    continuation.resume();
-                }
-        );
+            final String address = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
+            final String nickname = event.getUsername();
+            this.onPreLogin(address, nickname)
+                    .ifPresent(result -> event.setResult(PreLoginEvent.PreLoginComponentResult.denied(result)));
+            continuation.resume();
+        });
     }
 }

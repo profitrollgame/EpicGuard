@@ -1,30 +1,15 @@
-package me.xneox.epicguard.velocity;
+package me.xneox.epicguard.sponge;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.plugin.PluginManager;
-import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import me.xneox.epicguard.core.util.Constants;
 import net.byteflux.libby.Library;
-import net.byteflux.libby.VelocityLibraryManager;
+import net.byteflux.libby.SpongeLibraryManager;
 import net.byteflux.libby.relocation.Relocation;
-import org.slf4j.Logger;
 
-import java.nio.file.Path;
-
-final class Libraries {
+public class Libraries {
     @Inject
-    @DataDirectory
-    private Path folderPath;
-    @Inject
-    private PluginManager pluginManager;
-    @Inject
-    private EpicGuardVelocity plugin;
-    @Inject
-    private Logger logger;
-
-    void register() {
-        final var manager = new VelocityLibraryManager<>(logger, folderPath, pluginManager, plugin);
-
+    private SpongeLibraryManager<EpicGuardSponge> manager;
+    public void register() {
         final Library MYSQL = Library.builder()
                 .groupId("com{}mysql")
                 .artifactId("mysql-connector-j")
@@ -138,79 +123,21 @@ final class Libraries {
                 .id("fuzzywuzzy")
                 .relocate(fuzzywuzzyRelocator)
                 .build();
-        final Relocation cloudRelocation =
-                new Relocation(
-                        "cloud{}commandframework",
-                        "me.xneox.epicguard{}libs{}cloud");
-        final Library cloudVelocity = Library.builder()
-                .groupId("cloud{}commandframework")
-                .artifactId("cloud-velocity")
-                .version(Constants.CLOUD)
-                .id("cloudVelocity")
-                .relocate(geantyrefRelocation)
-                .relocate(cloudRelocation)
-                .build();
-        final Library cloudBrigadier = Library.builder()
-                .groupId("cloud{}commandframework")
-                .artifactId("cloud-brigadier")
-                .version(Constants.CLOUD)
-                .id("cloudBrigadier")
-                .relocate(geantyrefRelocation)
-                .relocate(cloudRelocation)
-                .build();
-        final Library cloudCore = Library.builder()
-                .groupId("cloud{}commandframework")
-                .artifactId("cloud-core")
-                .version(Constants.CLOUD)
-                .id("cloudCore")
-                .relocate(geantyrefRelocation)
-                .relocate(cloudRelocation)
-                .build();
-        final Library cloudServices = Library.builder()
-                .groupId("cloud{}commandframework")
-                .artifactId("cloud-services")
-                .version(Constants.CLOUD)
-                .id("cloudServices")
-                .relocate(geantyrefRelocation)
-                .relocate(cloudRelocation)
-                .build();
-        final Library apiGuardian = Library.builder()
-                .groupId("org.apiguardian")
-                .artifactId("apiguardian-api")
-                .version("1.1.2")
-                .id("apiguardian")
-                .build();
 
         manager.addMavenCentral();
-        loadLibraries(
-                manager,
-                SQLITE,
-                MYSQL,
-                GEANTYREF,
-                CONFIGURATE_CORE,
-                CONFIGURATE_HOCON,
-                HIKARI,
-                COMMONS_COMPRESS,
-                COMMONS_TEXT,
-                MAXMIND_GEOIP,
-                MAXMIND_DB,
-                JACKSON_ANNOTATIONS,
-                JACKSON_CORE,
-                JACKSON_DATABIND,
-                FUZZYWUZZY,
-                cloudCore,
-                cloudBrigadier,
-                cloudServices,
-                cloudVelocity,
-                apiGuardian
-        );
-
+        manager.loadLibrary(SQLITE);
+        manager.loadLibrary(MYSQL);
+        manager.loadLibrary(GEANTYREF);
+        manager.loadLibrary(CONFIGURATE_CORE);
+        manager.loadLibrary(CONFIGURATE_HOCON);
+        manager.loadLibrary(HIKARI);
+        manager.loadLibrary(COMMONS_COMPRESS);
+        manager.loadLibrary(COMMONS_TEXT);
+        manager.loadLibrary(MAXMIND_GEOIP);
+        manager.loadLibrary(MAXMIND_DB);
+        manager.loadLibrary(JACKSON_ANNOTATIONS);
+        manager.loadLibrary(JACKSON_CORE);
+        manager.loadLibrary(JACKSON_DATABIND);
+        manager.loadLibrary(FUZZYWUZZY);
     }
-
-    private void loadLibraries(VelocityLibraryManager<EpicGuardVelocity> manager, Library... libraries) {
-        for (final Library library : libraries) {
-            manager.loadLibrary(library);
-        }
-    }
-
 }

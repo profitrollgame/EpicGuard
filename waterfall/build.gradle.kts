@@ -7,6 +7,7 @@ dependencies {
     implementation(projects.core)
     compileOnly(libs.adventure.platform.bungeecord)
     compileOnly(libs.waterfall)
+    compileOnly(libs.cloud.bungee)
 }
 
 tasks {
@@ -39,6 +40,7 @@ bungee {
         libs.jackson.annotations to libs.versions.jackson,
         libs.adventure.minimessage to libs.versions.adventure.api,
         libs.fuzzywuzzy to libs.versions.fuzzywuzzy,
+        libs.cloud.bungee to libs.versions.cloud
     ).map { "${it.first.get().module}:${it.second.get()}" }
 }
 

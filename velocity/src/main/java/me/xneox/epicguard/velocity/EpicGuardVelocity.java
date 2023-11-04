@@ -15,19 +15,24 @@
 
 package me.xneox.epicguard.velocity;
 
+import cloud.commandframework.execution.AsynchronousCommandExecutionCoordinator;
+import cloud.commandframework.velocity.VelocityCommandManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.xneox.epicguard.core.EpicGuard;
 import me.xneox.epicguard.core.Platform;
+import me.xneox.epicguard.core.command.CommandHandler;
 import me.xneox.epicguard.core.placeholder.Placeholders;
-import me.xneox.epicguard.core.util.VersionUtils;
+import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.velocity.listener.*;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -37,12 +42,13 @@ import org.slf4j.Logger;
 import java.nio.file.Path;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 @Plugin(
         id = "epicguard",
         name = "EpicGuard",
-        version = VersionUtils.CURRENT_VERSION,
+        version = Constants.CURRENT_VERSION,
         description = "Bot protection system for Minecraft servers.",
         url = "https://github.com/4drian3d/EpicGuard",
         authors = {"neox", "4drian3d"})
@@ -68,7 +74,8 @@ public final class EpicGuardVelocity implements Platform {
                 binder -> binder.bind(EpicGuard.class).toInstance(epicGuard)
         );
 
-        this.injector.getInstance(VelocityCommandHandler.class).register();
+        this.injector.getInstance(CommandRegister.class).register();
+
         Stream.of(
                 PostLoginListener.class,
                 PreLoginListener.class,
@@ -115,5 +122,23 @@ public final class EpicGuardVelocity implements Platform {
     @Override
     public void scheduleRepeatingTask(@NotNull Runnable task, long seconds) {
         this.server.getScheduler().buildTask(this, task).repeat(seconds, TimeUnit.SECONDS).schedule();
+    }
+
+
+    private record CommandRegister(PluginContainer pluginContainer, ProxyServer proxyServer, EpicGuard epicGuard) {
+        @Inject
+        private CommandRegister {}
+
+        private void register() {
+            final VelocityCommandManager<CommandSource> commandManager = new VelocityCommandManager<>(
+                    pluginContainer,
+                    proxyServer,
+                    AsynchronousCommandExecutionCoordinator.simpleCoordinator(),
+                    Function.identity(),
+                    Function.identity()
+            );
+
+            new CommandHandler<>(epicGuard, commandManager).register();
+        }
     }
 }
