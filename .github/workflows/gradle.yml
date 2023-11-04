@@ -26,5 +26,5 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: artifact
+          name: EpicGuard
           path: build/

@@ -4,7 +4,8 @@ A simple AntiBot plugin for newest Minecraft versions.
 ## ✅ Supported platforms / Latest release requirements
 * [Paper 1.20.1+](https://papermc.io/) *(all paper forks are supported)*
 * [Velocity 3.2+](https://velocitypowered.com/)
-* [Waterfall](https://papermc.io/downloads#Waterfall)
+* Waterfall
+* [Sponge](https://spongepowered.org/) (soon)
 * Java **17**
 
 [![](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/available/modrinth_46h.png)](https://modrinth.com/plugin/epicguard)
