@@ -63,14 +63,15 @@ public final class GeoManager {
 
     try {
       if (epicGuard.config().misc().geoDatabaseDownload()) {
+        final String geoIpKey = epicGuard.config().misc().getGeoDatabaseKey();
         this.downloadDatabase(
                 countryDatabase,
                 countryArchive,
-                "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key=LARAgQo3Fw7W9ZMS&suffix=tar.gz");
+                "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country&license_key="+geoIpKey+"&suffix=tar.gz");
         this.downloadDatabase(
                 cityDatabase,
                 cityArchive,
-                "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=LARAgQo3Fw7W9ZMS&suffix=tar.gz");
+                "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key="+geoIpKey+"&suffix=tar.gz");
 
       } else {
         epicGuard.logger().info("GeoIP database download is disabled, skipping...");

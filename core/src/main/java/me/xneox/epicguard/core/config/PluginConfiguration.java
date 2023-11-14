@@ -424,7 +424,10 @@ public class PluginConfiguration {
     private boolean updateChecker = true;
 
     @Comment("Set to false to not try to download the latest geolocation database.")
-    private boolean geoDatabaseDownload = true;
+    private boolean geoDatabaseDownload = false;
+
+    @Comment("MaxMind key for downloading the GeoIP database")
+    private String geoDatabaseKey = "";
 
     @Comment("""
             Time in minutes before auto-saving data.
@@ -456,6 +459,10 @@ public class PluginConfiguration {
 
     public boolean geoDatabaseDownload() {
       return this.geoDatabaseDownload;
+    }
+
+    public String getGeoDatabaseKey() {
+      return this.geoDatabaseKey;
     }
 
     public long autoSaveInterval() {
