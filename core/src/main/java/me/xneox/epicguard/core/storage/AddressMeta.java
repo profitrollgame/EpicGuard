@@ -15,7 +15,6 @@
 
 package me.xneox.epicguard.core.storage;
 
-import com.google.common.collect.ForwardingList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -83,8 +82,9 @@ public final class AddressMeta {
     if (!(o instanceof final AddressMeta that)) {
       return false;
     }
-    return blacklisted == that.blacklisted && whitelisted == that.whitelisted
-            && Objects.equals(nicknames, that.nicknames);
+    return this.blacklisted == that.blacklisted
+            && this.whitelisted == that.whitelisted
+            && Objects.equals(this.nicknames, that.nicknames);
   }
 
   @Override

@@ -26,7 +26,7 @@ import net.kyori.adventure.audience.Audience;
 
 import java.util.List;
 
-public class BlacklistCommand implements SubCommand {
+public final class BlacklistCommand implements SubCommand {
     @Override
     public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
         final var removeArgument = StringArgument.<A>builder("subject")

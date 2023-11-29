@@ -21,7 +21,7 @@ import me.xneox.epicguard.core.command.SubCommand;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 
-public class ReloadCommand implements SubCommand {
+public final class ReloadCommand implements SubCommand {
   @Override
   public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
     commandManager.command(

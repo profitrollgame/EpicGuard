@@ -80,12 +80,16 @@ public class StorageManager {
    * Searches for the last used address of the specified nickname.
    */
   @Nullable
-  public String lastSeenAddress(@NotNull String nickname) {
-    return this.addresses.asMap().entrySet().stream()
-        .filter(entry -> entry.getValue().nicknames().stream().anyMatch(nick -> nick.equalsIgnoreCase(nickname)))
-        .findFirst()
-        .map(Map.Entry::getKey)
-        .orElse(null);
+  public String lastSeenAddress(final @NotNull String nickname) {
+    for (final Map.Entry<String, AddressMeta> metaEntry : this.addresses.asMap().entrySet()) {
+      final List<String> names = metaEntry.getValue().nicknames();
+      for (final String name : names) {
+        if (name.equalsIgnoreCase(nickname)) {
+          return metaEntry.getKey();
+        }
+      }
+    }
+    return null;
   }
 
   /**

@@ -23,7 +23,7 @@ import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 
-public class StatusCommand implements SubCommand {
+public final class StatusCommand implements SubCommand {
     @Override
     public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
         commandManager.command(

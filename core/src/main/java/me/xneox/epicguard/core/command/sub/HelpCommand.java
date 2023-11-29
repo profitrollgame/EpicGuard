@@ -23,7 +23,7 @@ import me.xneox.epicguard.core.util.Constants;
 import me.xneox.epicguard.core.util.TextUtils;
 import net.kyori.adventure.audience.Audience;
 
-public class HelpCommand implements SubCommand {
+public final class HelpCommand implements SubCommand {
     @Override
     public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
         commandManager.command(

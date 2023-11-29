@@ -24,7 +24,7 @@ import net.kyori.adventure.audience.Audience;
 
 import java.sql.SQLException;
 
-public class SaveCommand implements SubCommand {
+public final class SaveCommand implements SubCommand {
   @Override
   public <A extends Audience> void register(CommandManager<A> commandManager, EpicGuard epicGuard) {
     commandManager.command(
