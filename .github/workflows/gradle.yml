@@ -24,7 +24,7 @@ jobs:
           max_attempts: 2
           command: gradle build
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: EpicGuard
           path: build/
