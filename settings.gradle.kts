@@ -8,6 +8,7 @@ dependencyResolutionManagement {
         maven("https://papermc.io/repo/repository/maven-public/")
         maven("https://repo.alessiodp.com/releases/")
         maven("https://repo.jpenilla.xyz/snapshots/")
+        maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 
@@ -20,6 +21,5 @@ include(
     "core",
     "paper",
     "velocity",
-    "waterfall"
     // "sponge"
 )
