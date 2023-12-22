@@ -39,39 +39,6 @@ final class Libraries {
                 .id("sqlite")
                 .relocate("org{}xerial", "me{}xneox{}epicguard{}libs{}org{}xerial")
                 .build();
-
-        final Relocation configurateRelocation = new Relocation(
-                "org{}spongepowered",
-                "me{}xneox{}epicguard{}libs{}org{}spongepowered"
-        );
-        final Relocation geantyrefRelocation = new Relocation(
-                "io{}leangen{}geantyref",
-                "me{}xneox{}epicguard{}libs{}io{}leangen{}geantyref"
-        );
-        final Library CONFIGURATE_HOCON = Library.builder()
-                .groupId("org{}spongepowered")
-                .artifactId("configurate-hocon")
-                .version(Constants.CONFIGURATE)
-                .id("configurate-hocon")
-                .relocate(configurateRelocation)
-                .relocate(geantyrefRelocation)
-                .build();
-        final Library CONFIGURATE_CORE = Library.builder()
-                .groupId("org{}spongepowered")
-                .artifactId("configurate-core")
-                .version(Constants.CONFIGURATE)
-                .id("configurate-core")
-                .relocate(configurateRelocation)
-                .relocate(geantyrefRelocation)
-                .build();
-        final Library GEANTYREF = Library.builder()
-                .groupId("io{}leangen{}geantyref")
-                .artifactId("geantyref")
-                .version("1.3.13")
-                .id("geantyref")
-                .relocate(configurateRelocation)
-                .relocate(geantyrefRelocation)
-                .build();
         final Library HIKARI = Library.builder()
                 .groupId("com{}zaxxer")
                 .artifactId("HikariCP")
@@ -147,7 +114,6 @@ final class Libraries {
                 .artifactId("cloud-velocity")
                 .version(Constants.CLOUD)
                 .id("cloudVelocity")
-                .relocate(geantyrefRelocation)
                 .relocate(cloudRelocation)
                 .build();
         final Library cloudBrigadier = Library.builder()
@@ -155,7 +121,6 @@ final class Libraries {
                 .artifactId("cloud-brigadier")
                 .version(Constants.CLOUD)
                 .id("cloudBrigadier")
-                .relocate(geantyrefRelocation)
                 .relocate(cloudRelocation)
                 .build();
         final Library cloudCore = Library.builder()
@@ -163,7 +128,6 @@ final class Libraries {
                 .artifactId("cloud-core")
                 .version(Constants.CLOUD)
                 .id("cloudCore")
-                .relocate(geantyrefRelocation)
                 .relocate(cloudRelocation)
                 .build();
         final Library cloudServices = Library.builder()
@@ -171,7 +135,6 @@ final class Libraries {
                 .artifactId("cloud-services")
                 .version(Constants.CLOUD)
                 .id("cloudServices")
-                .relocate(geantyrefRelocation)
                 .relocate(cloudRelocation)
                 .build();
         final Library apiGuardian = Library.builder()
@@ -186,9 +149,6 @@ final class Libraries {
                 manager,
                 SQLITE,
                 MYSQL,
-                GEANTYREF,
-                CONFIGURATE_CORE,
-                CONFIGURATE_HOCON,
                 HIKARI,
                 COMMONS_COMPRESS,
                 COMMONS_TEXT,
