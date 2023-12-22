@@ -64,6 +64,9 @@ public final class GeoManager {
     try {
       if (epicGuard.config().misc().geoDatabaseDownload()) {
         final String geoIpKey = epicGuard.config().misc().getGeoDatabaseKey();
+        if (geoIpKey.isBlank()) {
+          return;
+        }
         this.downloadDatabase(
                 countryDatabase,
                 countryArchive,
@@ -75,6 +78,7 @@ public final class GeoManager {
 
       } else {
         epicGuard.logger().info("GeoIP database download is disabled, skipping...");
+        return;
       }
 
       this.countryReader = new DatabaseReader.Builder(countryDatabase.toFile()).withCache(new CHMCache()).build();
@@ -93,7 +97,7 @@ public final class GeoManager {
       this.epicGuard.logger().info("Extracting the database from the tar archive...");
       try (var tarInput = new TarArchiveInputStream(new GZIPInputStream(Files.newInputStream(archive)))) {
         TarArchiveEntry entry;
-        while ((entry = tarInput.getNextTarEntry()) != null) {
+        while ((entry = tarInput.getNextEntry()) != null) {
           // Extracting the database (.mmdb) database we are looking for.
           if (entry.getName().endsWith(database.getFileName().toString())) {
             Files.copy(tarInput, database, StandardCopyOption.REPLACE_EXISTING);
