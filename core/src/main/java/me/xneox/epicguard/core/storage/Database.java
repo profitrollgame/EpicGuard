@@ -35,6 +35,7 @@ public class Database {
       hikariConfig.addDataSourceProperty("prepStmtCacheSize", 250);
       hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
       hikariConfig.addDataSourceProperty("useServerPrepStmts", true);
+      hikariConfig.addDataSourceProperty("serverTimezone", config.timezone());
     } else {
       var file = FileUtils.create(core.getFolderPath().resolve("database.db"));
 

@@ -488,6 +488,7 @@ public class PluginConfiguration {
     private String database = "database!";
     private String user = "username!";
     private String password = "password!";
+    private String timezone = "UTC";
 
     public boolean useMySQL() {
       return this.useMysql;
@@ -511,6 +512,10 @@ public class PluginConfiguration {
 
     public String password() {
       return this.password;
+    }
+
+    public String timezone() {
+      return this.timezone;
     }
   }
 
